@@ -6,11 +6,12 @@
 ---
 
 ## Now
-- **Current phase:** Phase 0 🟡 (decisions ✅, spec v0.3 ✅, DONKI check ✅; open: GitHub repo + Pages, Q2/Q3, Submission Guide, P-lane 0.8)
+- **Current phase:** Phase 1 🟡 code done and green locally; **waiting for the GitHub repo + push** to get CI and the live URL. (Phase 0 leftovers: GitHub repo + Pages, Q2, Submission Guide, P-lane 0.8)
+- **Language:** English only (lead, 13 Nov), so no RTL work. Q3 closed
 - **Next gate:** G0, Fri 13 Nov 23:30 (blocking A-items decided ✅, repo exists ⬜ (local only), toolchains work 🟡)
 - **Pre-event coding:** **allowed** (Q4), so Phase 1 can run tonight after `GO PHASE 1`
-- **Repo:** local git only (no remote yet) · **Live URL:** — · **Latest tag:** —
-- **Last updated:** 2026-11-13 17:45 by Claude (Phase 0, lane S/L)
+- **Repo:** local git only (no remote yet; name assumed `mars-base-adventure`, the Vite base depends on it) · **Live URL:** — (expected `https://<user>.github.io/mars-base-adventure/`) · **Latest tag:** —
+- **Last updated:** 2026-11-13 18:00 by Claude (Phase 1, lanes U+E+S in the lead session)
 
 ## Clock
 | Milestone | Planned (Cairo) | Actual |
@@ -39,7 +40,7 @@
 | Phase | Status | Owner | Planned | Actual start | Actual end | Notes |
 |---|---|---|---|---|---|---|
 | 0 Pre-flight & spec freeze | 🟡 | L | Fri 19:00–23:30 | 17:20 | | started early; see task board |
-| 1 Skeleton, contracts, live URL | ⬜ | U | **Fri night** (was Sat 09:00–11:00) | | | Pre-event coding allowed (Q4) → run after G0 on `GO PHASE 1` |
+| 1 Skeleton, contracts, live URL | 🟡 | U | **Fri night** (was Sat 09:00–11:00) | 17:35 | | code ✅ locally; CI + live URL wait for the GitHub push |
 | 2 Engine core | ⬜ | E | Sat 11:00–17:00 | | | |
 | 3 Content & real data | ⬜ | S | Sat 11:00–16:00 | | | |
 | 4 Playable M1 | ⬜ | U | Sat 11:00–23:00 | | | |
@@ -51,6 +52,10 @@
 ## Task board (active phase)
 | ID | Task | Lane | Owner / agent | Status | Branch / PR | Notes |
 |---|---|---|---|---|---|---|
+| 1.1 | Scaffold Vite + Preact + TS strict, scripts, Prettier, vite/vitest config, workflows, title screen, tokens, font, Icon | U | Claude (lead session) | ✅ | main (local) | Vite 8.3, Preact 11.2, TS 7.0, Vitest 5.1. JS 14.7 KB gz. Lighthouse mobile: perf 95 · a11y 100 · BP 100 · SEO 100. 360×640 + 1280×720 checked headless, no console errors |
+| 1.2 | Contract v1: `types.ts`, `rng.ts` (+ tests), `config.ts`, `index.ts` stubs (+ `fixture.ts`) | E | Claude (lead session) | ✅ | main (local) | logged under Contract changes |
+| 1.3 | `spec-extract.ts` v0 → `spec.json` (60 events, 61 sources) + `tests/content/extract.test.ts` | S | Claude (lead session) | ✅ | main (local) | also stubs: `check-content.ts` (v0 real checks), `fetch-donki.ts`, `simulate.ts` |
+| 1.4 | Merge, CI green, live URL in Now | L | lead | ⛔ | — | **blocked on the GitHub repo** (no `gh` on this machine): create the repo, push, Pages → GitHub Actions |
 | 0.1 | Ask the local lead: pre-event coding, live judging, local deadline, registration | L | lead | 🟡 | — | (a) pre-event coding **allowed** ✅ · (b) live judging, (c) local deadline, (d) registration still open |
 | 0.2 | Paste the 2026 Submission Guide; agent updates PLAN §8 + Phase 7 | L | lead | ⬜ | — | **guide pending** (Q5) |
 | 0.3 | Decide A-01…A-15 and N-01…N-08 (Proposals table below) | L | lead | ✅ | — | A-01…A-15 approved; N-01…N-07 use proposed default; N-08 closed |
@@ -121,7 +126,7 @@ Write **Approve / Modify (how) / Reject** in the Decision column. Full text: `PL
 |---|---|---|---|
 | Q1 | Team size, lane per person, Claude Code vs chat only? | 13 Nov | **5 people, one per lane.** Names and tools: lead to fill in the Team table |
 | Q2 | Live pitch/demo at Cairo (when, length, projector)? Local deadline earlier than Sun 23:59? | 13 Nov | |
-| Q3 | Arabic version wanted, and can a teammate write/check kid-level Arabic? | 13 Nov | |
+| Q3 | Arabic version wanted, and can a teammate write/check kid-level Arabic? | 13 Nov | **No: the game is English only** (lead, 13 Nov) |
 | Q6 | `general-theme.jpeg` shows the **NASA logo** and `inside-game-theme.jpg` shows realistic AI faces. Both are kept out of git (`.gitignore`). Keep them as private mood boards only? | 13 Nov | |
 | Q4 | Pre-event coding allowed? (lead checking with the local lead) | 13 Nov | **Yes, allowed** (lead, 13 Nov 17:40) |
 | Q5 | 2026 Project Submission Guide: pasted? | 13 Nov | Not yet. **Guide pending** |
@@ -156,12 +161,13 @@ Write **Approve / Modify (how) / Reject** in the Decision column. Full text: `PL
 ## Contract changes (`src/engine/types.ts` / public API)
 | Version | Time | Change | Why | Who must adapt |
 |---|---|---|---|---|
-| — | | | | |
+| v1 | 2026-11-13 17:50 | First contract. `src/engine/types.ts` (GameState, Astronaut, Command, EventDef, ActionDef, TaskDef, Effect, Delayed, ScheduledEffect, Modifier, Mission, Pending, DonkiRef, CardView, Chip, TaskOption, PowerBudget, LogEntry, ChoiceRecord, Ending, Debrief) + `index.ts` API: `newGame(opts)`, `reduce(state, cmd)`, `selectMeters`, `selectCards`, `selectTaskOptions`, `selectPowerBudget`, `selectLog`, `shieldTier`, `badgeColour`, `riskWords`. `newGame`/`reduce`/`selectCards`/`selectTaskOptions` are **stubs** over `fixture.ts` (the stub `reduce` only walks the phase loop). Commands: CHOOSE, CONTINUE, SET_POWER, CONFIRM_POWER, PLAN_TASK, CONFIRM_TASKS, END_MISSION. Log entries carry a `copy.ts` key + params, not text | Phase 1 | U builds screens on the selectors; S emits `EventDef`/`ActionDef` in Phase 3; E replaces the stubs in Phase 2 (keep the signatures) |
 
 ## Requests between lanes
 | From → To | File | Request | Status |
 |---|---|---|---|
-| — | | | |
+| U → P | `src/ui/styles/tokens.css` | Palette v0 is a placeholder (Mars orange #B5420F, cost red #B3261E, effect green #1B6E35, info blue #1F5FA8, dark theme). P: confirm or replace it in task 0.8 | open |
+| E → P | `src/engine/fixture.ts` | Placeholder call-signs Nova / Bolt / Echo / Sky (MGR / ENG / MED / RES). P: confirm 4 gender-neutral call-signs (task 0.8) | open |
 
 ## Science review log
 | Event / screen | Reviewer | ✔ / ✖ | Note |
@@ -179,16 +185,38 @@ Write **Approve / Modify (how) / Reject** in the Decision column. Full text: `PL
 ## Demo status
 | What | Where | Works? | Last checked |
 |---|---|---|---|
-| — | | | |
+| Title screen + data sources + settings (projector mode) | local `npm run dev` / `npm run preview` → http://localhost:4173/mars-base-adventure/ | ✅ | 13 Nov 17:55 |
+| Live URL | GitHub Pages | ⬜ (needs the repo) | — |
 
 ## Time used vs plan
 | Phase | Planned h | Actual h | Delta | Note |
 |---|---|---|---|---|
 | Planning (this session) | — | — | — | PLAN / CLAUDE / PROGRESS written |
+| 0 Pre-flight | 4.5 | 0.5 | −4.0 | agent-run; repo/Pages still open |
+| 1 Skeleton | 2.0 | 0.5 | −1.5 | local only until the push |
 
 ---
 
 ## Handoff (latest only; older ones move into the Session log)
+```
+HANDOFF 2026-11-13 18:00 Cairo · from Claude (lead session, lanes U+E+S) · Phase 1 🟡 (code done, deploy blocked)
+Repo: — (local git, branch main) · Live: — · Branch: main · Last commit: see `git log -1`
+State: Vite 8 + Preact 11 + TS strict skeleton. Title screen (Play disabled), "Where our data comes from" (all 61 [S#]
+       from spec.json + credits), Settings (projector mode), NASA disclaimer footer, light/dark tokens, Atkinson font, 5 Twemoji icons.
+       Contract v1 (types/rng/config/index stubs) + spec-extract v0. typecheck ✔ · 28 tests ✔ · check:content ✔ · build ✔ (14.7 KB gz JS).
+Next: (1) Human: create the public GitHub repo `mars-base-adventure` (if the name differs, change `base` in vite.config.ts),
+         `git remote add origin … && git push -u origin main`, Settings → Pages → Source "GitHub Actions"; confirm CI green + URL on a phone
+      (2) E, Phase 2: replace the stubs in src/engine/index.ts (notation.ts, power, night order D-001, deck §8.3/D-004)
+      (3) S, Phase 3: extend scripts/spec-extract.ts to the §7 card tables + §4 tasks; fetch-donki.ts; full check-content.ts
+      U, Phase 4: build screens on the selectors in src/engine/index.ts (fixture-backed now)
+Blocked on: the GitHub repo (1.4); P-001…P-004; Q2; Submission Guide (Q5); P-lane palette + call-signs (Requests)
+Watch out: the stub reduce() only walks phases, it applies NO rules. Log entries use copy.ts keys.
+           spec.json is generated (a test fails if it's stale → run `npm run spec:extract`).
+           CORS must be tested with GET. Never commit general-theme.jpeg (NASA logo).
+Read first: CLAUDE.md → PROGRESS.md → PLAN.md §6 Phase 2 / 3 / 4 (per lane)
+```
+
+### Previous handoff (Phase 0)
 ```
 HANDOFF 2026-11-13 17:50 Cairo · from Claude (lead session, lanes L+S) · Phase 0 🟡 (core done, setup items open)
 Repo: — (local git only, branch main) · Live: — · Branch: main · Last commit: see `git log -1`
@@ -210,5 +238,6 @@ Read first: CLAUDE.md → PROGRESS.md → PLAN.md §6 Phase 1
 ## Session log (newest on top)
 | When (Cairo) | Lane / agent | What changed | Files |
 |---|---|---|---|
+| 2026-11-13 17:35–18:00 | Claude (lead session, U+E+S) | Phase 1: scaffold, workflows, title/sources/settings screens, tokens, font, icons; contract v1 (types, rng + tests, config, index stubs, fixture); spec-extract v0 + spec.json + extract tests; script stubs; README. Q3 → English only | `package.json`, `vite.config.ts`, `vitest.config.ts`, `tsconfig.json`, `index.html`, `src/**`, `scripts/**`, `tests/**`, `public/**`, `.github/workflows/**`, `README.md`, `PROGRESS.md` |
 | 2026-11-13 17:20–17:50 | Claude (lead session, L+S) | Phase 0: DONKI curl check → Data notes; lead approved A-01…A-15 (N = defaults, N-08 closed); applied D-001…D-016 → spec v0.3 + kids guide; raised P-001…P-004, Q6; local git init + MIT LICENSE + .gitignore + first commit | `events-and-actions.md`, `mars-adventure-kids-guide.md`, `PROGRESS.md`, `LICENSE`, `.gitignore` |
 | 2026-11-13 | Claude (planning) | Read challenge + spec v0.2 + kids guide; wrote the phase plan, MVP scope, stack, 15 blocking + 8 non-blocking spec issues, agent rules, shared state | `PLAN.md`, `CLAUDE.md`, `PROGRESS.md` |

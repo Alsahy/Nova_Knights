@@ -1,0 +1,1340 @@
+{
+  "specVersion": "0.3",
+  "events": [
+    {
+      "id": "SW-01",
+      "name": "Flash on the Sun!",
+      "system": "Radiation",
+      "deck": [
+        "donki"
+      ],
+      "deckRaw": "☀️",
+      "missions": "all",
+      "missionsRaw": "all (if DONKI)",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "SW-02",
+      "name": "Radiation Storm!",
+      "system": "Radiation",
+      "deck": [
+        "chain",
+        "donki"
+      ],
+      "deckRaw": "🔗 after SW-01 / ☀️ SEP",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "SW-03",
+      "name": "Storm Cloud Coming",
+      "system": "Radiation/Power",
+      "deck": [
+        "donki"
+      ],
+      "deckRaw": "☀️ (ENLIL)",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "SW-04",
+      "name": "The Storm Cloud Hits",
+      "system": "Radiation/Comms",
+      "deck": [
+        "chain"
+      ],
+      "deckRaw": "🔗 after SW-03",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "SW-05",
+      "name": "Quiet Sun Day",
+      "system": "Research",
+      "deck": [
+        "core"
+      ],
+      "deckRaw": "🟢 (when DONKI is quiet)",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "SW-06",
+      "name": "Rays Add Up",
+      "system": "Radiation",
+      "deck": [
+        "condition"
+      ],
+      "deckRaw": "⚠️ DOSE ≥4",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "commander",
+      "tierRaw": "Commander"
+    },
+    {
+      "id": "SW-07",
+      "name": "Dose Badge Turning Red",
+      "system": "Crew",
+      "deck": [
+        "condition"
+      ],
+      "deckRaw": "⚠️ DOSE ≥7",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "SW-08",
+      "name": "Earth Is Safe, Mars Is Not",
+      "system": "Radiation",
+      "deck": [
+        "donki"
+      ],
+      "deckRaw": "☀️ (ENLIL)",
+      "missions": [
+        "M3",
+        "M9"
+      ],
+      "missionsRaw": "M3, M9",
+      "tier": "commander",
+      "tierRaw": "Commander"
+    },
+    {
+      "id": "SW-09",
+      "name": "Forecasters' Message",
+      "system": "Radiation",
+      "deck": [
+        "donki"
+      ],
+      "deckRaw": "☀️ notifications",
+      "missions": [
+        "M3",
+        "M9"
+      ],
+      "missionsRaw": "M3, M9",
+      "tier": "commander",
+      "tierRaw": "Commander"
+    },
+    {
+      "id": "SW-10",
+      "name": "Radiation Sensor Glitch",
+      "system": "Radiation",
+      "deck": [
+        "mission"
+      ],
+      "deckRaw": "🎯",
+      "missions": [
+        "M3",
+        "M8",
+        "M9"
+      ],
+      "missionsRaw": "M3, M8, M9",
+      "tier": "commander",
+      "tierRaw": "Commander"
+    },
+    {
+      "id": "PW-01",
+      "name": "Hot Machine!",
+      "system": "Power",
+      "deck": [
+        "core"
+      ],
+      "deckRaw": "🟢",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "PW-02",
+      "name": "Dusty Solar Panels",
+      "system": "Power",
+      "deck": [
+        "timer"
+      ],
+      "deckRaw": "📅 dust timer",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "PW-03",
+      "name": "Lucky Wind!",
+      "system": "Power",
+      "deck": [
+        "mission",
+        "chain"
+      ],
+      "deckRaw": "🔗 after PW-02.b / 🎯",
+      "missions": [
+        "M1",
+        "M2",
+        "M9"
+      ],
+      "missionsRaw": "M1, M2, M9",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "PW-04",
+      "name": "Dust Storm on the Way",
+      "system": "Power",
+      "deck": [
+        "mission"
+      ],
+      "deckRaw": "🎯",
+      "missions": [
+        "M2",
+        "M9"
+      ],
+      "missionsRaw": "M2, M9",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "PW-05",
+      "name": "Planet-Wide Dust Storm",
+      "system": "Power",
+      "deck": [
+        "chain"
+      ],
+      "deckRaw": "🔗 after PW-04",
+      "missions": [
+        "M2"
+      ],
+      "missionsRaw": "M2",
+      "tier": "commander",
+      "tierRaw": "Commander"
+    },
+    {
+      "id": "PW-06",
+      "name": "Power Fading Slowly",
+      "system": "Power/Research",
+      "deck": [
+        "mission"
+      ],
+      "deckRaw": "🎯",
+      "missions": [
+        "M2",
+        "M5"
+      ],
+      "missionsRaw": "M2, M5",
+      "tier": "commander",
+      "tierRaw": "Commander"
+    },
+    {
+      "id": "PW-07",
+      "name": "Freezing Night",
+      "system": "Power/LS",
+      "deck": [
+        "core"
+      ],
+      "deckRaw": "🟢 (×2 in M4)",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "PW-08",
+      "name": "Not Enough Power!",
+      "system": "Power",
+      "deck": [
+        "condition"
+      ],
+      "deckRaw": "⚠️ need > supply (Power Plan, no event slot)",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "PW-09",
+      "name": "Cut Cable",
+      "system": "Power",
+      "deck": [
+        "chain"
+      ],
+      "deckRaw": "🔗 after RS-02 / RS-07",
+      "missions": [
+        "M5",
+        "M9"
+      ],
+      "missionsRaw": "M5, M9",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "PW-10",
+      "name": "Pick Your Power Plant",
+      "system": "Power",
+      "deck": [
+        "setup"
+      ],
+      "deckRaw": "🚀",
+      "missions": [
+        "M9"
+      ],
+      "missionsRaw": "M9 (Commander setup)",
+      "tier": "commander",
+      "tierRaw": "Commander"
+    },
+    {
+      "id": "LS-01",
+      "name": "Stuffy Air (CO₂)",
+      "system": "Life support",
+      "deck": [
+        "core",
+        "condition"
+      ],
+      "deckRaw": "🟢 / ⚠️ LS ≤4",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "LS-02",
+      "name": "Square Filter, Round Hole",
+      "system": "Life support",
+      "deck": [
+        "chain"
+      ],
+      "deckRaw": "🔗 LS-01 with PARTS = 0",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "LS-03",
+      "name": "Oxygen Maker Stopped",
+      "system": "Life support",
+      "deck": [
+        "core"
+      ],
+      "deckRaw": "🟢 (×2 in M6)",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "LS-04",
+      "name": "Smoke!",
+      "system": "Life support",
+      "deck": [
+        "chain"
+      ],
+      "deckRaw": "🔗 after LS-03.b",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "LS-05",
+      "name": "Water Recycler Clogged",
+      "system": "Life support",
+      "deck": [
+        "core"
+      ],
+      "deckRaw": "🟢",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "LS-06",
+      "name": "Upgrade: Brine Processor",
+      "system": "Life support",
+      "deck": [
+        "mission"
+      ],
+      "deckRaw": "🎯",
+      "missions": [
+        "M4",
+        "M7",
+        "M9"
+      ],
+      "missionsRaw": "M4, M7, M9",
+      "tier": "commander",
+      "tierRaw": "Commander"
+    },
+    {
+      "id": "LS-07",
+      "name": "Tiny Leak",
+      "system": "Life support",
+      "deck": [
+        "core",
+        "chain"
+      ],
+      "deckRaw": "🟢 / 🔗 after a quake",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "LS-08",
+      "name": "Cooling Loop Leak",
+      "system": "Life support",
+      "deck": [
+        "core"
+      ],
+      "deckRaw": "🟢",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "commander",
+      "tierRaw": "Commander"
+    },
+    {
+      "id": "LS-09",
+      "name": "Air or Water?",
+      "system": "Life support",
+      "deck": [
+        "condition"
+      ],
+      "deckRaw": "⚠️ H2O ≤6",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "LS-10",
+      "name": "Ice Found!",
+      "system": "Life support",
+      "deck": [
+        "mission"
+      ],
+      "deckRaw": "🎯",
+      "missions": [
+        "M4",
+        "M9"
+      ],
+      "missionsRaw": "M4, M9",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "LS-11",
+      "name": "Make Air from Mars Air",
+      "system": "Life support",
+      "deck": [
+        "mission"
+      ],
+      "deckRaw": "🎯",
+      "missions": [
+        "M6",
+        "M9"
+      ],
+      "missionsRaw": "M6, M9",
+      "tier": "cadet",
+      "tierRaw": "Cadet in M6 / Commander"
+    },
+    {
+      "id": "FD-01",
+      "name": "What Should We Plant?",
+      "system": "Food",
+      "deck": [
+        "setup"
+      ],
+      "deckRaw": "🚀 + when the greenhouse is empty",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "FD-02",
+      "name": "Flowers Need Help",
+      "system": "Food",
+      "deck": [
+        "chain"
+      ],
+      "deckRaw": "🔗 peppers growing",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "commander",
+      "tierRaw": "Commander"
+    },
+    {
+      "id": "FD-03",
+      "name": "Old Food Losing Vitamins",
+      "system": "Food/Crew",
+      "deck": [
+        "timer"
+      ],
+      "deckRaw": "📅 mid-mission",
+      "missions": [
+        "M7",
+        "M8",
+        "M9"
+      ],
+      "missionsRaw": "M7, M8, M9",
+      "tier": "commander",
+      "tierRaw": "Commander"
+    },
+    {
+      "id": "FD-04",
+      "name": "Pack the Cargo",
+      "system": "Supplies",
+      "deck": [
+        "setup"
+      ],
+      "deckRaw": "🚀",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "FD-05",
+      "name": "Taco Night!",
+      "system": "Food/Crew",
+      "deck": [
+        "chain"
+      ],
+      "deckRaw": "🔗 pepper harvest",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "FD-06",
+      "name": "Food Running Low",
+      "system": "Food",
+      "deck": [
+        "condition"
+      ],
+      "deckRaw": "⚠️ FOOD ≤ crew×3",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "FD-07",
+      "name": "Plants in Mars Soil?",
+      "system": "Food",
+      "deck": [
+        "mission"
+      ],
+      "deckRaw": "🎯",
+      "missions": [
+        "M4",
+        "M7",
+        "M9"
+      ],
+      "missionsRaw": "M4, M7, M9",
+      "tier": "commander",
+      "tierRaw": "Commander"
+    },
+    {
+      "id": "CR-01",
+      "name": "Exercise or Experiment?",
+      "system": "Crew",
+      "deck": [
+        "timer"
+      ],
+      "deckRaw": "📅 every 3 sols",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "CR-02",
+      "name": "Can't Sleep",
+      "system": "Crew",
+      "deck": [
+        "core"
+      ],
+      "deckRaw": "🟢",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "CR-03",
+      "name": "Missing Home",
+      "system": "Crew/Comms",
+      "deck": [
+        "core"
+      ],
+      "deckRaw": "🟢 (×2 in M8)",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "CR-04",
+      "name": "Dust Sneezes",
+      "system": "Crew/LS",
+      "deck": [
+        "chain"
+      ],
+      "deckRaw": "🔗 after an EVA (20%)",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "CR-05",
+      "name": "Water in the Helmet!",
+      "system": "Crew",
+      "deck": [
+        "chain"
+      ],
+      "deckRaw": "🔗 during an EVA (mishap 15%)",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "CR-06",
+      "name": "Slip on a Rock",
+      "system": "Crew",
+      "deck": [
+        "chain"
+      ],
+      "deckRaw": "🔗 during an EVA (mishap 15%)",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "CR-07",
+      "name": "Too Tired to Work",
+      "system": "Crew",
+      "deck": [
+        "condition"
+      ],
+      "deckRaw": "⚠️ EN ≤ 1",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "CR-08",
+      "name": "Blurry Vision",
+      "system": "Crew",
+      "deck": [
+        "core"
+      ],
+      "deckRaw": "🟢",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "commander",
+      "tierRaw": "Commander"
+    },
+    {
+      "id": "RS-01",
+      "name": "Shiny Rock Far Away",
+      "system": "Research",
+      "deck": [
+        "core"
+      ],
+      "deckRaw": "🟢",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "RS-02",
+      "name": "The Ground Is Shaking!",
+      "system": "Research/Power",
+      "deck": [
+        "mission"
+      ],
+      "deckRaw": "🎯 (repeatable in M5)",
+      "missions": [
+        "M5",
+        "M9"
+      ],
+      "missionsRaw": "M5, M9",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "RS-03",
+      "name": "Lab Machine Broken",
+      "system": "Research",
+      "deck": [
+        "core",
+        "condition"
+      ],
+      "deckRaw": "🟢 / ⚠️ LAB ≤3",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "RS-04",
+      "name": "Send Your Data Home",
+      "system": "Research/Comms",
+      "deck": [
+        "timer"
+      ],
+      "deckRaw": "📅 every 4 sols",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "RS-05",
+      "name": "Experiment Results!",
+      "system": "Research",
+      "deck": [
+        "chain"
+      ],
+      "deckRaw": "🔗 after 3 lab tasks",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "RS-06",
+      "name": "Earth Wants More Science",
+      "system": "Research",
+      "deck": [
+        "core"
+      ],
+      "deckRaw": "🟢",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "RS-07",
+      "name": "Space Rock Hits Mars!",
+      "system": "Research",
+      "deck": [
+        "mission"
+      ],
+      "deckRaw": "🎯",
+      "missions": [
+        "M5",
+        "M9"
+      ],
+      "missionsRaw": "M5, M9",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "CM-01",
+      "name": "The Sun Is Between Us",
+      "system": "Comms",
+      "deck": [
+        "mission"
+      ],
+      "deckRaw": "🎯 scripted",
+      "missions": [
+        "M8"
+      ],
+      "missionsRaw": "M8",
+      "tier": "commander",
+      "tierRaw": "Commander"
+    },
+    {
+      "id": "CM-02",
+      "name": "Antenna Off Target",
+      "system": "Comms",
+      "deck": [
+        "chain"
+      ],
+      "deckRaw": "🔗 after a storm or quake",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "CM-03",
+      "name": "Garbled Message",
+      "system": "Comms",
+      "deck": [
+        "donki"
+      ],
+      "deckRaw": "☀️ FLR ≥X1",
+      "missions": [
+        "M3",
+        "M8",
+        "M9"
+      ],
+      "missionsRaw": "M3, M8, M9",
+      "tier": "commander",
+      "tierRaw": "Commander"
+    },
+    {
+      "id": "MG-01",
+      "name": "Choose Your Base",
+      "system": "Mission",
+      "deck": [
+        "setup"
+      ],
+      "deckRaw": "🚀",
+      "missions": [
+        "M9"
+      ],
+      "missionsRaw": "M9 (Free Play)",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "MG-02",
+      "name": "Go Home Early?",
+      "system": "Mission",
+      "deck": [
+        "condition"
+      ],
+      "deckRaw": "⚠️ critical state (2+ of LS/LAB/BAT ≤ 2, or 2+ in Sick Bay)",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "MG-03",
+      "name": "Crew Disagreement",
+      "system": "Mission",
+      "deck": [
+        "core"
+      ],
+      "deckRaw": "🟢",
+      "missions": "all",
+      "missionsRaw": "all",
+      "tier": "cadet",
+      "tierRaw": "Cadet"
+    },
+    {
+      "id": "MG-04",
+      "name": "The Long Trip",
+      "system": "Mission/Radiation",
+      "deck": [
+        "setup"
+      ],
+      "deckRaw": "🚀",
+      "missions": "all",
+      "missionsRaw": "all (Commander)",
+      "tier": "commander",
+      "tierRaw": "Commander"
+    }
+  ],
+  "sources": [
+    {
+      "id": "S1",
+      "title": "CCMC Announcements: DONKI moves to ccmc.gsfc.nasa.gov/DONKI-API (Sep 2026)",
+      "url": "https://ccmc.gsfc.nasa.gov/news/major-updates/",
+      "urls": [
+        "https://ccmc.gsfc.nasa.gov/news/major-updates/"
+      ]
+    },
+    {
+      "id": "S2",
+      "title": "NASA DONKI, WSA-ENLIL simulation with a Mars arrival and \"no or little impact to Earth\" (example)",
+      "url": "https://kauai.ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/46407/1",
+      "urls": [
+        "https://kauai.ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/46407/1"
+      ]
+    },
+    {
+      "id": "S3",
+      "title": "NASA SVS, \"X-Class: A Guide to Solar Flares\"",
+      "url": "https://svs.gsfc.nasa.gov/10109",
+      "urls": [
+        "https://svs.gsfc.nasa.gov/10109"
+      ]
+    },
+    {
+      "id": "S4",
+      "title": "NASA SVS, travel times of flares, particles and CMEs (transcript)",
+      "url": "https://svs.gsfc.nasa.gov/vis/a010000/a010900/a010941/10941_Travel_Time_HTML_Transcript.html",
+      "urls": [
+        "https://svs.gsfc.nasa.gov/vis/a010000/a010900/a010941/10941_Travel_Time_HTML_Transcript.html"
+      ]
+    },
+    {
+      "id": "S5",
+      "title": "NASA, \"How NASA Tracked the Most Intense Solar Storm in Decades\"",
+      "url": "https://science.nasa.gov/science-research/heliophysics/how-nasa-tracked-the-most-intense-solar-storm-in-decades/",
+      "urls": [
+        "https://science.nasa.gov/science-research/heliophysics/how-nasa-tracked-the-most-intense-solar-storm-in-decades/"
+      ]
+    },
+    {
+      "id": "S6",
+      "title": "NASA (via EurekAlert), \"What NASA is learning from the biggest geomagnetic storm in 20 years\" (Curiosity RAD 8,100 µGy)",
+      "url": "https://www.eurekalert.org/news-releases/1083377",
+      "urls": [
+        "https://www.eurekalert.org/news-releases/1083377"
+      ]
+    },
+    {
+      "id": "S7",
+      "title": "Hassler et al. 2014, Science (Curiosity RAD on the Mars surface; 1 sol = 24 h 39 min)",
+      "url": "https://www.scienceintheclassroom.org/research-papers/curiosity-tells-all-about-mars-radiation-environment",
+      "urls": [
+        "https://www.scienceintheclassroom.org/research-papers/curiosity-tells-all-about-mars-radiation-environment"
+      ]
+    },
+    {
+      "id": "S8",
+      "title": "CS Monitor summary of the RAD results (0.64 mSv/day on the surface; 1.8 in cruise; 0.66 Sv round trip)",
+      "url": "https://www.csmonitor.com/Science/2013/1209/Curiosity-measures-radiation-at-Martian-surface",
+      "urls": [
+        "https://www.csmonitor.com/Science/2013/1209/Curiosity-measures-radiation-at-Martian-surface"
+      ]
+    },
+    {
+      "id": "S9",
+      "title": "NASA OCHMO Radiation Protection Technical Brief (600 mSv career; 250 mSv per event; nuclear-system limit)",
+      "url": "https://www.nasa.gov/sites/default/files/atoms/files/radiation_protection_technical_brief_ochmo.pdf",
+      "urls": [
+        "https://www.nasa.gov/sites/default/files/atoms/files/radiation_protection_technical_brief_ochmo.pdf"
+      ]
+    },
+    {
+      "id": "S10",
+      "title": "NASA, Orion storm shelter using stowage bags",
+      "url": "https://www.nasa.gov/feature/orion-passengers-on-artemis-i-to-test-radiation-vest-for-deep-space-missions",
+      "urls": [
+        "https://www.nasa.gov/feature/orion-passengers-on-artemis-i-to-test-radiation-vest-for-deep-space-missions"
+      ]
+    },
+    {
+      "id": "S11",
+      "title": "Scientific American, Artemis II space-weather protection (shelter within ~30 min)",
+      "url": "https://www.scientificamerican.com/article/space-weather-could-threaten-nasas-artemis-ii-astronauts-during-their-trip/",
+      "urls": [
+        "https://www.scientificamerican.com/article/space-weather-could-threaten-nasas-artemis-ii-astronauts-during-their-trip/"
+      ]
+    },
+    {
+      "id": "S12",
+      "title": "Space.com, Artemis 2 solar-storm plan (HERA sensors, crew dosimeter badges)",
+      "url": "https://www.space.com/space-exploration/artemis/how-the-artemis-2-astronauts-could-weather-a-solar-storm-during-their-moon-mission",
+      "urls": [
+        "https://www.space.com/space-exploration/artemis/how-the-artemis-2-astronauts-could-weather-a-solar-storm-during-their-moon-mission"
+      ]
+    },
+    {
+      "id": "S13",
+      "title": "NASA NSSDC Mars Fact Sheet (sunlight, temperatures, gravity)",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html",
+      "urls": [
+        "https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html"
+      ]
+    },
+    {
+      "id": "S14",
+      "title": "NASA JPL, \"Six Things About Opportunity's Recovery Efforts\"",
+      "url": "https://www.jpl.nasa.gov/news/six-things-about-opportunitys-recovery-efforts/",
+      "urls": [
+        "https://www.jpl.nasa.gov/news/six-things-about-opportunitys-recovery-efforts/"
+      ]
+    },
+    {
+      "id": "S15",
+      "title": "AP via WRAL, end of the Opportunity mission (21 Wh, −97%, tau 10.8)",
+      "url": "https://www.wral.com/amp/my-battery-is-low-and-it-s-getting-dark-end-of-opportunity-mission-a-loss-for-team/18197530/",
+      "urls": [
+        "https://www.wral.com/amp/my-battery-is-low-and-it-s-getting-dark-end-of-opportunity-mission-a-loss-for-team/18197530/"
+      ]
+    },
+    {
+      "id": "S16",
+      "title": "JPL via Solar Daily, Opportunity 468 Wh at tau ≈1.0 (June 2018)",
+      "url": "https://www.solardaily.com/reports/Regional_dust_storm_is_affecting_Opportunity_Mars_rover_999.html",
+      "urls": [
+        "https://www.solardaily.com/reports/Regional_dust_storm_is_affecting_Opportunity_Mars_rover_999.html"
+      ]
+    },
+    {
+      "id": "S17",
+      "title": "NASA JPL, \"Spirit Gets Energy Boost from Cleaner Solar Panels\" (2009)",
+      "url": "https://www.jpl.nasa.gov/news/spirit-gets-energy-boost-from-cleaner-solar-panels/",
+      "urls": [
+        "https://www.jpl.nasa.gov/news/spirit-gets-energy-boost-from-cleaner-solar-panels/"
+      ]
+    },
+    {
+      "id": "S18",
+      "title": "Inverse, InSight's dusty panels and the end of the mission (Dec 2022)",
+      "url": "https://nc.inverse.com/science/mars-quake-surprising-source-insight-lander",
+      "urls": [
+        "https://nc.inverse.com/science/mars-quake-surprising-source-insight-lander"
+      ]
+    },
+    {
+      "id": "S19",
+      "title": "NASA Glenn, Fission Surface Power project (40 kW, 10 years, possible Mars use)",
+      "url": "https://www.nasa.gov/centers-and-facilities/glenn/nasas-fission-surface-power-project-energizes-lunar-exploration",
+      "urls": [
+        "https://www.nasa.gov/centers-and-facilities/glenn/nasas-fission-surface-power-project-energizes-lunar-exploration"
+      ]
+    },
+    {
+      "id": "S20",
+      "title": "NASA OCHMO ECLSS Technical Brief (3,035 kcal/day; ≥2.5 L water/day)",
+      "url": "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-002-eclss.pdf",
+      "urls": [
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-002-eclss.pdf"
+      ]
+    },
+    {
+      "id": "S21",
+      "title": "NASA crew needs & outputs per person per day (O₂ ≈0.84 kg, CO₂ ≈1.0 kg; credit NASA MSFC; see NASA's BVAD, NASA/TP-2015-218570)",
+      "url": "https://lunarpedia.org/w/Needs_and_Effluents",
+      "urls": [
+        "https://lunarpedia.org/w/Needs_and_Effluents"
+      ]
+    },
+    {
+      "id": "S22",
+      "title": "NASA OCHMO CO₂ Technical Brief",
+      "url": "https://www.nasa.gov/ochmo-tb-004-carbon-dioxide-2/",
+      "urls": [
+        "https://www.nasa.gov/ochmo-tb-004-carbon-dioxide-2/"
+      ]
+    },
+    {
+      "id": "S23",
+      "title": "NASA Apollo Flight Journal, Apollo 13 CO₂ adapter",
+      "url": "https://www.nasa.gov/history/afj/ap13fj/15day4-mailbox.html",
+      "urls": [
+        "https://www.nasa.gov/history/afj/ap13fj/15day4-mailbox.html"
+      ]
+    },
+    {
+      "id": "S24",
+      "title": "NASA SP-350, \"A Square Peg in a Round Hole\" (Apollo 13)",
+      "url": "https://www.nasa.gov/wp-content/uploads/static/history/SP-350/ch-13-4.html",
+      "urls": [
+        "https://www.nasa.gov/wp-content/uploads/static/history/SP-350/ch-13-4.html"
+      ]
+    },
+    {
+      "id": "S25",
+      "title": "NASA APPEL, solid-fuel oxygen generators and the 1997 Mir fire",
+      "url": "https://appel.nasa.gov/?p=279500",
+      "urls": [
+        "https://appel.nasa.gov/?p=279500"
+      ]
+    },
+    {
+      "id": "S26",
+      "title": "Windows to the Universe, \"Small Fire Occurs on Mir Space Station\"",
+      "url": "https://www.windows2universe.org/headline_universe/shuttle_news/mir_fire.html",
+      "urls": [
+        "https://www.windows2universe.org/headline_universe/shuttle_news/mir_fire.html"
+      ]
+    },
+    {
+      "id": "S27",
+      "title": "ISS reaches 98% water recovery (93–94% before the Brine Processor)",
+      "url": "https://www.audacy.com/wwl/news/national/iss-recycles-98-of-astronaut-urine-into-drinking-water",
+      "urls": [
+        "https://www.audacy.com/wwl/news/national/iss-recycles-98-of-astronaut-urine-into-drinking-water",
+        "https://www.space.com/astronaut-pee-iss-water-recycling-98-percent-milestone"
+      ]
+    },
+    {
+      "id": "S28",
+      "title": "National Academies, ISS oxygen from water electrolysis",
+      "url": "https://www.nationalacademies.org/read/5826/chapter/4",
+      "urls": [
+        "https://www.nationalacademies.org/read/5826/chapter/4"
+      ]
+    },
+    {
+      "id": "S29",
+      "title": "SpacePolicyOnline, Soyuz MS-22 coolant leak",
+      "url": "https://spacepolicyonline.com/news/roscosmos-to-decide-next-week-if-soyuz-ms-22-is-safe-enough/",
+      "urls": [
+        "https://spacepolicyonline.com/news/roscosmos-to-decide-next-week-if-soyuz-ms-22-is-safe-enough/"
+      ]
+    },
+    {
+      "id": "S30",
+      "title": "VOA News, Phoenix lander confirms ice on Mars and finds perchlorate (2008)",
+      "url": "https://www.voanews.com/a/a-13-2008-08-05-voa64/330540.html",
+      "urls": [
+        "https://www.voanews.com/a/a-13-2008-08-05-voa64/330540.html"
+      ]
+    },
+    {
+      "id": "S31",
+      "title": "MIT AeroAstro / NASA, MOXIE completes its Mars mission",
+      "url": "https://aeroastro.mit.edu/news-impact/oxygen-generating-experiment-moxie-completes-mars-mission",
+      "urls": [
+        "https://aeroastro.mit.edu/news-impact/oxygen-generating-experiment-moxie-completes-mars-mission"
+      ]
+    },
+    {
+      "id": "S31b",
+      "title": "Phys.org / NASA, MOXIE 12 g per hour",
+      "url": "https://phys.org/news/2023-09-nasa-oxygen-generating-moxie-mars-mission.html",
+      "urls": [
+        "https://phys.org/news/2023-09-nasa-oxygen-generating-moxie-mars-mission.html"
+      ]
+    },
+    {
+      "id": "S32",
+      "title": "CNN (via Yahoo News), Mars' thin air is 96% CO₂ (MOXIE's final run)",
+      "url": "https://news.yahoo.com/perseverance-rover-experiment-creates-oxygen-211853830.html",
+      "urls": [
+        "https://news.yahoo.com/perseverance-rover-experiment-creates-oxygen-211853830.html"
+      ]
+    },
+    {
+      "id": "S33",
+      "title": "Scientific American, first space lettuce (33 days)",
+      "url": "https://www.scientificamerican.com/article/astronauts-take-first-bites-of-lettuce-grown-in-space/",
+      "urls": [
+        "https://www.scientificamerican.com/article/astronauts-take-first-bites-of-lettuce-grown-in-space/"
+      ]
+    },
+    {
+      "id": "S34",
+      "title": "NASA, \"NASA's Second Pepper Harvest Sets Record on Space Station\" (137 days)",
+      "url": "https://www.nasa.gov/missions/station/nasas-second-pepper-harvest-sets-record-on-space-station",
+      "urls": [
+        "https://www.nasa.gov/missions/station/nasas-second-pepper-harvest-sets-record-on-space-station"
+      ]
+    },
+    {
+      "id": "S35",
+      "title": "NASA, Plant Habitat-04 chile peppers (fans, hand pollination, tacos, 12 returned, radishes)",
+      "url": "https://www.nasa.gov/?p=73108",
+      "urls": [
+        "https://www.nasa.gov/?p=73108"
+      ]
+    },
+    {
+      "id": "S36",
+      "title": "NASA NTRS, Food Fortification Stability Study (5-year shelf life)",
+      "url": "https://ntrs.nasa.gov/citations/20160012717",
+      "urls": [
+        "https://ntrs.nasa.gov/citations/20160012717"
+      ]
+    },
+    {
+      "id": "S37",
+      "title": "Science News, \"Food for Mars\" (vitamin losses)",
+      "url": "https://www.sciencenews.org/blog/science-public/food-mars",
+      "urls": [
+        "https://www.sciencenews.org/blog/science-public/food-mars"
+      ]
+    },
+    {
+      "id": "S38",
+      "title": "Space.com via NBC News, perchlorate in Mars soil",
+      "url": "https://www.nbcnews.com/id/wbna52197237",
+      "urls": [
+        "https://www.nbcnews.com/id/wbna52197237"
+      ]
+    },
+    {
+      "id": "S39",
+      "title": "Discover, long-term spaceflight and the body (bone loss, exercise, SANS)",
+      "url": "https://www.discovermagazine.com/the-sciences/how-long-term-space-travel-wears-down-an-astronauts-mind-and-body",
+      "urls": [
+        "https://www.discovermagazine.com/the-sciences/how-long-term-space-travel-wears-down-an-astronauts-mind-and-body"
+      ]
+    },
+    {
+      "id": "S40",
+      "title": "NASA OSDR dataset: myostatin/activin A study (mice lost muscle and bone in 33 days)",
+      "url": "https://catalog.data.gov/dataset/targeting-myostatin-activin-a-protects-against-skeletal-muscle-and-bone-loss-during-spacef",
+      "urls": [
+        "https://catalog.data.gov/dataset/targeting-myostatin-activin-a-protects-against-skeletal-muscle-and-bone-loss-during-spacef"
+      ]
+    },
+    {
+      "id": "S41",
+      "title": "Phys.org, NASA Twins Study results",
+      "url": "https://phys.org/news/2019-04-nasa-twins-landmark-eventual-mars.html",
+      "urls": [
+        "https://phys.org/news/2019-04-nasa-twins-landmark-eventual-mars.html"
+      ]
+    },
+    {
+      "id": "S42",
+      "title": "Lancet Neurology 2014 via EurekAlert, astronaut sleep study",
+      "url": "https://www.eurekalert.org/news-releases/541449",
+      "urls": [
+        "https://www.eurekalert.org/news-releases/541449"
+      ]
+    },
+    {
+      "id": "S43",
+      "title": "SpacePolicyOnline, CHAPEA 378-day mission and crew roles",
+      "url": "https://spacepolicyonline.com/news/four-analog-astronauts-complete-378-day-practice-mars-mission/",
+      "urls": [
+        "https://spacepolicyonline.com/news/four-analog-astronauts-complete-378-day-practice-mars-mission/"
+      ]
+    },
+    {
+      "id": "S44",
+      "title": "CBS News, CHAPEA (delays up to 22 min; limited resources, isolation)",
+      "url": "https://www.cbsnews.com/news/nasa-simulated-mars-mission-ends-more-than-a-year",
+      "urls": [
+        "https://www.cbsnews.com/news/nasa-simulated-mars-mission-ends-more-than-a-year"
+      ]
+    },
+    {
+      "id": "S45",
+      "title": "ABC/GMA, CHAPEA daily activities",
+      "url": "https://www.goodmorningamerica.com/news/story/nasas-mars-simulator-crew-emerged-after-378-days-111755446",
+      "urls": [
+        "https://www.goodmorningamerica.com/news/story/nasas-mars-simulator-crew-emerged-after-378-days-111755446"
+      ]
+    },
+    {
+      "id": "S46",
+      "title": "NASA History, \"EVA 23: A High Visibility Close Call\"",
+      "url": "https://www.nasa.gov/history/10-years-ago-eva-23-how-a-high-visibility-close-call-cut-short-a-spacewalk/",
+      "urls": [
+        "https://www.nasa.gov/history/10-years-ago-eva-23-how-a-high-visibility-close-call-cut-short-a-spacewalk/"
+      ]
+    },
+    {
+      "id": "S47",
+      "title": "Space.com, spacesuit water leak (1–1.5 L; planned 6.5 h)",
+      "url": "https://www.space.com/21988-spacewalk-dangers-spacesuit-water-leak.html",
+      "urls": [
+        "https://www.space.com/21988-spacewalk-dangers-spacesuit-water-leak.html"
+      ]
+    },
+    {
+      "id": "S48",
+      "title": "Stony Brook / AGU, lunar dust and \"lunar hay fever\"",
+      "url": "https://news.stonybrookmedicine.edu/news/breathing-lunar-dust-could-pose-health-risk-to-future-astronauts/",
+      "urls": [
+        "https://news.stonybrookmedicine.edu/news/breathing-lunar-dust-could-pose-health-risk-to-future-astronauts/"
+      ]
+    },
+    {
+      "id": "S49",
+      "title": "Live Science, largest marsquake (M4.7, lasted hours)",
+      "url": "https://www.livescience.com/largest-marsquake-ever-detected",
+      "urls": [
+        "https://www.livescience.com/largest-marsquake-ever-detected"
+      ]
+    },
+    {
+      "id": "S50",
+      "title": "Reuters (via Fiji Times), InSight detected 1,319 marsquakes",
+      "url": "https://www.fijitimes.com.fj/?p=687359",
+      "urls": [
+        "https://www.fijitimes.com.fj/?p=687359"
+      ]
+    },
+    {
+      "id": "S51",
+      "title": "Universe Today, InSight impact quakes (craters ≈150 m)",
+      "url": "https://www.universetoday.com/articles/the-big-one-the-most-powerful-marsquake-ever-detected",
+      "urls": [
+        "https://www.universetoday.com/articles/the-big-one-the-most-powerful-marsquake-ever-detected"
+      ]
+    },
+    {
+      "id": "S52",
+      "title": "EarthSky, Cerberus Fossae in Elysium Planitia is Mars' most active known quake region",
+      "url": "https://earthsky.org/?p=423546",
+      "urls": [
+        "https://earthsky.org/?p=423546"
+      ]
+    },
+    {
+      "id": "S53",
+      "title": "NASA, Mars solar conjunction communications pause",
+      "url": "https://www.nasa.gov/?p=565122",
+      "urls": [
+        "https://www.nasa.gov/?p=565122"
+      ]
+    },
+    {
+      "id": "S54",
+      "title": "Space Academy, communication delay table (Mars 3–21 min one way)",
+      "url": "https://spaceacademy.net.au/spacelink/commdly.htm",
+      "urls": [
+        "https://spaceacademy.net.au/spacelink/commdly.htm"
+      ]
+    },
+    {
+      "id": "S55",
+      "title": "Spaceflight101, 2016 ISS CO₂-removal failures",
+      "url": "https://spaceflight101.com/?p=9970",
+      "urls": [
+        "https://spaceflight101.com/?p=9970"
+      ]
+    },
+    {
+      "id": "S56",
+      "title": "NewSpace Economy, Mars distance and 26-month launch windows",
+      "url": "https://newspaceeconomy.ca/2026/04/18/how-far-away-is-mars-distance-delay-and-what-it-means-for-getting-there/",
+      "urls": [
+        "https://newspaceeconomy.ca/2026/04/18/how-far-away-is-mars-distance-delay-and-what-it-means-for-getting-there/"
+      ]
+    },
+    {
+      "id": "S57",
+      "title": "api.nasa.gov notice: the Mars Rover API is archived",
+      "url": "https://api.nasa.gov/assets/html/header.html",
+      "urls": [
+        "https://api.nasa.gov/assets/html/header.html"
+      ]
+    },
+    {
+      "id": "S58",
+      "title": "NASA OSDR Visualization Portal (RadLab radiation data, Environmental Data App, Biological Data API)",
+      "url": "https://visualization.osdr.nasa.gov/",
+      "urls": [
+        "https://visualization.osdr.nasa.gov/"
+      ]
+    },
+    {
+      "id": "S59",
+      "title": "Scientific American / Space.com, 2018 dust storm (Opportunity on Meridiani Planum since 2004)",
+      "url": "https://www.scientificamerican.com/article/massive-dust-storm-engulfs-mars/",
+      "urls": [
+        "https://www.scientificamerican.com/article/massive-dust-storm-engulfs-mars/"
+      ]
+    },
+    {
+      "id": "S60",
+      "title": "CNN via ABC17, Perseverance exploring Jezero Crater",
+      "url": "https://abc17news.com/?p=659714",
+      "urls": [
+        "https://abc17news.com/?p=659714"
+      ]
+    }
+  ]
+}
