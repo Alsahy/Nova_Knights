@@ -9,114 +9,117 @@
     {
      "bot": "random",
      "games": 1000,
-     "success": 593,
-     "safeReturn": 394,
-     "broughtHome": 13,
+     "success": 305,
+     "safeReturn": 695,
+     "broughtHome": 0,
      "reasons": {
-      "end.success": 593,
-      "end.highDose": 283,
-      "end.lowScience": 111,
-      "end.lsZero": 13
+      "end.highDose": 451,
+      "end.success": 305,
+      "end.lowScience": 244
      },
-     "avgSpBanked": 12.558,
-     "avgDose": 5.544,
-     "avgEvents": 11.132,
-     "minEvents": 7,
+     "avgSpBanked": 16.696,
+     "avgDose": 7.11,
+     "avgEvents": 13,
+     "minEvents": 13,
      "maxEvents": 13,
-     "redBadgeRate": 0.31
+     "redBadgeRate": 0.601
     },
     {
      "bot": "maxShield",
      "games": 1000,
-     "success": 787,
-     "safeReturn": 20,
-     "broughtHome": 193,
+     "success": 696,
+     "safeReturn": 304,
+     "broughtHome": 0,
      "reasons": {
-      "end.success": 787,
-      "end.lsZero": 193,
-      "end.highDose": 20
+      "end.highDose": 90,
+      "end.success": 696,
+      "end.lowScience": 214
      },
-     "avgSpBanked": 21.342,
-     "avgDose": 4.515,
-     "avgEvents": 11.084,
-     "minEvents": 8,
+     "avgSpBanked": 17.046,
+     "avgDose": 5.338,
+     "avgEvents": 13,
+     "minEvents": 13,
      "maxEvents": 13,
-     "redBadgeRate": 0.02
+     "redBadgeRate": 0.115
     },
     {
      "bot": "maxScience",
      "games": 1000,
-     "success": 76,
-     "safeReturn": 643,
-     "broughtHome": 281,
+     "success": 75,
+     "safeReturn": 749,
+     "broughtHome": 176,
      "reasons": {
-      "end.highDose": 643,
-      "end.success": 76,
-      "end.lsZero": 281
+      "end.lsZero": 176,
+      "end.highDose": 749,
+      "end.success": 75
      },
-     "avgSpBanked": 24.484,
-     "avgDose": 8.209,
-     "avgEvents": 10.646,
-     "minEvents": 7,
+     "avgSpBanked": 29.042,
+     "avgDose": 8.539,
+     "avgEvents": 12.69,
+     "minEvents": 10,
      "maxEvents": 13,
-     "redBadgeRate": 0.838
+     "redBadgeRate": 0.882
     },
     {
      "bot": "balanced",
      "games": 1000,
-     "success": 540,
-     "safeReturn": 460,
+     "success": 773,
+     "safeReturn": 227,
      "broughtHome": 0,
      "reasons": {
-      "end.highDose": 460,
-      "end.success": 540
+      "end.highDose": 227,
+      "end.success": 773
      },
-     "avgSpBanked": 25.334,
-     "avgDose": 6.406,
-     "avgEvents": 11.137,
-     "minEvents": 8,
+     "avgSpBanked": 27.829,
+     "avgDose": 5.538,
+     "avgEvents": 13,
+     "minEvents": 13,
      "maxEvents": 13,
-     "redBadgeRate": 0.46
+     "redBadgeRate": 0.227
     },
     {
      "bot": "bestMove",
      "games": 1000,
-     "success": 520,
-     "safeReturn": 480,
+     "success": 821,
+     "safeReturn": 179,
      "broughtHome": 0,
      "reasons": {
-      "end.highDose": 480,
-      "end.success": 520
+      "end.highDose": 179,
+      "end.success": 821
      },
-     "avgSpBanked": 24.826,
-     "avgDose": 6.518,
-     "avgEvents": 11.093,
-     "minEvents": 8,
+     "avgSpBanked": 25.605,
+     "avgDose": 5.377,
+     "avgEvents": 13,
+     "minEvents": 13,
      "maxEvents": 13,
-     "redBadgeRate": 0.48
+     "redBadgeRate": 0.179
     }
    ],
    "variety": {
-    "deckEvents": 10,
-    "seenEvents": 9,
-    "pct": 90,
-    "uniqueLists": 96,
+    "deckEvents": 14,
+    "seenEvents": 13,
+    "pct": 93,
+    "uniqueLists": 100,
     "games": 100
    },
    "coverage": {
-    "cards": 20,
-    "chosen": 15,
+    "cards": 28,
+    "chosen": 19,
     "missing": [
-     "FD-01.c",
+     "SW-01.b",
+     "SW-02.b",
+     "SW-03.a",
+     "SW-04.b",
+     "PW-01.b",
+     "PW-02.a",
+     "PW-02.b",
      "PW-03.a",
-     "PW-08.a",
-     "PW-08.b",
      "LS-05.b"
     ]
    },
    "noFreeLunch": {
-    "cards": 30,
-    "withCost": 30,
+    "cards": 42,
+    "withCost": 42,
     "missing": []
    }
   },
@@ -127,54 +130,52 @@
     {
      "bot": "random",
      "games": 1000,
-     "success": 952,
-     "safeReturn": 38,
-     "broughtHome": 10,
+     "success": 995,
+     "safeReturn": 5,
+     "broughtHome": 0,
      "reasons": {
-      "end.success": 952,
-      "end.lowScience": 38,
-      "end.lsZero": 10
+      "end.success": 995,
+      "end.lowScience": 5
      },
-     "avgSpBanked": 11.974,
-     "avgDose": 4.996,
-     "avgEvents": 7.712,
-     "minEvents": 5,
-     "maxEvents": 9,
-     "redBadgeRate": 0.197
+     "avgSpBanked": 15.227,
+     "avgDose": 6.37,
+     "avgEvents": 10,
+     "minEvents": 10,
+     "maxEvents": 10,
+     "redBadgeRate": 0.472
     },
     {
      "bot": "maxShield",
      "games": 1000,
-     "success": 910,
+     "success": 1000,
      "safeReturn": 0,
-     "broughtHome": 90,
+     "broughtHome": 0,
      "reasons": {
-      "end.success": 910,
-      "end.lsZero": 90
+      "end.success": 1000
      },
-     "avgSpBanked": 21.844,
-     "avgDose": 4.789,
-     "avgEvents": 7.954,
-     "minEvents": 5,
-     "maxEvents": 9,
-     "redBadgeRate": 0.021
+     "avgSpBanked": 18.316,
+     "avgDose": 4.953,
+     "avgEvents": 10,
+     "minEvents": 10,
+     "maxEvents": 10,
+     "redBadgeRate": 0.043
     },
     {
      "bot": "maxScience",
      "games": 1000,
-     "success": 813,
+     "success": 927,
      "safeReturn": 0,
-     "broughtHome": 187,
+     "broughtHome": 73,
      "reasons": {
-      "end.success": 813,
-      "end.lsZero": 187
+      "end.success": 927,
+      "end.lsZero": 73
      },
-     "avgSpBanked": 25.237,
-     "avgDose": 8.568,
-     "avgEvents": 7.666,
-     "minEvents": 4,
-     "maxEvents": 8,
-     "redBadgeRate": 0.886
+     "avgSpBanked": 25.54,
+     "avgDose": 9.009,
+     "avgEvents": 10,
+     "minEvents": 10,
+     "maxEvents": 10,
+     "redBadgeRate": 0.937
     },
     {
      "bot": "balanced",
@@ -185,12 +186,12 @@
      "reasons": {
       "end.success": 1000
      },
-     "avgSpBanked": 24.167,
-     "avgDose": 6.55,
-     "avgEvents": 7.763,
-     "minEvents": 5,
-     "maxEvents": 9,
-     "redBadgeRate": 0.512
+     "avgSpBanked": 24.235,
+     "avgDose": 5.712,
+     "avgEvents": 10,
+     "minEvents": 10,
+     "maxEvents": 10,
+     "redBadgeRate": 0.262
     },
     {
      "bot": "bestMove",
@@ -201,35 +202,35 @@
      "reasons": {
       "end.success": 1000
      },
-     "avgSpBanked": 23.39,
-     "avgDose": 6.504,
-     "avgEvents": 7.671,
-     "minEvents": 5,
-     "maxEvents": 9,
-     "redBadgeRate": 0.489
+     "avgSpBanked": 23.424,
+     "avgDose": 5.674,
+     "avgEvents": 10,
+     "minEvents": 10,
+     "maxEvents": 10,
+     "redBadgeRate": 0.259
     }
    ],
    "variety": {
-    "deckEvents": 8,
-    "seenEvents": 7,
-    "pct": 88,
-    "uniqueLists": 84,
+    "deckEvents": 10,
+    "seenEvents": 10,
+    "pct": 100,
+    "uniqueLists": 100,
     "games": 100
    },
    "coverage": {
-    "cards": 16,
-    "chosen": 11,
+    "cards": 20,
+    "chosen": 15,
     "missing": [
-     "FD-01.c",
+     "PW-01.b",
+     "PW-02.a",
      "PW-03.a",
-     "PW-08.a",
-     "PW-08.b",
+     "LS-03.b",
      "LS-05.b"
     ]
    },
    "noFreeLunch": {
-    "cards": 24,
-    "withCost": 24,
+    "cards": 30,
+    "withCost": 30,
     "missing": []
    }
   }

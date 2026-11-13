@@ -1,32 +1,41 @@
 /**
- * Missions (spec §8.2 + D-018 kid scope + D-019 jobs).
- * D-018: about 10 easy surprises only; M1 uses 8 of them, M3 adds the 2 real storm beats.
- * M3's beats come from the real DONKI May 2024 snapshot (scripts/build-donki-timeline.ts, D-009).
+ * Missions (spec §8.2/§8.4). The kid game is ONE mission (D-021): M3 Storm from the Sun.
+ * D-026: 14 easy challenges, one every day, no planting choice; real NASA DONKI beats on sols 2, 4 (→ 6) and 8.
+ * D-027: the day's surprise comes first; D-028: 3 jobs per astronaut.
  */
 import timeline from './donki/m3-may2024.json';
 import type { Mission, MissionId, Role } from '../engine/types';
 
 export const M3_TIMELINE = timeline;
 
-/** D-018: the kid scope. */
-export const KID_EVENTS_CALM = [
-  'FD-01',
+/** D-026: the 14 challenges. 5 from the Sun (4 tied to real May 2024 records), 9 everyday base problems. */
+export const KID_EVENTS = [
+  'SW-01',
+  'SW-02',
+  'SW-03',
+  'SW-04',
+  'SW-05',
+  'PW-01',
   'PW-02',
   'PW-03',
-  'PW-08',
+  'PW-07',
+  'LS-01',
   'LS-03',
   'LS-05',
   'RS-01',
   'RS-04',
 ];
-export const KID_EVENTS_STORM = [...KID_EVENTS_CALM, 'SW-01', 'SW-02'];
+/** M1 (design reference since D-021): the same set without the real storm beats. */
+export const KID_EVENTS_CALM = KID_EVENTS.filter(
+  (id) => !['SW-01', 'SW-02', 'SW-03', 'SW-04'].includes(id),
+);
 
-/** D-019: 4 jobs per astronaut, all their own. 'A|B' = A when possible, else B. */
+/** D-028: 3 big jobs per astronaut, all their own. 'A|B' = A when possible, else B. */
 export const KID_JOBS: Record<Role, string[]> = {
-  MGR: ['T-REST', 'T-PEP', 'T-GARDEN', 'T-SEND'],
-  ENG: ['T-REST', 'T-MAINT-LS', 'T-PANELS', 'T-SHIELD'],
-  MED: ['T-REST', 'T-TREAT|T-MED', 'T-GARDEN', 'T-LAB'],
-  RES: ['T-REST', 'T-LAB', 'T-EVA-SCI', 'T-GARDEN'],
+  MGR: ['T-REST', 'T-SEND', 'T-GARDEN'],
+  ENG: ['T-MAINT-LS', 'T-PANELS', 'T-SHIELD'],
+  MED: ['T-REST', 'T-TREAT|T-MED', 'T-LAB'],
+  RES: ['T-LAB', 'T-EVA-SCI', 'T-REST'],
 };
 
 export const MISSIONS: Partial<Record<MissionId, Mission>> = {
@@ -36,11 +45,14 @@ export const MISSIONS: Partial<Record<MissionId, Mission>> = {
     site: 'Gale Crater',
     goal: {},
     events: KID_EVENTS_CALM,
-    setup: ['FD-01'],
+    setup: [],
     jobs: KID_JOBS,
+    eventFirst: true,
+    quietChance: 0,
+    startCrop: 'lettuce',
     missionEvents: ['PW-03'],
     scripted: [],
-    donki: 'quiet', // spec §8.2: DONKI forced quiet (calm Sun)
+    donki: 'quiet',
     specialRules: ['tips'],
   },
   M3: {
@@ -48,14 +60,18 @@ export const MISSIONS: Partial<Record<MissionId, Mission>> = {
     name: 'Storm from the Sun',
     site: 'Gale Crater',
     goal: { maxDose: 6 }, // D-010
-    events: KID_EVENTS_STORM,
-    setup: ['FD-01'],
+    events: KID_EVENTS,
+    setup: [],
     jobs: KID_JOBS,
+    eventFirst: true,
+    quietChance: 0,
+    startCrop: 'lettuce',
     missionEvents: ['PW-03'],
     scripted: timeline.beats.map((b) => ({
       sol: b.sol,
       event: b.eventId,
       severity: b.S,
+      ...(b.warningSols !== undefined ? { warningSols: b.warningSols } : {}),
       donki: {
         type: b.recordType,
         id: b.recordId,

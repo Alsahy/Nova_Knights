@@ -5,7 +5,7 @@ import { hookBlocked } from './hooks';
 import { applyEvaDose } from './radiation';
 import { computePower, taskPower } from './power';
 import { chance } from './rng';
-import { astro, changeStat, evaAllowed, hasFlag, hasMod, log } from './state';
+import { astro, changeStat, evaAllowed, hasFlag, hasMod, log, modSum } from './state';
 import type { Astronaut, AstronautId, Content, Effect, GameState, TaskDef } from './types';
 
 export interface TaskCheck {
@@ -173,5 +173,11 @@ export function resolveTasks(s: GameState, content: Content): void {
     applyEffects(s, effects, ctx);
     if (isEva && !t.cost.some((e) => e.kind === 'evaDose')) applyEvaDose(s, 1);
     log(s, 'task', 'log.taskDone', { who: a.callSign, task: taskId });
+  }
+  // D-027: a flare's particles arrived today; anyone who went outside gets the full dose (spec SW-01.b, §2.6 on EVA = S).
+  const S = modSum(s, 'sepToday');
+  if (S > 0 && s.counters.evaToday > 0) {
+    const real = changeStat(s, 'DOSE', S);
+    log(s, 'dose', 'log.stormDose', { dose: real, S, mode: 'outside' });
   }
 }

@@ -83,23 +83,36 @@ export function runHook(s: GameState, hook: string, args: Arg[], ctx: Ctx): void
   const evaIds = evaTaskIds(ctx);
   switch (hook) {
     case 'cancelEvaTasks':
+      addModifier(s, 'noEva', 1, ctx.source, s.sol, 1); // D-027: also blocks outside jobs picked later today
       for (const a of s.astronauts)
         if (a.plannedTask && evaIds.has(a.plannedTask)) cancelTask(s, a.id, ctx.source);
       return;
     case 'cancelAllTasks':
+      for (const a of s.astronauts) a.busyUntilSol = Math.max(a.busyUntilSol, s.sol); // D-027
       for (const a of s.astronauts) cancelTask(s, a.id, ctx.source);
       return;
     case 'cancelTasks': {
       if (ctx.eventId === 'CR-01' && hasFlag(s, 'cr01Free')) return; // RS-05.b
       for (let i = 0; i < num(args[0], 1); i++) {
         const planned = s.astronauts.filter((a) => a.plannedTask && a.plannedTask !== 'T-REST');
-        if (planned.length === 0) return;
+        if (planned.length === 0) {
+          // D-027: jobs not picked yet → one free astronaut has no job today
+          const free = s.astronauts.filter((a) => a.sickBaySols === 0 && a.busyUntilSol < s.sol);
+          if (free.length) free[int(s.rng, free.length)]!.busyUntilSol = s.sol;
+          continue;
+        }
         cancelTask(s, planned[int(s.rng, planned.length)]!.id, ctx.source);
       }
       return;
     }
     case 'cancelNameTask':
-      if (ctx.nameTarget) cancelTask(s, ctx.nameTarget, ctx.source);
+      if (ctx.nameTarget) {
+        cancelTask(s, ctx.nameTarget, ctx.source);
+        astro(s, ctx.nameTarget).busyUntilSol = Math.max(
+          astro(s, ctx.nameTarget).busyUntilSol,
+          s.sol,
+        );
+      }
       return;
     case 'cancelRoleTask':
       cancelTask(s, String(args[0]) as Role, ctx.source);

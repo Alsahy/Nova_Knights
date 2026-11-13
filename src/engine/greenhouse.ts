@@ -2,6 +2,7 @@
 import { CROPS, RES_HARVEST_BONUS, UNTENDED_CROP_DELAY } from './config';
 import { greenhouseRunning } from './power';
 import { log } from './state';
+import { plantCrop } from './hooks';
 import type { Content, GameState } from './types';
 
 export function growCrops(s: GameState, content: Content): void {
@@ -36,5 +37,7 @@ export function growCrops(s: GameState, content: Content): void {
     s.supplies.FOOD += food;
     log(s, 'harvest', 'log.harvest', { crop: c.kind, food });
   }
+  const kind = c.kind;
   s.crop = null; // FD-01 re-planting comes as tomorrow's Morning Briefing (D-004)
+  if (!(content.missions[s.mission]?.events.includes('FD-01') ?? true)) plantCrop(s, kind); // D-026: no planting choice
 }

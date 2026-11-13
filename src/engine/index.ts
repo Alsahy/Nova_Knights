@@ -9,6 +9,7 @@
  *   doseBadge(dose) · shieldTier(sh) · riskWords(p)
  */
 import { debrief } from './debrief';
+import { timeoutChoice, timeoutId } from './events';
 import { newGame, reduce } from './reduce';
 import { availableTasks, hud, nightLog, peek, powerBudget, shownCards } from './selectors';
 import type { AstronautId, Command, Content, GameState, NewGameOptions } from './types';
@@ -18,6 +19,8 @@ export { createRng, seedFromString } from './rng';
 export { doseBadge, shieldTier } from './radiation';
 export { riskWords } from './selectors';
 export { CALL_SIGNS } from './reduce';
+export { timeoutId };
+export { stateValue } from './value';
 
 export function createEngine(content: Content) {
   return {
@@ -31,6 +34,8 @@ export function createEngine(content: Content) {
     nightLog,
     debrief: (s: GameState) => debrief(s, content),
     peek,
+    /** D-027: the card the crew does on its own if the timer runs out. */
+    timeoutChoice: (s: GameState) => timeoutChoice(s, content),
   };
 }
 

@@ -22,7 +22,7 @@ describe('DONKI snapshot (Phase 3)', () => {
   });
   it('beat strengths come from the records (spec §5)', () => {
     const t = buildTimeline();
-    expect(t.beats.map((b) => b.S)).toEqual([3, 2]); // X3.9 → 3 · SEP after M6.6 → 2
+    expect(t.beats.map((b) => b.S)).toEqual([3, 3, 2]); // X3.9 → 3 · 1263 km/s ENLIL Mars hit → 2+1 · SEP after M6.6 → 2
     expect(t.modelRun.S).toBe(3); // 1263 km/s ENLIL Mars hit → 2+1 (documented, not played: D-018)
     expect(t.modelRun.warningSols).toBe(2);
   });

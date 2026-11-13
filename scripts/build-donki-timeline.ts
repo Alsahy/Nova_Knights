@@ -15,8 +15,8 @@ const WINDOW = '2024-05-01_2024-05-31';
 /** Which real records drive M3's scripted beats (spec §8.2 sols). */
 export const M3_CHOICES = {
   SW01: { sol: 2, flrPeak: '2024-05-10T06:54Z' }, // X3.9 flare
-  SW03: { sol: 4, simulationID: 'WSA-ENLIL/30726/1' }, // model run with a Mars hit. D-018: not used in the kid game (kept for data-sources)
-  SW02: { sol: 6, sepEventTime: '2024-05-13T14:00Z' }, // GOES >10 MeV particle event (D-018: sol 6)
+  SW03: { sol: 4, simulationID: 'WSA-ENLIL/30726/1' }, // model run with a Mars hit (D-026: played again)
+  SW02: { sol: 8, sepEventTime: '2024-05-13T14:00Z' }, // GOES >10 MeV particle event (D-026: sol 8)
 } as const;
 /** ASSUMPTION (Phase 3, spec §5 is silent): an ENLIL Mars hit starts at S 2; fast CME +1, glancing −1 (spec §5). */
 export const ENLIL_BASE_S = 2;
@@ -147,7 +147,7 @@ export function buildTimeline(): Timeline {
     window: '2024-05-01 to 2024-05-31',
     fetchedAt: flr.fetchedAt,
     note: 'Compressed replay (D-009): real records, real dates, sped up to fit 10 sols.',
-    beats: beats.filter((b) => b.eventId !== 'SW-03').sort((a, b) => a.sol - b.sol),
+    beats: beats.sort((a, b) => a.sol - b.sol),
   };
 }
 

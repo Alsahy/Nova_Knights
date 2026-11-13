@@ -99,7 +99,7 @@ export function balancedBot(): Bot {
     choose: (s, cards) => {
       const danger = {
         LS: s.systems.LS <= 4 ? 3 : 1.5,
-        DOSE: s.crew.DOSE >= 4 ? -4 : -2,
+        DOSE: s.crew.DOSE >= 3 ? -6 : -3,
         SP: 1.5,
         EN: s.crew.EN <= 6 ? 0.6 : 0.25,
       };
@@ -118,22 +118,28 @@ export function balancedBot(): Bot {
       return ok(cards).reduce((b, c) => (score(c, w, 0.4) > score(b, w, 0.4) ? c : b)).id;
     },
     plan: (s, a, options) => {
-      if (s.crew.EN <= 8) return pick(options, ['T-REST']);
+      if (s.crew.EN <= 6) return pick(options, ['T-REST']);
       const lastSols = s.sol >= s.lastSol - 1;
       const order: Record<AstronautId, string[]> = {
         MGR: [
-          s.sp.pending >= 3 || (lastSols && s.sp.pending > 0) ? 'T-SEND' : 'T-GARDEN',
+          s.sp.pending >= 2 || (lastSols && s.sp.pending > 0) ? 'T-SEND' : 'T-GARDEN',
           'T-GARDEN',
           'T-PEP',
           'T-REST',
         ],
         ENG: [
-          s.systems.LS <= 6 ? 'T-MAINT-LS' : s.dust.stacks > 0 ? 'T-PANELS' : 'T-SHIELD',
+          s.systems.LS <= 5
+            ? 'T-MAINT-LS'
+            : s.systems.SH < 6 && s.crew.DOSE < 3
+              ? 'T-SHIELD'
+              : s.dust.stacks > 0
+                ? 'T-PANELS'
+                : 'T-MAINT-LS',
           'T-MAINT-LS',
           'T-REST',
         ],
         MED: ['T-TREAT', 'T-LAB', 'T-GARDEN', 'T-REST'],
-        RES: [s.crew.DOSE >= 5 ? 'T-LAB' : 'T-EVA-SCI', 'T-LAB', 'T-REST'],
+        RES: [s.crew.DOSE >= 3 ? 'T-LAB' : 'T-EVA-SCI', 'T-LAB', 'T-REST'],
       };
       return pick(options, order[a]);
     },

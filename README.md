@@ -8,7 +8,8 @@ Made by **Team Nova Knights** for the **NASA Space Apps Challenge 2026** (Cairo)
 
 - **Play:** `https://<user>.github.io/mars-base-adventure/` *(the live URL is added once the repo is on GitHub)*
 - No download, no login, no tracking. Works on phones and classroom projectors.
-- **One game, about 10 minutes:** *Storm from the Sun*. A guided first day teaches the buttons. Each day: give each astronaut a job, handle one surprise, read the night report. Calm days plus a real solar storm from May 2024 (NASA DONKI archive).
+- **One game, about 10–15 minutes:** *Storm from the Sun*. A guided first day teaches the buttons. Each day: a surprise (2 cards, 10-second timer), then a job for each astronaut. Win by sending 14 science stars home **and** keeping the radiation badge out of the red. Real solar storm records from May 2024 (NASA DONKI archive).
+- **Teachers:** [`docs/teacher-guide.md`](docs/teacher-guide.md) (projector mode, class vote, discussion questions).
 - **Balance proof:** `npm run sim -- --report` plays thousands of games with 5 strategies → [`docs/balance-report.md`](docs/balance-report.md).
 
 ## Real NASA data
@@ -35,4 +36,6 @@ Game design source of truth: [`events-and-actions.md`](events-and-actions.md) (r
 - Icons: [Twemoji](https://github.com/jdecked/twemoji) by Twitter, Inc. and other contributors, licensed [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 - Font: [Atkinson Hyperlegible](https://www.brailleinstitute.org/freefont/) by the Braille Institute of America, [SIL Open Font License 1.1](public/fonts/OFL.txt).
 - NASA images (when added) carry their own credit lines.
+- Headings font: [Orbitron](https://github.com/theleagueof/orbitron), [SIL Open Font License 1.1](public/fonts/OFL-Orbitron.txt).
+- Cockpit background: an AI-generated illustration (not a NASA image).
 - AI use: built with help from Claude (Anthropic) coding agents; the team reviewed and decided everything. Details are in the submission's AI-use disclosure.

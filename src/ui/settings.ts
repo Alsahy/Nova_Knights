@@ -2,9 +2,10 @@
 export interface Settings {
   projector: boolean;
   reduceMotion: boolean;
+  timer: number; // seconds for the surprise timer; 0 = off (D-027)
 }
 const KEY = 'mba.settings.v1';
-const DEFAULTS: Settings = { projector: false, reduceMotion: false };
+const DEFAULTS: Settings = { projector: false, reduceMotion: false, timer: 10 };
 
 export function loadSettings(): Settings {
   try {

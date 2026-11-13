@@ -8,29 +8,29 @@ Targets in spec §1.4: no strategy wins more than 80 % · balanced play wins 60�
 
 | Strategy | Mission Success | Safe Return | Brought home | Avg stars sent | Avg badge | Badge red | Events per game (min–max) | Ending reasons |
 |---|---|---|---|---|---|---|---|---|
-| Random | **59%** | 39% | 1% | 12.6 | 5.5 | 31% | 11.1 (7–13) | success 59%, highDose 28%, lowScience 11%, lsZero 1% |
-| Max shield | **79%** | 2% | 19% | 21.3 | 4.5 | 2% | 11.1 (8–13) | success 79%, lsZero 19%, highDose 2% |
-| Max science (never repairs) | **8%** | 64% | 28% | 24.5 | 8.2 | 84% | 10.6 (7–13) | highDose 64%, lsZero 28%, success 8% |
-| Balanced | **54%** | 46% | 0% | 25.3 | 6.4 | 46% | 11.1 (8–13) | success 54%, highDose 46% |
-| Best move (lookahead) | **52%** | 48% | 0% | 24.8 | 6.5 | 48% | 11.1 (8–13) | success 52%, highDose 48% |
+| Random | **31%** | 70% | 0% | 16.7 | 7.1 | 60% | 13.0 (13–13) | highDose 45%, success 31%, lowScience 24% |
+| Max shield | **70%** | 30% | 0% | 17.0 | 5.3 | 12% | 13.0 (13–13) | success 70%, lowScience 21%, highDose 9% |
+| Max science (never repairs) | **8%** | 75% | 18% | 29.0 | 8.5 | 88% | 12.7 (10–13) | highDose 75%, lsZero 18%, success 8% |
+| Balanced | **77%** | 23% | 0% | 27.8 | 5.5 | 23% | 13.0 (13–13) | success 77%, highDose 23% |
+| Best move (lookahead) | **82%** | 18% | 0% | 25.6 | 5.4 | 18% | 13.0 (13–13) | success 82%, highDose 18% |
 
-- **Variety:** 9 of 10 scope events appeared across 100 random games (90 %); 96 different event lists out of 100.
-- **Card coverage (best-move bot):** 15 of 20 Cadet cards chosen at least once; never chosen: FD-01.c, PW-03.a, PW-08.a, PW-08.b, LS-05.b.
-- **No free lunch (static):** 30 of 30 cards in scope have a cost.
+- **Variety:** 13 of 14 scope events appeared across 100 random games (93 %); 100 different event lists out of 100.
+- **Card coverage (best-move bot):** 19 of 28 Cadet cards chosen at least once; never chosen: SW-01.b, SW-02.b, SW-03.a, SW-04.b, PW-01.b, PW-02.a, PW-02.b, PW-03.a, LS-05.b.
+- **No free lunch (static):** 42 of 42 cards in scope have a cost.
 
 ## M1 · cadet
 
 | Strategy | Mission Success | Safe Return | Brought home | Avg stars sent | Avg badge | Badge red | Events per game (min–max) | Ending reasons |
 |---|---|---|---|---|---|---|---|---|
-| Random | **95%** | 4% | 1% | 12.0 | 5.0 | 20% | 7.7 (5–9) | success 95%, lowScience 4%, lsZero 1% |
-| Max shield | **91%** | 0% | 9% | 21.8 | 4.8 | 2% | 8.0 (5–9) | success 91%, lsZero 9% |
-| Max science (never repairs) | **81%** | 0% | 19% | 25.2 | 8.6 | 89% | 7.7 (4–8) | success 81%, lsZero 19% |
-| Balanced | **100%** | 0% | 0% | 24.2 | 6.5 | 51% | 7.8 (5–9) | success 100% |
-| Best move (lookahead) | **100%** | 0% | 0% | 23.4 | 6.5 | 49% | 7.7 (5–9) | success 100% |
+| Random | **100%** | 1% | 0% | 15.2 | 6.4 | 47% | 10.0 (10–10) | success 100%, lowScience 1% |
+| Max shield | **100%** | 0% | 0% | 18.3 | 5.0 | 4% | 10.0 (10–10) | success 100% |
+| Max science (never repairs) | **93%** | 0% | 7% | 25.5 | 9.0 | 94% | 10.0 (10–10) | success 93%, lsZero 7% |
+| Balanced | **100%** | 0% | 0% | 24.2 | 5.7 | 26% | 10.0 (10–10) | success 100% |
+| Best move (lookahead) | **100%** | 0% | 0% | 23.4 | 5.7 | 26% | 10.0 (10–10) | success 100% |
 
-- **Variety:** 7 of 8 scope events appeared across 100 random games (88 %); 84 different event lists out of 100.
-- **Card coverage (best-move bot):** 11 of 16 Cadet cards chosen at least once; never chosen: FD-01.c, PW-03.a, PW-08.a, PW-08.b, LS-05.b.
-- **No free lunch (static):** 24 of 24 cards in scope have a cost.
+- **Variety:** 10 of 10 scope events appeared across 100 random games (100 %); 100 different event lists out of 100.
+- **Card coverage (best-move bot):** 15 of 20 Cadet cards chosen at least once; never chosen: PW-01.b, PW-02.a, PW-03.a, LS-03.b, LS-05.b.
+- **No free lunch (static):** 30 of 30 cards in scope have a cost.
 
 ## Charts
 

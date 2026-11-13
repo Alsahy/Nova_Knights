@@ -74,6 +74,11 @@ export function App() {
               setScreen('game');
             }
           }}
+          onTutorial={() => {
+            setTutorialDone(false);
+            setWithTutorial(true);
+            start(newSeed());
+          }}
         />
       )}
       {screen === 'briefing' && (
@@ -89,6 +94,8 @@ export function App() {
           key={`${game.seed}-${game.mission}-${withTutorial}`}
           initial={game}
           tutorial={withTutorial && game.sol <= 1}
+          timerSeconds={settings.timer}
+          paused={modal !== null}
           onTutorialEnd={() => {
             setTutorialDone(true);
             setWithTutorial(false);
@@ -177,6 +184,17 @@ export function App() {
                 <div class="briefing-actions">
                   <button class="btn" onClick={toTitle}>
                     <Icon name="MENU" /> {copy.ui.quit}
+                  </button>
+                  <button
+                    class="btn"
+                    onClick={() => {
+                      setModal(null);
+                      setTutorialDone(false);
+                      setWithTutorial(true);
+                      start(newSeed());
+                    }}
+                  >
+                    <Icon name="HELP" /> {copy.ui.tutorialBtn}
                   </button>
                 </div>
               </>

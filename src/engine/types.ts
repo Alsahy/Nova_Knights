@@ -139,6 +139,12 @@ export interface Mission {
   setup: string[];
   /** D-019: each role's jobs, at most 4 slots; 'A|B' = A if allowed, else B. */
   jobs: Record<Role, string[]>;
+  /** D-027: the day's surprise comes BEFORE the jobs (event → jobs → night). */
+  eventFirst?: boolean;
+  /** D-026: chance of a quiet sol (default spec §1.2); 0 = a challenge every day. */
+  quietChance?: number;
+  /** D-026: the greenhouse starts planted with this crop (no planting choice). */
+  startCrop?: CropKind;
   missionEvents: string[];
   scripted: {
     sol: number;

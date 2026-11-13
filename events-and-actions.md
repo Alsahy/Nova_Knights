@@ -1,7 +1,14 @@
 # Junior Astronaut Mission Trainer: Mars Events & Action Cards
 
-**Version 0.6 (Mars only, one kid game) · 13 Nov 2026 · NASA Space Apps 2026 (Cairo)**
+**Version 0.7 (Mars only, one kid game, challenge every day) · 13 Nov 2026 · NASA Space Apps 2026 (Cairo)**
 This is the logic sketch for a card game where kids (7–12) run a **Mars outpost** with 4 astronauts and 4 systems. The theme and art will come later. The file lists every event, every choice, what each choice costs, and the real NASA fact behind it.
+
+> **What changed from v0.6** (lead feedback round 3, 13 Nov 2026)
+> - **D-026 14 challenges, one every day.** The kid game draws from 14 easy events: SW-01…SW-05, PW-01, PW-02, PW-03, PW-07, LS-01, LS-03, LS-05, RS-01, RS-04. No planting choice (the greenhouse starts with lettuce and replants itself). No quiet sols (Quiet Sun Day becomes a deck card). Real DONKI beats: SW-01 sol 2, SW-03 sol 4 (→ SW-04 sol 6), SW-02 sol 8.
+> - **D-027 Surprise first, 10-second timer.** Each sol: the event comes first, then the jobs, then night (§2.4 order changes for the kid game; events that cancel tasks now block those jobs for the day). If the timer runs out, the crew does the event's **worst** affordable card. Particles that follow a flare hit anyone who goes outside later that day (EVA dose = S). The timer can be set to 20 s or off (accessibility).
+> - **D-028 3 jobs per astronaut.** MGR Rest · Send data · Care for plants; ENG Maintain life support · Clean panels · Pile soil bags; MED Rest · Treat-or-Check-up · Lab experiment; RES Lab experiment · Rock-study walk · Rest.
+> - **D-029** fewer words, science behind "?", hover previews, no nightly report (a day-by-day story at the end). UI only.
+> - **D-030 Harder.** M3 goal **14 SP** (was 8) so staying inside costs stars. Simulated (1,000 games each): random 31 % · balanced 77 % · best move 82 % · max shield 70 % · greed 8 % (`docs/balance-report.md`).
 
 > **What changed from v0.5** (lead feedback + kid critique, 13 Nov 2026)
 > - **D-021 One game.** Kids get one game with no difficulty choice: M3 *Storm from the Sun* (calm sols + the real May 2024 storm). M1 stays in the design as the full-rules tutorial reference.
@@ -1141,7 +1148,7 @@ Not all 60 events can happen in one game. Each event belongs to a **deck type** 
 |---|---|---|---|---|---|---|---|
 | **M1** | 👣 **First Steps** (tutorial) | Gale Crater | 8 / — (Cadet only) | 6 SP | PW-03 Lucky Wind; DONKI forced quiet (calm Sun) | No Commander events; tips shown on every card | The basics: power, air, food, science |
 | **M2** | 🌫️ **Dust Season** | Meridiani Planum (Opportunity's plains [S59]) | 10 / 20 | 8 / 16 SP **and** never lose LS power | PW-04 sol 3 → PW-05 sol 6 (Commander); PW-06; PW-03 | Dust timer every 3 sols | Solar power vs dust; batteries; reactors |
-| **M3** | ☀️ **Storm from the Sun** | Gale Crater | 10 / 20 | 8 / 16 SP **and** every astronaut DOSE ≤ 6 (no red badges, D-010) | DONKI window 2024-05-01 → 2024-05-31 (ENLIL Mars hits + flares). Scripted SW-01 sol 2, SW-03 sol 4 → SW-04 sol 6, SW-02 sol 7; SW-08, SW-09, SW-10, CM-03 | **Compressed storm replay** (D-009): each scripted beat is tied to one real DONKI record and shows its real date + "replay, sped up" | Radiation, warnings, shelters, real space weather |
+| **M3** | ☀️ **Storm from the Sun** | Gale Crater | 10 / 20 | 14 (D-030) / 16 SP **and** every astronaut DOSE ≤ 6 (no red badges, D-010) | DONKI window 2024-05-01 → 2024-05-31 (ENLIL Mars hits + flares). Scripted SW-01 sol 2, SW-03 sol 4 → SW-04 sol 6, SW-02 sol 7; SW-08, SW-09, SW-10, CM-03 | **Compressed storm replay** (D-009): each scripted beat is tied to one real DONKI record and shows its real date + "replay, sped up" | Radiation, warnings, shelters, real space weather |
 | **M4** | 🧊 **Ice Hunters** | Northern Plains (Phoenix region [S30]) | 10 / 20 | 6 / 14 SP **and** end with H2O ≥ start | LS-10 sol 2; FD-07; LS-06 | H2O starts low (12 / 15); PW-07 ×2 weight | Living off the land; water vs air; toxic soil |
 | **M5** | 🌋 **Quake Watch** | Elysium Planitia (InSight's site [S52]) | 10 / 20 | 8 / 18 SP | RS-02 (up to 2×), RS-07, PW-09, PW-06 | Seismometer: every quake gives +1 SP automatically | Marsquakes, impacts, keeping a base safe |
 | **M6** | 🫧 **Air Makers** | Jezero Crater (Perseverance/MOXIE [S60][S31]) | 10 / 20 | 6 / 14 SP **and** make 4 O2T | LS-11 sol 1 (unlocks T-MOXIE); LS-03 ×2 weight | O2T starts at 1 | Air from CO₂ and from water; backups and risks |
@@ -1187,7 +1194,7 @@ The playable game (both missions, Cadet) uses a small set so young players are n
 | Mission | Sols | Goal | Events it can show |
 |---|---|---|---|
 | M1 First Steps *(design reference; not offered to players since D-021)* | 8 | 6 SP sent | FD-01 (setup + re-plant), PW-02, PW-03, PW-08, LS-03, LS-05, RS-01, RS-04 |
-| **M3 Storm from the Sun (the one game, D-021)** | 10 | 8 SP sent, badge never red | the M1 set + SW-01 (sol 2, real X3.9 flare 2024-05-10) + SW-02 (sol 6, real particle event 2024-05-13) |
+| **M3 Storm from the Sun (the one game, D-021)** | 10 | **14 SP sent** (D-030), badge never red | **D-026:** SW-01 (sol 2, real X3.9 flare 2024-05-10), SW-03 (sol 4, real NASA model run, Mars arrival 2024-05-13) → SW-04 (sol 6), SW-02 (sol 8, real particle event 2024-05-13), SW-05, PW-01, PW-02, PW-03, PW-07, LS-01, LS-03, LS-05, RS-01, RS-04 — one challenge every sol |
 
 **Jobs (4 per astronaut, all their own):** Manager: Rest · Pep talk · Care for plants · Send data. Engineer: Rest · Maintain life support · Clean solar panels · Pile soil bags. Doctor: Rest · Treat (when someone is in Sick Bay, otherwise Check-up) · Care for plants · Lab experiment. Researcher: Rest · Lab experiment · Rock-study walk · Care for plants.
 

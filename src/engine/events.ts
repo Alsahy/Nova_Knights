@@ -14,7 +14,8 @@ import { hookBlocked } from './hooks';
 import { computePower } from './power';
 import { shieldTier } from './radiation';
 import { chance } from './rng';
-import { changeStat, evaAllowed, hasFlag, log, notInSickBay } from './state';
+import { addModifier, changeStat, evaAllowed, hasFlag, log, notInSickBay } from './state';
+import { stateValue } from './value';
 import type {
   ActionDef,
   AstronautId,
@@ -207,6 +208,37 @@ export function waitId(eventId: string): string {
   return `${eventId}.wait`;
 }
 
+export function timeoutId(eventId: string): string {
+  return `${eventId}.timeout`;
+}
+
+/** D-027: if the 10-second timer runs out, the crew does the WORST card it could afford (all cards, not just the shown ones). */
+export function timeoutChoice(s: GameState, content: Content): string | null {
+  const p = s.pending;
+  if (!p || p.slot !== 'event') return null;
+  const ev = content.events[p.eventId]!;
+  const scope = content.missions[s.mission]?.events;
+  const candidates = ev.actions.filter(
+    (a) =>
+      (!a.tags.includes('hiddenUnlessLS10') || hasFlag(s, 'unlock:LS-10')) &&
+      checkCard(s, content, a, p).ok,
+  );
+  let worst: string | null = null;
+  let worstV = Infinity;
+  for (const a of candidates) {
+    const t = JSON.parse(JSON.stringify(s)) as GameState;
+    t.pending!.offered = ev.actions.map((x) => x.id);
+    if (!resolveChoice(t, content, a.id)) continue;
+    const v = stateValue(t);
+    if (v < worstV) {
+      worstV = v;
+      worst = a.id;
+    }
+  }
+  void scope;
+  return worst;
+}
+
 /** Resolve the player's choice for s.pending. Returns false if the choice is not allowed (state unchanged). */
 export function resolveChoice(s: GameState, content: Content, actionId: string): boolean {
   const p = s.pending;
@@ -226,6 +258,13 @@ export function resolveChoice(s: GameState, content: Content, actionId: string):
     });
     s.pending = null;
     return true;
+  }
+  if (actionId === timeoutId(p.eventId)) {
+    const worst = timeoutChoice(s, content);
+    if (!worst) return false;
+    p.offered = ev.actions.map((x) => x.id); // the crew may do any card on its own
+    log(s, 'warning', 'log.timeout', { id: worst });
+    return resolveChoice(s, content, worst);
   }
   if (!p.offered.includes(actionId)) return false;
   const a = ev.actions.find((x) => x.id === actionId);
@@ -301,6 +340,7 @@ function afterChoiceRules(s: GameState, p: Pending, actionId: string, ctx: Ctx):
     if (chance(s.rng, SEP_CHANCE_BY_S[S] ?? 0)) {
       log(s, 'warning', 'log.sepFollows', { S });
       if (hasFlag(s, 'evaRace') && s.counters.evaToday > 0) changeStat(s, 'DOSE', S); // SW-01.b
+      addModifier(s, 'sepToday', S, 'SW-01', s.sol, 1); // D-027: crews that go outside later today get hit
       queueEvent(s, 'SW-02', ctx, 1, Math.max(SEP_MIN_S, S));
     }
   }

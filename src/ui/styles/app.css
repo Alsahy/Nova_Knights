@@ -1675,3 +1675,212 @@ small {
       inset 0 0 70px rgba(224, 122, 114, 0.22);
   }
 }
+
+/* "?" tips: science stays hidden until asked (D-029) */
+.info-wrap {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+}
+.info-btn {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--ice);
+  background: rgba(92, 180, 228, 0.15);
+  color: var(--ice);
+  font: inherit;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: help;
+  padding: 0;
+}
+.info-pop {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  z-index: 6;
+  width: min(22rem, 80vw);
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1.5px solid var(--blue);
+  background: var(--panel-solid);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: var(--fs-small);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1.4;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+.holo-title .info-wrap {
+  margin-left: auto;
+}
+
+/* surprise timer (D-027) */
+.timer {
+  --p: 100%;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: conic-gradient(var(--amber) var(--p), rgba(255, 255, 255, 0.1) 0);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-left: auto;
+}
+.timer .num {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--panel-solid);
+}
+.holo.hurry {
+  border-color: var(--red);
+  box-shadow: 0 0 30px rgba(224, 122, 114, 0.45);
+}
+.holo.hurry .timer {
+  background: conic-gradient(var(--red) var(--p), rgba(255, 255, 255, 0.1) 0);
+}
+.hint-line {
+  color: var(--muted);
+  font-size: var(--fs-small);
+  margin: 8px 0 0;
+}
+.toast {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 0 0 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 2px solid var(--red);
+  background: rgba(224, 122, 114, 0.18);
+  color: #f7d6d2;
+  font-weight: 700;
+}
+/* resources that the timeout would hit pulse while the timer runs */
+.meter.hl-down,
+.badge.hl-down {
+  animation: warnpulse 1.2s ease-in-out infinite;
+}
+@keyframes warnpulse {
+  50% {
+    box-shadow: 0 0 18px rgba(224, 122, 114, 0.8);
+  }
+}
+
+/* big job cards (D-028) */
+.job-grid.big {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.job-grid.big .job {
+  align-items: center;
+  text-align: center;
+  min-height: 150px;
+  justify-content: center;
+}
+.job-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--blue);
+  background: rgba(92, 180, 228, 0.12);
+  color: var(--ice);
+}
+.job-grid.big .chip-row {
+  justify-content: center;
+}
+@media (max-width: 560px) {
+  .job-grid.big {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .job-grid.big .job {
+    min-height: 120px;
+    padding: 6px;
+  }
+  .job-icon {
+    width: 44px;
+    height: 44px;
+  }
+  .job-grid.big .job-name {
+    font-size: 0.9rem;
+  }
+}
+.choice-title {
+  font-size: calc(1.3rem * var(--scale));
+}
+
+/* settings: timer */
+.timer-set {
+  flex-direction: column;
+  border: 1px solid var(--line);
+}
+.seg {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.seg-opt {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--tap);
+  padding: 6px 14px;
+  border-radius: 99px;
+  border: 1.5px solid var(--line);
+  cursor: pointer;
+}
+.seg-opt.on {
+  border-color: var(--green);
+  background: rgba(108, 192, 139, 0.18);
+}
+
+/* debrief */
+.end-stats {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.timeline summary {
+  cursor: pointer;
+  min-height: var(--tap);
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  color: var(--ice);
+}
+.timeline ol {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.timeline li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.timeline .day {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--panel-2);
+  border: 1.5px solid var(--line);
+  flex: none;
+}
+.timeline p {
+  margin: 0 0 2px;
+}

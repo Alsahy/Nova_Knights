@@ -18,6 +18,8 @@ import { changeStat, evaAllowed, setFlag } from '../../src/engine/state';
 import { checkTask } from '../../src/engine/tasks';
 import type { GameState } from '../../src/engine/types';
 import { atSol1, E } from './helpers';
+import { playGame, randomBot } from '../../src/sim/bots';
+import { stateValue, timeoutId } from '../../src/engine';
 
 const M1 = CONTENT.missions.M1!;
 const M3 = CONTENT.missions.M3!;
@@ -26,11 +28,9 @@ const FULL_M1 = { ...M1, events: Object.keys(CONTENT.events) };
 const fresh = (): GameState => JSON.parse(JSON.stringify(atSol1())) as GameState;
 
 describe('setup and the sol loop', () => {
-  it('setup = FD-01 only (D-018), then sol 1 morning', () => {
-    let s = E.newGame({ mission: 'M1', tier: 'cadet', seed: 3 });
-    expect(s.pending?.eventId).toBe('FD-01');
-    expect(s.pending?.offered).toEqual(['FD-01.a', 'FD-01.c']); // D-014: 8-sol mission → lettuce vs radishes
-    s = E.reduce(s, { type: 'CHOOSE', actionId: 'FD-01.a' });
+  it('no setup choice (D-026): sol 1 morning, lettuce already planted', () => {
+    const s = E.newGame({ mission: 'M3', tier: 'cadet', seed: 3 });
+    expect(s.pending).toBeNull();
     expect(s.sol).toBe(1);
     expect(s.phase).toBe('morning');
     expect(s.crop?.kind).toBe('lettuce');
@@ -38,7 +38,7 @@ describe('setup and the sol loop', () => {
 
   it('shared crew card starts at 4 × spec values (D-017)', () => {
     const s = fresh();
-    expect(s.crew).toMatchObject({ FUL: 16, HYD: 16, AIR: 20, EN: 15, ENMAX: 20, DOSE: 0 }); // EN 16 − 1 (planting)
+    expect(s.crew).toMatchObject({ FUL: 16, HYD: 16, AIR: 20, EN: 16, ENMAX: 20, DOSE: 0 });
   });
 
   it('illegal commands leave the state unchanged', () => {
@@ -47,13 +47,15 @@ describe('setup and the sol loop', () => {
     expect(E.reduce(s, { type: 'CHOOSE', actionId: 'LS-01.a' })).toEqual(s);
   });
 
-  it('Cadet: one event per sol, then night', () => {
+  it('D-027: the day starts with its surprise, then jobs, then night', () => {
     let s = fresh();
     s = E.reduce(s, { type: 'CONTINUE' });
     s = E.reduce(s, { type: 'CONFIRM_POWER' });
+    expect(s.phase).toBe('event');
+    expect(s.pending?.slot).toBe('event');
+    s = E.reduce(s, { type: 'CHOOSE', actionId: E.shownCards(s).find((c) => c.affordable)!.id });
+    expect(s.phase === 'tasks' || s.phase === 'ended').toBe(true);
     s = E.reduce(s, { type: 'CONFIRM_TASKS' });
-    if (s.pending)
-      s = E.reduce(s, { type: 'CHOOSE', actionId: E.shownCards(s).find((c) => c.affordable)!.id });
     expect(s.phase === 'night' || s.phase === 'ended').toBe(true);
     expect(s.pending).toBeNull();
   });
@@ -248,7 +250,7 @@ describe('deck and draw order (spec §8.3, D-004)', () => {
     expect(deck).toContain('LS-03');
     for (const id of deck) expect(CONTENT.events[id]!.tier).toBe('cadet');
     expect(deck).not.toContain('SW-01');
-    expect(deck).not.toContain('SW-05');
+    expect(deck).toContain('SW-05'); // D-026: a challenge every day, so Quiet Sun Day is a deck card
     expect(deck).not.toContain('LS-08');
   });
   it('a condition fires, then cools down for 3 sols', () => {
@@ -271,7 +273,8 @@ describe('deck and draw order (spec §8.3, D-004)', () => {
     const s = fresh();
     s.sol = 4;
     s.crop = null;
-    const b = selectBriefing(s, CONTENT, M1);
+    s.lastCrop = 'lettuce';
+    const b = selectBriefing(s, CONTENT, FULL_M1);
     expect(b?.eventId).toBe('RS-04');
     expect((s.crop as GameState['crop'])?.kind).toBe('lettuce'); // mutated by selectBriefing
   });
@@ -339,12 +342,13 @@ describe('kid scope (D-018, D-019)', () => {
     const p = selectEvent(s, CONTENT, M1, []);
     expect(p === null || M1.events.includes(p.eventId)).toBe(true);
   });
-  it('every astronaut sees exactly 4 jobs, all their own (no stand-in)', () => {
+  it('every astronaut sees exactly 3 jobs, all their own (D-028, no stand-in)', () => {
     let s = fresh();
     s = E.reduce(E.reduce(s, { type: 'CONTINUE' }), { type: 'CONFIRM_POWER' });
-    for (const a of s.astronauts) {
+    s = E.reduce(s, { type: 'CHOOSE', actionId: E.shownCards(s).find((c) => c.affordable)!.id });
+    for (const a of s.astronauts.filter((x) => x.busyUntilSol < s.sol)) {
       const jobs = E.availableTasks(s, a.id);
-      expect(jobs, a.id).toHaveLength(4);
+      expect(jobs, a.id).toHaveLength(3);
       expect(
         jobs.some((j) => j.fallback),
         a.id,
@@ -365,8 +369,9 @@ describe('kid scope (D-018, D-019)', () => {
 });
 
 describe('kid critique fixes (D-025)', () => {
-  it('the 10-sol game plants lettuce vs radishes (peppers could not pay off)', () => {
+  it('missions of 10 sols plant lettuce vs radishes (peppers could not pay off)', () => {
     const s = E.newGame({ mission: 'M3', tier: 'cadet', seed: 5 });
+    offerEvent(s, CONTENT, 'FD-01', 'setup');
     expect(s.pending?.offered).toEqual(['FD-01.a', 'FD-01.c']);
   });
   it('peppers give food when Taco Night is outside the scope', () => {
@@ -389,5 +394,39 @@ describe('kid critique fixes (D-025)', () => {
     let real = 0;
     for (let i = 0; i < 20 && real === 0; i++) real = applyEvaDose(s, 1);
     expect(s.log.some((l) => l.key === 'log.evaDose')).toBe(true);
+  });
+});
+
+describe('challenge rules (D-026, D-027, D-030)', () => {
+  it('every day has a challenge in the kid game', () => {
+    for (let seed = 1; seed <= 20; seed++) {
+      const end = playGame(E, E.newGame({ mission: 'M3', tier: 'cadet', seed }), randomBot(seed));
+      expect(end.log.some((l) => l.key === 'log.quietSol')).toBe(false);
+    }
+  });
+  it('if the timer runs out, the crew does the worst card and it is logged', () => {
+    let s = E.newGame({ mission: 'M3', tier: 'cadet', seed: 11 });
+    s = E.reduce(E.reduce(s, { type: 'CONTINUE' }), { type: 'CONFIRM_POWER' });
+    const worst = E.timeoutChoice(s);
+    expect(worst).toBeTruthy();
+    const t = E.reduce(s, { type: 'CHOOSE', actionId: timeoutId(s.pending!.eventId) });
+    expect(t.choices.at(-1)!.actionId).toBe(worst);
+    expect(t.log.some((l) => l.key === 'log.timeout')).toBe(true);
+    // the worst card is never better than any card the player could pick
+    for (const c of E.shownCards(s).filter((x) => x.affordable)) {
+      expect(stateValue(t)).toBeLessThanOrEqual(
+        stateValue(E.reduce(s, { type: 'CHOOSE', actionId: c.id })) + 1e-9,
+      );
+    }
+  });
+  it('"everyone to the shelter" before jobs leaves the crew without jobs today', () => {
+    const s = fresh();
+    s.phase = 'event';
+    offerEvent(s, CONTENT, 'SW-02', 'event', { severity: 2 });
+    expect(resolveChoice(s, CONTENT, 'SW-02.a')).toBe(true);
+    expect(s.astronauts.every((a) => a.busyUntilSol >= s.sol)).toBe(true);
+  });
+  it('the M3 science goal is 14 stars (D-030)', () => {
+    expect(E.newGame({ mission: 'M3', tier: 'cadet', seed: 1 }).sp.goal).toBe(14);
   });
 });

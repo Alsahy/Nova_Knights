@@ -176,7 +176,7 @@ export const MISSION_LENGTH: Record<MissionId, { cadet?: number; commander?: num
 export const MISSION_SP_GOAL: Record<MissionId, { cadet?: number; commander?: number }> = {
   M1: { cadet: 6 },
   M2: { cadet: 8, commander: 16 },
-  M3: { cadet: 8, commander: 16 },
+  M3: { cadet: 14, commander: 16 }, // D-030: 8 → 14 so hiding inside costs stars (balance report)
   M4: { cadet: 6, commander: 14 },
   M5: { cadet: 8, commander: 18 },
   M6: { cadet: 6, commander: 14 },

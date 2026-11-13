@@ -26,7 +26,18 @@
       "sourceUrl": "https://ccmc.gsfc.nasa.gov/DONKI/view/FLR/30666/-1"
     },
     {
-      "sol": 6,
+      "sol": 4,
+      "eventId": "SW-03",
+      "S": 3,
+      "warningSols": 2,
+      "realDate": "2024-05-11",
+      "recordType": "WSAEnlilSimulations",
+      "recordId": "WSA-ENLIL/30726/1",
+      "label": "NASA's model predicted this cloud would reach Mars on 2024-05-13. (CME speed about 1263 km/s.)",
+      "sourceUrl": "https://ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/30726/-1"
+    },
+    {
+      "sol": 8,
       "eventId": "SW-02",
       "S": 2,
       "realDate": "2024-05-13",

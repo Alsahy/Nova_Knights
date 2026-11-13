@@ -3,6 +3,7 @@ import { MISSION_LENGTH, MISSION_SP_GOAL } from '../../engine/config';
 import type { MissionId } from '../../engine/types';
 import { Avatar } from '../components/Avatar';
 import { Icon } from '../components/Icon';
+import { InfoTip } from './Phases';
 import { fill, ui } from '../text';
 
 export function Briefing(props: {
@@ -27,11 +28,13 @@ export function Briefing(props: {
             <Avatar role="MGR" size={110} />
           </div>
           <div class="briefing-text">
-            <p>{fill(ui.briefingText, { sols, goal })}</p>
-            <p>{ui.briefingText2}</p>
-            <p class="muted">{ui.solIs}</p>
+            <p>
+              {fill(ui.briefingText, { sols, goal })}{' '}
+              <InfoTip label={ui.realData}>
+                {ui.solIs} {ui.stormReplay}
+              </InfoTip>
+            </p>
             {props.mission === 'M3' && <p class="warn-text">{ui.briefingDose}</p>}
-            {props.mission === 'M3' && <p class="small muted">{ui.stormReplay}</p>}
             <p class="muted small">
               {ui.missionCode}: <b class="num">{props.seed}</b>
             </p>

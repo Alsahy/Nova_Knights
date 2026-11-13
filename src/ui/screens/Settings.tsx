@@ -46,6 +46,24 @@ export function SettingsScreen(props: {
           <small>{copy.settingsScreen.motionHint}</small>
         </span>
       </label>
+      <fieldset class="toggle timer-set">
+        <legend>{copy.settingsScreen.timer}</legend>
+        <small>{copy.settingsScreen.timerHint}</small>
+        <div class="seg">
+          {[10, 20, 0].map((n) => (
+            <label key={n} class={`seg-opt ${settings.timer === n ? 'on' : ''}`}>
+              <input
+                type="radio"
+                name="timer"
+                id={`set-timer-${n}`}
+                checked={settings.timer === n}
+                onChange={() => onChange({ ...settings, timer: n })}
+              />
+              {copy.settingsScreen.timerOptions[n]}
+            </label>
+          ))}
+        </div>
+      </fieldset>
       <button
         class="btn"
         onClick={() => {

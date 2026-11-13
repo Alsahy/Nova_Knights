@@ -13,6 +13,7 @@ import {
   START_CREW,
 } from './config';
 import { buildDeck, selectBriefing, selectEvent } from './deck';
+import { plantCrop } from './hooks';
 import { offerEvent, resolveChoice } from './events';
 import { runNight } from './night';
 import { computePower } from './power';
@@ -130,6 +131,7 @@ export function newGame(content: Content, opts: NewGameOptions): GameState {
     ending: null,
   };
   setFlag(s, 'reserve'); // FD-06.c: the emergency food box exists at the start
+  if (mission.startCrop) plantCrop(s, mission.startCrop); // D-026
   s.deck = buildDeck(s, content, mission);
   log(s, 'info', 'log.newGame', { mission: opts.mission, tier: opts.tier, seed: s.seed });
   nextSetup(s, content);
@@ -202,7 +204,9 @@ export function reduce(content: Content, state: GameState, cmd: Command): GameSt
         if (b.shortfall > 0) offerEvent(s, content, 'PW-08', 'shortage');
       } else if (slot === 'event') {
         s.eventsToday += 1;
-        finishSol(s, content);
+        if (missionOf(content, s).eventFirst)
+          s.phase = 'tasks'; // D-027: surprise → jobs → night
+        else finishSol(s, content);
       }
       return s;
     }
@@ -223,6 +227,16 @@ export function reduce(content: Content, state: GameState, cmd: Command): GameSt
         offerEvent(s, content, 'PW-08', 'shortage');
         return s;
       }
+      if (missionOf(content, s).eventFirst) {
+        s.phase = 'event'; // D-027: the day starts with its surprise
+        const pick = selectEvent(s, content, missionOf(content, s), []);
+        if (pick) offerEvent(s, content, pick.eventId, 'event', pick.opts);
+        else {
+          log(s, 'event', 'log.quietSol');
+          s.phase = 'tasks';
+        }
+        return s;
+      }
       s.phase = 'tasks';
       return s;
     case 'PLAN_TASK': {
@@ -239,6 +253,10 @@ export function reduce(content: Content, state: GameState, cmd: Command): GameSt
     }
     case 'CONFIRM_TASKS': {
       if (s.phase !== 'tasks') return s;
+      if (missionOf(content, s).eventFirst) {
+        finishSol(s, content);
+        return s;
+      }
       s.phase = 'event';
       const evaIds = new Set(
         Object.values(content.tasks)

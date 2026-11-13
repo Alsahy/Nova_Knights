@@ -40,7 +40,10 @@ function allowed(s: GameState, content: Content, mission: Mission, id: string): 
 /** Core events of this tier + this mission's 🎯 events, shuffled with the seed (spec §8.3). */
 export function buildDeck(s: GameState, content: Content, mission: Mission): string[] {
   const ids = Object.values(content.events)
-    .filter((ev) => allowed(s, content, mission, ev.id) && ev.id !== 'SW-05') // SW-05 only on quiet sols
+    .filter(
+      (ev) =>
+        allowed(s, content, mission, ev.id) && (ev.id !== 'SW-05' || mission.quietChance === 0),
+    ) // SW-05 only on quiet sols, or in the deck when every day has a challenge (D-026)
     .filter(
       (ev) =>
         ev.deck.includes('core') ||
@@ -191,7 +194,7 @@ export function selectEvent(
     if (s.dust.addedToday && allowed(s, content, mission, 'PW-02'))
       return { eventId: 'PW-02', opts: {} }; // D-004
     // 7. quiet sol
-    if (chance(s.rng, QUIET_SOL_CHANCE[s.tier])) {
+    if (chance(s.rng, mission.quietChance ?? QUIET_SOL_CHANCE[s.tier])) {
       const calm =
         mission.donki === 'quiet' || !s.played.slice(-3).some((id) => id.startsWith('SW-0'));
       if (calm && !s.played.includes('SW-05') && allowed(s, content, mission, 'SW-05'))

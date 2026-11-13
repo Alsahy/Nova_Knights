@@ -24,22 +24,12 @@ This guide tells you about your crew, your base, the missions you can play, and 
 
 ## 🎲 Every adventure is different!
 
-There are **60 surprises** in the game, but **you will never see all of them in one adventure.**
+Every day on Mars starts with a **surprise**. You have **10 seconds** to pick what to do. Too slow? Your crew picks for you, and not in a good way!
 
-- 🧒 Younger players (7–9) meet about **10 surprises** per adventure.
-- 🧑 Older players (10–12) meet about **20 surprises** per adventure.
-
-Why?
-- 🎯 Some surprises **only happen in certain missions**. Marsquakes, for example, only happen in *Quake Watch*.
-- 🔗 Some surprises **only happen after something else**. A smoke alarm can only happen if you light an oxygen candle first!
-- ⚠️ Some surprises **only happen if something runs low**, like food or power.
-- 📅 Some surprises come **on a schedule**, like sending your science home. They show up in your **morning briefing**.
-- ☀️ Some surprises come from **the real Sun**! The game uses real NASA space-weather data.
-- 🔀 Everything else is **shuffled** like a deck of cards.
-
-So **play again** and you'll get a brand-new story! 🎉
-
-> 🎓 = a surprise for **older players (10–12)** only.
+- 🎲 There are **14 surprises**, shuffled like a deck of cards. Play again and you get a new story! 🎉
+- ☀️ Some surprises come from **the real Sun**! The game replays real solar storms from May 2024, using NASA's space-weather data.
+- 🔗 Some surprises only happen after something else. A flash on the Sun can bring a radiation storm!
+- 🛠️ After the surprise, give each astronaut **one job**. Then night comes and the next day begins.
 
 ---
 
@@ -95,19 +85,15 @@ Your 4 astronauts are a team, so they **share** one set of bars. When one astron
 
 ---
 
-## 🗺️ Pick a mission
+## 🗺️ Your mission: Storm from the Sun
 
-| Mission | Where on Mars | What's special | Win by… |
-|---|---|---|---|
-| 👣 **First Steps** | Gale Crater (where the Curiosity rover drives) | Short and calm. Tips help you learn | Earning your science stars |
-| 🌫️ **Dust Season** | The plains where the Opportunity rover drove | Big dust storms block the Sun! | Science stars + **never** letting the air machines lose power |
-| ☀️ **Storm from the Sun** | Gale Crater | Replays **real** solar storms from May 2024 | Science stars + keeping every radiation badge out of the red |
-| 🧊 **Ice Hunters** | The icy far north (where the Phoenix lander dug) | You start with little water. Find ice! | Science stars + ending with as much water as you started |
-| 🌋 **Quake Watch** | Where the InSight lander listened to Mars | Marsquakes and space rocks! | Science stars (every quake gives a bonus star!) |
-| 🫧 **Air Makers** | Jezero Crater (where the Perseverance rover made oxygen) | Make air from the Mars air! | Science stars + making 4 oxygen tanks |
-| 🌱 **Green Thumbs** | Gale or Jezero Crater | Two greenhouses, less packed food | Science stars + ending with as much food as you started |
-| 🌞 **Alone Behind the Sun** 🎓 | Gale or Jezero Crater | The Sun blocks your messages to Earth for a while | Science stars, with no help from Earth for a while |
-| 🎲 **Free Play** | You choose! | Everything is mixed together | Science stars |
+| Where on Mars | How long | Win by… |
+|---|---|---|
+| Gale Crater (where the Curiosity rover drives) | 10 sols | Sending **14 science stars** to Earth **and** keeping the radiation badge out of the red |
+
+The first day is a **guided tour**: Nova shows you every button. You can replay it any time.
+
+*(The ideas below describe all the surprises we designed. The game uses 14 of them.)*
 
 ---
 
