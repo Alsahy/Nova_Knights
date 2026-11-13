@@ -3,27 +3,28 @@ import { copy } from '../content/copy';
 import { GLOSSARY } from '../content/glossary';
 import type { GameState, MissionId } from '../engine/types';
 import { Icon } from './components/Icon';
-import { engine, loadGame, newSeed, saveGame } from './engine';
+import { engine, loadGame, newSeed, saveGame, setTutorialDone, tutorialDone } from './engine';
 import { DataSources } from './screens/DataSources';
 import { Debrief } from './screens/Debrief';
 import { Game } from './screens/Game';
 import { SettingsScreen } from './screens/Settings';
-import { Briefing, MissionSelect } from './screens/Start';
+import { Briefing } from './screens/Start';
 import { Title } from './screens/Title';
 import { applySettings, loadSettings, saveSettings, type Settings } from './settings';
 
 export type Screen =
   'title' | 'sources' | 'settings' | 'missions' | 'briefing' | 'game' | 'debrief';
 
+/** D-021: one game, no difficulty choice: Storm from the Sun (calm sols + the real May 2024 storm). */
+const THE_MISSION: MissionId = 'M3';
+
 export function App() {
   const [screen, setScreen] = useState<Screen>('title');
   const [settings, setSettings] = useState<Settings>(loadSettings);
   const [game, setGame] = useState<GameState | null>(null);
   const [saved, setSaved] = useState<GameState | null>(loadGame);
-  const [setup, setSetup] = useState<{ mission: MissionId; seed: number }>({
-    mission: 'M1',
-    seed: newSeed(),
-  });
+  const [seed, setSeed] = useState<number>(newSeed);
+  const [withTutorial, setWithTutorial] = useState(!tutorialDone());
   const [modal, setModal] = useState<'help' | 'menu' | null>(null);
 
   useEffect(() => {
@@ -42,8 +43,8 @@ export function App() {
     return () => window.removeEventListener('keydown', onKey);
   }, [modal]);
 
-  const start = (mission: MissionId, seed: number) => {
-    const s = engine.newGame({ mission, tier: 'cadet', seed });
+  const start = (s0: number) => {
+    const s = engine.newGame({ mission: THE_MISSION, tier: 'cadet', seed: s0 });
     saveGame(s);
     setGame(s);
     setScreen('game');
@@ -60,7 +61,12 @@ export function App() {
       <div class="mars-bg" aria-hidden="true" />
       {screen === 'title' && (
         <Title
-          go={setScreen}
+          go={(sc: Screen) => {
+            if (sc === 'missions') {
+              setSeed(newSeed());
+              setScreen('briefing');
+            } else setScreen(sc);
+          }}
           saved={saved}
           onContinue={() => {
             if (saved) {
@@ -70,27 +76,23 @@ export function App() {
           }}
         />
       )}
-      {screen === 'missions' && (
-        <MissionSelect
-          back={() => setScreen('title')}
-          onPick={(m) => {
-            setSetup({ mission: m, seed: newSeed() });
-            setScreen('briefing');
-          }}
-        />
-      )}
       {screen === 'briefing' && (
         <Briefing
-          mission={setup.mission}
-          seed={setup.seed}
-          onStart={() => start(setup.mission, setup.seed)}
-          back={() => setScreen('missions')}
+          mission={THE_MISSION}
+          seed={seed}
+          onStart={() => start(seed)}
+          back={() => setScreen('title')}
         />
       )}
       {screen === 'game' && game && (
         <Game
-          key={`${game.seed}-${game.mission}`}
+          key={`${game.seed}-${game.mission}-${withTutorial}`}
           initial={game}
+          tutorial={withTutorial && game.sol <= 1}
+          onTutorialEnd={() => {
+            setTutorialDone(true);
+            setWithTutorial(false);
+          }}
           onEnd={(s) => {
             setGame(s);
             setSaved(null);
@@ -101,11 +103,7 @@ export function App() {
         />
       )}
       {screen === 'debrief' && game && (
-        <Debrief
-          s={game}
-          onAgain={() => start(game.mission, game.seed)}
-          onNew={() => setScreen('missions')}
-        />
+        <Debrief s={game} onAgain={() => start(game.seed)} onNew={() => start(newSeed())} />
       )}
       {screen === 'sources' && <DataSources back={() => setScreen('title')} />}
       {screen === 'settings' && (
@@ -116,6 +114,8 @@ export function App() {
           onReset={() => {
             saveGame(null);
             setSaved(null);
+            setTutorialDone(false);
+            setWithTutorial(true);
           }}
         />
       )}
@@ -147,9 +147,22 @@ export function App() {
                     ))}
                   </dl>
                 </details>
-                <button class="btn btn-go" onClick={() => setModal(null)} autoFocus>
-                  {copy.ui.close}
-                </button>
+                <div class="briefing-actions">
+                  <button
+                    class="btn"
+                    onClick={() => {
+                      setModal(null);
+                      setTutorialDone(false);
+                      setWithTutorial(true);
+                      start(newSeed());
+                    }}
+                  >
+                    {copy.ui.tutReplay}
+                  </button>
+                  <button class="btn btn-go" onClick={() => setModal(null)} autoFocus>
+                    {copy.ui.close}
+                  </button>
+                </div>
               </>
             ) : (
               <>

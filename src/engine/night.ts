@@ -28,7 +28,7 @@ export function runNight(s: GameState, content: Content, mission: Mission): void
     log(s, 'info', 'log.later', { source: d.source });
   }
   // 5. greenhouse
-  growCrops(s);
+  growCrops(s, content);
   // 6. wear, dust and background-dose timers (dust stacks are added in the morning, D-004)
   if (s.sol >= s.timers.lsWearSol) {
     changeSystem(s, 'LS', -1);

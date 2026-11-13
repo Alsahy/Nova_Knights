@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 324" width="760" height="324" role="img" aria-label="Average radiation badge at the end (M3, red at 7)" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+  <rect width="760" height="324" fill="#ffffff"/>
+  <text x="24" y="36" font-size="20" font-weight="700" fill="#1b1b2f">Average radiation badge at the end (M3, red at 7)</text>
+  <line x1="250" y1="58" x2="250" y2="284" stroke="#e3e1dc" stroke-width="1"/>
+  <text x="250" y="306" font-size="13" fill="#5a5a6e" text-anchor="middle">0</text>
+  <line x1="360" y1="58" x2="360" y2="284" stroke="#e3e1dc" stroke-width="1"/>
+  <text x="360" y="306" font-size="13" fill="#5a5a6e" text-anchor="middle">3</text>
+  <line x1="470" y1="58" x2="470" y2="284" stroke="#e3e1dc" stroke-width="1"/>
+  <text x="470" y="306" font-size="13" fill="#5a5a6e" text-anchor="middle">5</text>
+  <line x1="580" y1="58" x2="580" y2="284" stroke="#e3e1dc" stroke-width="1"/>
+  <text x="580" y="306" font-size="13" fill="#5a5a6e" text-anchor="middle">8</text>
+  <line x1="690" y1="58" x2="690" y2="284" stroke="#e3e1dc" stroke-width="1"/>
+  <text x="690" y="306" font-size="13" fill="#5a5a6e" text-anchor="middle">10</text>
+  <text x="238" y="92" font-size="15" fill="#1b1b2f" text-anchor="end">Random</text>
+  <path d="M250 72 h239.93599999999998 a4 4 0 0 1 4 4 v20 a4 4 0 0 1 -4 4 h-239.93599999999998 z" fill="#2a6fb0"/>
+  <text x="501.936" y="91" font-size="15" font-weight="700" fill="#1b1b2f">5.5</text>
+  <text x="238" y="136" font-size="15" fill="#1b1b2f" text-anchor="end">Max shield</text>
+  <path d="M250 116 h194.66 a4 4 0 0 1 4 4 v20 a4 4 0 0 1 -4 4 h-194.66 z" fill="#2a6fb0"/>
+  <text x="456.65999999999997" y="135" font-size="15" font-weight="700" fill="#1b1b2f">4.5</text>
+  <text x="238" y="180" font-size="15" fill="#1b1b2f" text-anchor="end">Max science (never repairs)</text>
+  <path d="M250 160 h357.196 a4 4 0 0 1 4 4 v20 a4 4 0 0 1 -4 4 h-357.196 z" fill="#2a6fb0"/>
+  <text x="619.196" y="179" font-size="15" font-weight="700" fill="#1b1b2f">8.2</text>
+  <text x="238" y="224" font-size="15" fill="#1b1b2f" text-anchor="end">Balanced</text>
+  <path d="M250 204 h277.864 a4 4 0 0 1 4 4 v20 a4 4 0 0 1 -4 4 h-277.864 z" fill="#2a6fb0"/>
+  <text x="539.864" y="223" font-size="15" font-weight="700" fill="#1b1b2f">6.4</text>
+  <text x="238" y="268" font-size="15" fill="#1b1b2f" text-anchor="end">Best move (lookahead)</text>
+  <path d="M250 248 h282.79200000000003 a4 4 0 0 1 4 4 v20 a4 4 0 0 1 -4 4 h-282.79200000000003 z" fill="#2a6fb0"/>
+  <text x="544.792" y="267" font-size="15" font-weight="700" fill="#1b1b2f">6.5</text>
+</svg>

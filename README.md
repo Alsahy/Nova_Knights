@@ -8,6 +8,8 @@ Made by **Team Nova Knights** for the **NASA Space Apps Challenge 2026** (Cairo)
 
 - **Play:** `https://<user>.github.io/mars-base-adventure/` *(the live URL is added once the repo is on GitHub)*
 - No download, no login, no tracking. Works on phones and classroom projectors.
+- **One game, about 10 minutes:** *Storm from the Sun*. A guided first day teaches the buttons. Each day: give each astronaut a job, handle one surprise, read the night report. Calm days plus a real solar storm from May 2024 (NASA DONKI archive).
+- **Balance proof:** `npm run sim -- --report` plays thousands of games with 5 strategies → [`docs/balance-report.md`](docs/balance-report.md).
 
 ## Real NASA data
 - **DONKI** space-weather database (CCMC): real solar flares, particle storms and solar clouds, including the May 2024 storms. Archived snapshots are labelled *"ARCHIVED – fetched on <date>"*.

@@ -49,7 +49,10 @@ export function applyStorm(s: GameState, S: number, mode: StormMode): number {
 export function applyEvaDose(s: GameState, people: number): number {
   let total = 0;
   for (let i = 0; i < people; i++) if (chance(s.rng, EVA_DOSE_CHANCE)) total += 1;
-  return total > 0 ? changeStat(s, 'DOSE', total) : 0;
+  if (total === 0) return 0;
+  const real = changeStat(s, 'DOSE', total);
+  if (real > 0) log(s, 'dose', 'log.evaDose', { dose: real }); // D-025: show why the badge went up
+  return real;
 }
 
 /** Background dose timer (spec §2.6 + D-007). Called at night. */

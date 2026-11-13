@@ -1,17 +1,18 @@
 /**
- * The cockpit, simplified (lead feedback): top bar · "Our base" on the LEFT · the current step in the centre · console.
- * D-020: no morning or power screens; the UI steps through them automatically. A power shortage still
- * shows PW-08 as a card, and Morning news (briefing) cards still show.
+ * The cockpit (D-020…D-024): top bar · "Our base" LEFT · the current step in the centre · "Our crew" RIGHT · console.
+ * No morning or power screens (auto-advance); jobs one astronaut at a time; a guided first sol (tutorial).
  */
 import { useEffect, useMemo, useState } from 'preact/hooks';
 import { CONTENT } from '../../content';
-import type { AstronautId, CardView, Command, GameState } from '../../engine/types';
+import type { AstronautId, CardView, Command, GameState, Role } from '../../engine/types';
 import { Icon } from '../components/Icon';
-import { BasePanel, TopBar, type Preview } from '../components/Panels';
+import { BasePanel, CrewPanel, TopBar, type Preview } from '../components/Panels';
+import { Tutorial } from '../components/Tutorial';
 import { engine, saveGame } from '../engine';
 import { ui } from '../text';
 import { EventPanel, JobsPanel, NightReport } from './Phases';
 
+const ROLES: Role[] = ['MGR', 'ENG', 'MED', 'RES'];
 const PREVIEW_KEYS = new Set([
   'LS',
   'SH',
@@ -53,30 +54,45 @@ export function autoAdvance(s0: GameState): GameState {
   return s;
 }
 
+const freeCrew = (s: GameState) =>
+  ROLES.filter((r) => {
+    const a = s.astronauts.find((x) => x.id === r)!;
+    return a.sickBaySols === 0 && a.busyUntilSol < s.sol;
+  });
+const firstUnassigned = (s: GameState): AstronautId | null =>
+  freeCrew(s).find((r) => !s.astronauts.find((x) => x.id === r)!.plannedTask) ?? null;
+
 export function Game(props: {
   initial: GameState;
+  tutorial: boolean;
+  onTutorialEnd: () => void;
   onEnd: (s: GameState) => void;
   onMenu: () => void;
   onHelp: () => void;
 }) {
   const [s, setS] = useState<GameState>(() => autoAdvance(props.initial));
   const [selected, setSelected] = useState<string | null>(null);
+  const [current, setCurrent] = useState<AstronautId | null>(() => firstUnassigned(s));
+  const [tutorial, setTutorial] = useState(props.tutorial);
 
   const dispatch = (cmd: Command) => {
     const next = autoAdvance(engine.reduce(s, cmd));
     setS(next);
     setSelected(null);
+    if (next.phase === 'tasks' && (s.phase !== 'tasks' || next.sol !== s.sol))
+      setCurrent(firstUnassigned(next));
     saveGame(next.phase === 'ended' ? null : next);
     if (next.phase === 'ended') props.onEnd(next);
   };
 
   useEffect(() => {
-    document.querySelector<HTMLElement>('.holo h2')?.focus();
-  }, [s.phase, s.sol, s.pending?.eventId]);
+    if (!tutorial) document.querySelector<HTMLElement>('.holo h2')?.focus();
+  }, [s.phase, s.sol, s.pending?.eventId, current]);
 
   const hud = useMemo(() => engine.hud(s), [s]);
   const cards = useMemo(() => (s.pending ? engine.shownCards(s) : []), [s]);
   const preview = previewOf(cards.find((c) => c.id === selected));
+  const allAssigned = freeCrew(s).every((r) => s.astronauts.find((x) => x.id === r)!.plannedTask);
 
   let center;
   let action: { label: string; cmd: Command | null };
@@ -90,12 +106,16 @@ export function Game(props: {
     center = (
       <JobsPanel
         s={s}
-        onPlan={(a: AstronautId, t: string | null) =>
-          dispatch({ type: 'PLAN_TASK', astronaut: a, taskId: t })
-        }
+        current={current}
+        setCurrent={setCurrent}
+        onPlan={(a: AstronautId, t: string | null) => {
+          const next = engine.reduce(s, { type: 'PLAN_TASK', astronaut: a, taskId: t });
+          setS(next);
+          saveGame(next);
+        }}
       />
     );
-    action = { label: ui.toEvent, cmd: { type: 'CONFIRM_TASKS' } };
+    action = { label: ui.toEvent, cmd: allAssigned ? { type: 'CONFIRM_TASKS' } : null };
   } else {
     center = <NightReport s={s} />;
     action = { label: ui.nextSol, cmd: { type: 'CONTINUE' } };
@@ -106,6 +126,12 @@ export function Game(props: {
       <TopBar h={hud} missionName={CONTENT.missions[s.mission]?.name ?? ''} />
       <BasePanel s={s} h={hud} preview={preview} />
       <main class="center">{center}</main>
+      <CrewPanel
+        s={s}
+        h={hud}
+        preview={preview}
+        current={s.phase === 'tasks' && !s.pending ? current : null}
+      />
       <nav class="console" aria-label="Game controls">
         <button class="btn" onClick={props.onHelp} aria-label={ui.howToPlay}>
           <Icon name="HELP" /> <span class="hide-sm">{ui.howToPlay}</span>
@@ -121,6 +147,15 @@ export function Game(props: {
           <Icon name="MENU" /> <span class="hide-sm">{ui.menu}</span>
         </button>
       </nav>
+      {tutorial && (
+        <Tutorial
+          ctx={{ s, selected, current }}
+          onEnd={() => {
+            setTutorial(false);
+            props.onTutorialEnd();
+          }}
+        />
+      )}
     </div>
   );
 }

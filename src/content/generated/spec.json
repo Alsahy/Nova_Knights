@@ -1,5 +1,5 @@
 {
-  "specVersion": "0.5",
+  "specVersion": "0.6",
   "events": [
     {
       "id": "SW-01",
@@ -2466,7 +2466,7 @@
       },
       "notes": [],
       "extra": [
-        "*8-sol missions (D-014):* peppers (⏳9) can't ripen, so FD-01 shows **lettuce (a) vs radishes (c)** instead; in Cadet these are the two shown cards. *Cadet pollination (D-014):* Cadet never sees FD-02, so pepper pollination is automatic and the harvest is `FOOD+8` as in FD-01.b.",
+        "*Missions of 10 sols or fewer (D-014 + D-025):* peppers (⏳9) can't pay off, so FD-01 shows **lettuce (a) vs radishes (c)** instead; in Cadet these are the two shown cards. If FD-05 is outside the mission's scope, a pepper harvest gives `FOOD+8` directly. *Cadet pollination (D-014):* Cadet never sees FD-02, so pepper pollination is automatic and the harvest is `FOOD+8` as in FD-01.b.",
         "*Morning Briefing (D-004):* re-planting FD-01 appears as the Morning Briefing card. If it is bumped by another briefing, the same crop is replanted automatically."
       ],
       "cards": [

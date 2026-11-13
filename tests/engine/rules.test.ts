@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { CONTENT } from '../../src/content';
+import { growCrops } from '../../src/engine/greenhouse';
+import { applyEvaDose } from '../../src/engine/radiation';
 import { upkeep, sickBayCheck } from '../../src/engine/crew';
 import { buildDeck, selectBriefing, selectEvent } from '../../src/engine/deck';
 import { checkEndings } from '../../src/engine/endings';
@@ -359,5 +361,33 @@ describe('kid scope (D-018, D-019)', () => {
     const b = E.shownCards(s).find((c) => c.id === 'LS-03.b')!;
     expect(b.later.some((ch) => ch.label === 'chip.trigger')).toBe(false);
     expect(b.risk).toBeUndefined();
+  });
+});
+
+describe('kid critique fixes (D-025)', () => {
+  it('the 10-sol game plants lettuce vs radishes (peppers could not pay off)', () => {
+    const s = E.newGame({ mission: 'M3', tier: 'cadet', seed: 5 });
+    expect(s.pending?.offered).toEqual(['FD-01.a', 'FD-01.c']);
+  });
+  it('peppers give food when Taco Night is outside the scope', () => {
+    const s = fresh();
+    s.crop = {
+      kind: 'pepper',
+      plantedSol: 0,
+      readySol: s.sol,
+      tended: true,
+      tendedByRes: false,
+      delayedUntended: false,
+    };
+    const food = s.supplies.FOOD;
+    growCrops(s, CONTENT);
+    expect(s.supplies.FOOD).toBe(food + 8);
+    expect(s.queue.some((q) => q.eventId === 'FD-05')).toBe(false);
+  });
+  it('trips outside say why the badge went up', () => {
+    const s = fresh();
+    let real = 0;
+    for (let i = 0; i < 20 && real === 0; i++) real = applyEvaDose(s, 1);
+    expect(s.log.some((l) => l.key === 'log.evaDose')).toBe(true);
   });
 });

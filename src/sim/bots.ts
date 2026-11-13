@@ -1,4 +1,8 @@
-/** Bots for the simulator (Phase 2: random + a simple balanced bot; Phase 5 adds max-shield / max-science). */
+/**
+ * Bots for the balance simulator (PLAN Phase 5): random · maxShield · maxScience (never repairs) ·
+ * balanced (danger thresholds) · bestMove (1-step lookahead on a state value).
+ * Bots use their OWN seeded RNG, so the game's RNG stream is the same for a given game seed.
+ */
 import { createRng, int, next } from '../engine/rng';
 import type { Engine } from '../engine';
 import type {
@@ -16,77 +20,198 @@ export interface Bot {
   plan(s: GameState, a: AstronautId, options: TaskOption[], e: Engine): string | null;
 }
 
+const ok = (cards: CardView[]) => {
+  const a = cards.filter((c) => c.affordable);
+  return a.length ? a : cards;
+};
+
+/** Sum of a card's chip amounts for some icons (costs and gains). */
+function score(c: CardView, weights: Partial<Record<string, number>>, riskWeight = 0.5): number {
+  let v = 0;
+  for (const ch of [...c.costs, ...c.effects, ...c.later]) {
+    const w = weights[ch.icon] ?? 0;
+    const amt = ch.amount ?? (ch.icon === 'DOSE' ? 1 : 0);
+    const sign = ch.icon === 'DOSE' && ch.amount === undefined ? 1 : 1;
+    v += w * amt * sign * (ch.tone === 'risk' ? riskWeight : 1);
+  }
+  return v;
+}
+
+const pick = (options: TaskOption[], order: string[]): string | null => {
+  const allowed = new Set(options.filter((o) => o.allowed).map((o) => o.taskId));
+  return order.find((t) => allowed.has(t)) ?? null;
+};
+
 export function randomBot(seed: number): Bot {
   const r: RngState = createRng(seed ^ 0x9e3779b9);
   return {
     name: 'random',
     choose: (_s, cards) => {
-      const ok = cards.filter((c) => c.affordable);
-      return (ok.length ? ok : cards)[int(r, (ok.length ? ok : cards).length)]!.id;
+      const c = ok(cards);
+      return c[int(r, c.length)]!.id;
     },
     plan: (_s, _a, options) => {
-      const ok = options.filter((o) => o.allowed);
-      if (!ok.length || next(r) < 0.1) return null;
-      return ok[int(r, ok.length)]!.taskId;
+      const allowed = options.filter((o) => o.allowed);
+      if (!allowed.length || next(r) < 0.05) return null;
+      return allowed[int(r, allowed.length)]!.taskId;
     },
   };
 }
 
-const value = (c: CardView): number => {
-  let v = 0;
-  for (const ch of [...c.costs, ...c.later]) {
-    const w =
-      ch.icon === 'DOSE'
-        ? 3
-        : ch.icon === 'LS'
-          ? 2
-          : ch.icon === 'EN' || ch.icon === 'AIR'
-            ? 0.25
-            : ch.icon === 'LOST'
-              ? 0.8
-              : 1;
-    v -= Math.abs(ch.amount ?? 1) * w * (ch.tone === 'risk' ? (c.risk?.pct ?? 50) / 100 : 1);
-  }
-  for (const ch of c.effects) {
-    const w = ch.icon === 'SP' ? 1.5 : ch.icon === 'LS' ? 1.5 : ch.icon === 'EN' ? 0.25 : 1;
-    v += Math.abs(ch.amount ?? 1) * w;
-  }
-  return v;
-};
+export function maxShieldBot(): Bot {
+  const w = { SH: 3, DOSE: -4, LS: 1, EN: 0.1, SP: 0.2, LOST: 0 };
+  return {
+    name: 'maxShield',
+    choose: (_s, cards) => ok(cards).reduce((b, c) => (score(c, w) > score(b, w) ? c : b)).id,
+    plan: (s, a, options) => {
+      if (s.crew.EN <= 6) return pick(options, ['T-REST']);
+      const order: Record<AstronautId, string[]> = {
+        MGR: ['T-SEND', 'T-GARDEN', 'T-REST'],
+        ENG: s.crew.DOSE < 5 ? ['T-SHIELD', 'T-MAINT-LS', 'T-REST'] : ['T-MAINT-LS', 'T-REST'],
+        MED: ['T-TREAT', 'T-LAB', 'T-GARDEN', 'T-REST'],
+        RES: ['T-LAB', 'T-GARDEN', 'T-REST'],
+      };
+      return pick(options, order[a]);
+    },
+  };
+}
+
+export function maxScienceBot(): Bot {
+  const w = { SP: 3, EN: 0.05, DOSE: 0, LS: 0, PARTS: 0 };
+  return {
+    name: 'maxScience',
+    choose: (_s, cards) => ok(cards).reduce((b, c) => (score(c, w) > score(b, w) ? c : b)).id,
+    plan: (s, a, options) => {
+      const order: Record<AstronautId, string[]> = {
+        MGR: [s.sp.pending > 0 ? 'T-SEND' : 'T-PEP', 'T-PEP', 'T-REST'],
+        ENG: ['T-PANELS', 'T-REST'], // never repairs
+        MED: ['T-LAB', 'T-REST'],
+        RES: ['T-EVA-SCI', 'T-LAB', 'T-REST'],
+      };
+      return pick(options, order[a]);
+    },
+  };
+}
 
 export function balancedBot(): Bot {
   return {
     name: 'balanced',
-    choose: (_s, cards) => {
-      const ok = cards.filter((c) => c.affordable);
-      const pool = ok.length ? ok : cards;
-      return pool.reduce((best, c) => (value(c) > value(best) ? c : best)).id;
+    choose: (s, cards) => {
+      const danger = {
+        LS: s.systems.LS <= 4 ? 3 : 1.5,
+        DOSE: s.crew.DOSE >= 4 ? -4 : -2,
+        SP: 1.5,
+        EN: s.crew.EN <= 6 ? 0.6 : 0.25,
+      };
+      const w = {
+        ...danger,
+        SH: 1,
+        BAT: 0.5,
+        PWR: 0.4,
+        FOOD: 0.2,
+        H2O: 0.3,
+        O2T: 0.8,
+        PARTS: 0.6,
+        AIR: 0.2,
+        LOST: -0.3,
+      };
+      return ok(cards).reduce((b, c) => (score(c, w, 0.4) > score(b, w, 0.4) ? c : b)).id;
     },
     plan: (s, a, options) => {
-      const ok = new Set(options.filter((o) => o.allowed && !o.fallback).map((o) => o.taskId));
-      const want: string[] = [];
-      if (s.crew.EN <= 8) want.push('T-REST');
-      if (a === 'MED') want.push('T-TREAT');
-      if (s.sp.pending >= 3 || (s.sol >= s.lastSol - 1 && s.sp.pending > 0)) want.push('T-SEND');
-      if (a === 'ENG' && s.systems.LS <= 6) want.push('T-MAINT-LS');
-      if (a === 'ENG' && s.systems.LAB <= 4) want.push('T-MAINT-LAB');
-      if (a === 'RES') want.push('T-LAB', 'T-KIT');
-      if (a === 'MGR') want.push('T-GARDEN', 'T-KIT', 'T-LAB');
-      if (a === 'ENG') want.push('T-PANELS', 'T-LAB');
-      if (a === 'MED') want.push('T-KIT', 'T-LAB', 'T-REST');
-      want.push('T-REST');
-      return want.find((t) => ok.has(t)) ?? null;
+      if (s.crew.EN <= 8) return pick(options, ['T-REST']);
+      const lastSols = s.sol >= s.lastSol - 1;
+      const order: Record<AstronautId, string[]> = {
+        MGR: [
+          s.sp.pending >= 3 || (lastSols && s.sp.pending > 0) ? 'T-SEND' : 'T-GARDEN',
+          'T-GARDEN',
+          'T-PEP',
+          'T-REST',
+        ],
+        ENG: [
+          s.systems.LS <= 6 ? 'T-MAINT-LS' : s.dust.stacks > 0 ? 'T-PANELS' : 'T-SHIELD',
+          'T-MAINT-LS',
+          'T-REST',
+        ],
+        MED: ['T-TREAT', 'T-LAB', 'T-GARDEN', 'T-REST'],
+        RES: [s.crew.DOSE >= 5 ? 'T-LAB' : 'T-EVA-SCI', 'T-LAB', 'T-REST'],
+      };
+      return pick(options, order[a]);
     },
   };
 }
 
-/** Play until the game ends. Returns the final state. */
-export function playGame(e: Engine, s0: GameState, bot: Bot, maxSteps = 2000): GameState {
+/** State value for the 1-step lookahead (higher is better). */
+export function value(s: GameState): number {
+  const dosePenalty = s.crew.DOSE * 2 + (s.crew.DOSE >= 7 ? 15 : 0);
+  return (
+    s.sp.banked * 3 +
+    s.sp.pending * 1.5 +
+    s.systems.LS * 2 +
+    s.systems.SH +
+    s.systems.BAT * 0.5 +
+    s.crew.EN * 0.3 +
+    s.supplies.PARTS * 0.6 +
+    s.supplies.O2T * 0.8 +
+    s.supplies.FOOD * 0.05 +
+    s.supplies.H2O * 0.2 -
+    dosePenalty -
+    s.astronauts.filter((x) => x.sickBaySols > 0).length * 4 -
+    Object.keys(s.flags).filter((f) => f.startsWith('broken:')).length * 3
+  );
+}
+
+export function bestMoveBot(): Bot {
+  const fallback = balancedBot();
+  return {
+    name: 'bestMove',
+    choose: (s, cards, e) => {
+      let best = ok(cards)[0]!;
+      let bestV = -Infinity;
+      for (const c of ok(cards)) {
+        const v = value(e.reduce(s, { type: 'CHOOSE', actionId: c.id }));
+        if (v > bestV) {
+          bestV = v;
+          best = c;
+        }
+      }
+      return best.id;
+    },
+    plan: fallback.plan,
+  };
+}
+
+export function makeBot(name: string, seed: number): Bot {
+  switch (name) {
+    case 'maxShield':
+      return maxShieldBot();
+    case 'maxScience':
+      return maxScienceBot();
+    case 'balanced':
+      return balancedBot();
+    case 'bestMove':
+      return bestMoveBot();
+    default:
+      return randomBot(seed);
+  }
+}
+export const ALL_BOTS = ['random', 'maxShield', 'maxScience', 'balanced', 'bestMove'] as const;
+
+/** Play until the game ends. `onChoose` sees every card choice (for coverage). */
+export function playGame(
+  e: Engine,
+  s0: GameState,
+  bot: Bot,
+  onChoose?: (s: GameState, id: string) => void,
+  maxSteps = 3000,
+): GameState {
   let s = s0;
   for (let i = 0; i < maxSteps && s.phase !== 'ended'; i++) {
     let cmd: Command;
-    if (s.pending) cmd = { type: 'CHOOSE', actionId: bot.choose(s, e.shownCards(s), e) };
-    else if (s.phase === 'morning' || s.phase === 'night') cmd = { type: 'CONTINUE' };
+    if (s.pending) {
+      const id = bot.choose(s, e.shownCards(s), e);
+      onChoose?.(s, id);
+      cmd = { type: 'CHOOSE', actionId: id };
+    } else if (s.phase === 'morning' || s.phase === 'night') cmd = { type: 'CONTINUE' };
     else if (s.phase === 'power') cmd = { type: 'CONFIRM_POWER' };
     else if (s.phase === 'tasks') {
       for (const a of s.astronauts) {
@@ -96,10 +221,10 @@ export function playGame(e: Engine, s0: GameState, bot: Bot, maxSteps = 2000): G
       }
       cmd = { type: 'CONFIRM_TASKS' };
     } else throw new Error(`bot stuck in phase ${s.phase}`);
-    const next = e.reduce(s, cmd);
-    if (JSON.stringify(next) === JSON.stringify(s))
+    const nxt = e.reduce(s, cmd);
+    if (JSON.stringify(nxt) === JSON.stringify(s))
       throw new Error(`no progress at sol ${s.sol} phase ${s.phase} cmd ${JSON.stringify(cmd)}`);
-    s = next;
+    s = nxt;
   }
   if (s.phase !== 'ended') throw new Error('game did not end');
   return s;

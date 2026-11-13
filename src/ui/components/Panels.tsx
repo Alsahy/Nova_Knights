@@ -1,9 +1,13 @@
-/** Top bar + the "Our base" resources board on the LEFT (lead feedback, D-020). Few words, big bars. */
-import type { GameState, Hud as HudT } from '../../engine/types';
+/**
+ * Top bar · "Our base" (resources, LEFT) · "Our crew" (astronauts + the bars they share, RIGHT) — D-023.
+ */
+import type { AstronautId, GameState, Hud as HudT, Role } from '../../engine/types';
+import { Avatar } from './Avatar';
 import { Icon, type UiIcon } from './Icon';
 import { fill, signed, ui } from '../text';
 
 export type Preview = Record<string, number>;
+const ROLES: Role[] = ['MGR', 'ENG', 'MED', 'RES'];
 
 function Delta({ k, preview }: { k: string; preview: Preview }) {
   const d = preview[k];
@@ -14,13 +18,13 @@ function Delta({ k, preview }: { k: string; preview: Preview }) {
 export function Meter(props: {
   icon: UiIcon;
   label: string;
+  short?: string;
   value: number;
   max: number;
   color: string;
   k: string;
   preview: Preview;
   sub?: string;
-  short?: string;
 }) {
   const pct = Math.max(0, Math.min(100, (100 * props.value) / props.max));
   const hl = props.preview[props.k];
@@ -93,7 +97,7 @@ export function BasePanel({ s, h, preview }: { s: GameState; h: HudT; preview: P
         <Meter
           icon="LS"
           label={ui.lifeSupport}
-          short={ui.air}
+          short={ui.lifeShort}
           value={h.core.LS}
           max={10}
           color="var(--blue)"
@@ -121,39 +125,18 @@ export function BasePanel({ s, h, preview }: { s: GameState; h: HudT; preview: P
           k="SH"
           preview={preview}
         />
-        <Meter
-          icon="EN"
-          label={ui.energy}
-          short={ui.energy}
-          value={h.crew.EN}
-          max={h.crew.ENMAX}
-          color="var(--orange)"
-          k="EN"
-          preview={preview}
-        />
       </div>
       <div class={`badge badge-${h.crew.badge} ${preview['DOSE'] ? 'hl-down' : ''}`}>
         <Icon name="DOSE" size={20} />
         <span>
           {ui.badge}: <b>{badgeWord}</b> <span class="num small">({h.crew.DOSE}/10)</span>
+          <span class="small muted badge-hint">{ui.badgeRedAt}</span>
         </span>
         <Delta k="DOSE" preview={preview} />
       </div>
       <details class="supplies">
         <summary>{ui.more}</summary>
         <ul>
-          <li>
-            <Icon name="FUL" size={16} /> {ui.food}: <b class="num">{h.crew.FUL}/20</b>
-            <Delta k="FUL" preview={preview} />
-          </li>
-          <li>
-            <Icon name="HYD" size={16} /> {ui.water}: <b class="num">{h.crew.HYD}/20</b>
-            <Delta k="HYD" preview={preview} />
-          </li>
-          <li>
-            <Icon name="AIR" size={16} /> {ui.air}: <b class="num">{h.crew.AIR}/20</b>
-            <Delta k="AIR" preview={preview} />
-          </li>
           {(Object.keys(h.supplies) as (keyof typeof h.supplies)[]).map((k) => (
             <li key={k}>
               <Icon name={k} size={16} /> {ui.supplyNames[k]}: <b class="num">{h.supplies[k]}</b>
@@ -176,6 +159,92 @@ export function BasePanel({ s, h, preview }: { s: GameState; h: HudT; preview: P
           )}
         </ul>
       </details>
+    </aside>
+  );
+}
+
+/** The crew on the RIGHT: who they are, what they do today, and the 4 bars they share (D-017). */
+export function CrewPanel({
+  s,
+  h,
+  preview,
+  current,
+}: {
+  s: GameState;
+  h: HudT;
+  preview: Preview;
+  current?: AstronautId | null;
+}) {
+  return (
+    <aside class="panel glass crew-panel" aria-label={ui.crew}>
+      <h2 class="panel-title">{ui.crew}</h2>
+      <ul class="crew-list">
+        {ROLES.map((r) => {
+          const a = h.astronauts.find((x) => x.id === r)!;
+          const away = a.sickBaySols > 0;
+          return (
+            <li key={r} class={`crew-row ${current === r ? 'current' : ''}`}>
+              <Avatar role={r} size={42} dim={away} />
+              <div class="crew-id">
+                <b>{a.callSign}</b>
+                <span class="small muted">
+                  {away
+                    ? fill(ui.inSickBay, { n: a.sickBaySols })
+                    : a.plannedTask
+                      ? (ui.jobNames[a.plannedTask] ?? a.plannedTask)
+                      : ui.roleNames[r]}
+                </span>
+              </div>
+              {a.plannedTask && !away && (
+                <Icon name="CHECK" size={18} color="var(--green)" label={ui.chosen} />
+              )}
+            </li>
+          );
+        })}
+      </ul>
+      <h3 class="panel-sub">{ui.sharedBars}</h3>
+      <div class="crew-bars">
+        <Meter
+          icon="EN"
+          label={ui.energy}
+          short={ui.energy}
+          value={h.crew.EN}
+          max={h.crew.ENMAX}
+          color="var(--orange)"
+          k="EN"
+          preview={preview}
+        />
+        <Meter
+          icon="FUL"
+          label={ui.food}
+          short={ui.food}
+          value={h.crew.FUL}
+          max={20}
+          color="var(--amber)"
+          k="FUL"
+          preview={preview}
+        />
+        <Meter
+          icon="HYD"
+          label={ui.water}
+          short={ui.water}
+          value={h.crew.HYD}
+          max={20}
+          color="var(--blue)"
+          k="HYD"
+          preview={preview}
+        />
+        <Meter
+          icon="AIR"
+          label={ui.air}
+          short={ui.air}
+          value={h.crew.AIR}
+          max={20}
+          color="var(--sky)"
+          k="AIR"
+          preview={preview}
+        />
+      </div>
     </aside>
   );
 }

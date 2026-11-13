@@ -1,0 +1,237 @@
+{
+ "games": 1000,
+ "seedStart": 1,
+ "reports": [
+  {
+   "mission": "M3",
+   "tier": "cadet",
+   "bots": [
+    {
+     "bot": "random",
+     "games": 1000,
+     "success": 593,
+     "safeReturn": 394,
+     "broughtHome": 13,
+     "reasons": {
+      "end.success": 593,
+      "end.highDose": 283,
+      "end.lowScience": 111,
+      "end.lsZero": 13
+     },
+     "avgSpBanked": 12.558,
+     "avgDose": 5.544,
+     "avgEvents": 11.132,
+     "minEvents": 7,
+     "maxEvents": 13,
+     "redBadgeRate": 0.31
+    },
+    {
+     "bot": "maxShield",
+     "games": 1000,
+     "success": 787,
+     "safeReturn": 20,
+     "broughtHome": 193,
+     "reasons": {
+      "end.success": 787,
+      "end.lsZero": 193,
+      "end.highDose": 20
+     },
+     "avgSpBanked": 21.342,
+     "avgDose": 4.515,
+     "avgEvents": 11.084,
+     "minEvents": 8,
+     "maxEvents": 13,
+     "redBadgeRate": 0.02
+    },
+    {
+     "bot": "maxScience",
+     "games": 1000,
+     "success": 76,
+     "safeReturn": 643,
+     "broughtHome": 281,
+     "reasons": {
+      "end.highDose": 643,
+      "end.success": 76,
+      "end.lsZero": 281
+     },
+     "avgSpBanked": 24.484,
+     "avgDose": 8.209,
+     "avgEvents": 10.646,
+     "minEvents": 7,
+     "maxEvents": 13,
+     "redBadgeRate": 0.838
+    },
+    {
+     "bot": "balanced",
+     "games": 1000,
+     "success": 540,
+     "safeReturn": 460,
+     "broughtHome": 0,
+     "reasons": {
+      "end.highDose": 460,
+      "end.success": 540
+     },
+     "avgSpBanked": 25.334,
+     "avgDose": 6.406,
+     "avgEvents": 11.137,
+     "minEvents": 8,
+     "maxEvents": 13,
+     "redBadgeRate": 0.46
+    },
+    {
+     "bot": "bestMove",
+     "games": 1000,
+     "success": 520,
+     "safeReturn": 480,
+     "broughtHome": 0,
+     "reasons": {
+      "end.highDose": 480,
+      "end.success": 520
+     },
+     "avgSpBanked": 24.826,
+     "avgDose": 6.518,
+     "avgEvents": 11.093,
+     "minEvents": 8,
+     "maxEvents": 13,
+     "redBadgeRate": 0.48
+    }
+   ],
+   "variety": {
+    "deckEvents": 10,
+    "seenEvents": 9,
+    "pct": 90,
+    "uniqueLists": 96,
+    "games": 100
+   },
+   "coverage": {
+    "cards": 20,
+    "chosen": 15,
+    "missing": [
+     "FD-01.c",
+     "PW-03.a",
+     "PW-08.a",
+     "PW-08.b",
+     "LS-05.b"
+    ]
+   },
+   "noFreeLunch": {
+    "cards": 30,
+    "withCost": 30,
+    "missing": []
+   }
+  },
+  {
+   "mission": "M1",
+   "tier": "cadet",
+   "bots": [
+    {
+     "bot": "random",
+     "games": 1000,
+     "success": 952,
+     "safeReturn": 38,
+     "broughtHome": 10,
+     "reasons": {
+      "end.success": 952,
+      "end.lowScience": 38,
+      "end.lsZero": 10
+     },
+     "avgSpBanked": 11.974,
+     "avgDose": 4.996,
+     "avgEvents": 7.712,
+     "minEvents": 5,
+     "maxEvents": 9,
+     "redBadgeRate": 0.197
+    },
+    {
+     "bot": "maxShield",
+     "games": 1000,
+     "success": 910,
+     "safeReturn": 0,
+     "broughtHome": 90,
+     "reasons": {
+      "end.success": 910,
+      "end.lsZero": 90
+     },
+     "avgSpBanked": 21.844,
+     "avgDose": 4.789,
+     "avgEvents": 7.954,
+     "minEvents": 5,
+     "maxEvents": 9,
+     "redBadgeRate": 0.021
+    },
+    {
+     "bot": "maxScience",
+     "games": 1000,
+     "success": 813,
+     "safeReturn": 0,
+     "broughtHome": 187,
+     "reasons": {
+      "end.success": 813,
+      "end.lsZero": 187
+     },
+     "avgSpBanked": 25.237,
+     "avgDose": 8.568,
+     "avgEvents": 7.666,
+     "minEvents": 4,
+     "maxEvents": 8,
+     "redBadgeRate": 0.886
+    },
+    {
+     "bot": "balanced",
+     "games": 1000,
+     "success": 1000,
+     "safeReturn": 0,
+     "broughtHome": 0,
+     "reasons": {
+      "end.success": 1000
+     },
+     "avgSpBanked": 24.167,
+     "avgDose": 6.55,
+     "avgEvents": 7.763,
+     "minEvents": 5,
+     "maxEvents": 9,
+     "redBadgeRate": 0.512
+    },
+    {
+     "bot": "bestMove",
+     "games": 1000,
+     "success": 1000,
+     "safeReturn": 0,
+     "broughtHome": 0,
+     "reasons": {
+      "end.success": 1000
+     },
+     "avgSpBanked": 23.39,
+     "avgDose": 6.504,
+     "avgEvents": 7.671,
+     "minEvents": 5,
+     "maxEvents": 9,
+     "redBadgeRate": 0.489
+    }
+   ],
+   "variety": {
+    "deckEvents": 8,
+    "seenEvents": 7,
+    "pct": 88,
+    "uniqueLists": 84,
+    "games": 100
+   },
+   "coverage": {
+    "cards": 16,
+    "chosen": 11,
+    "missing": [
+     "FD-01.c",
+     "PW-03.a",
+     "PW-08.a",
+     "PW-08.b",
+     "LS-05.b"
+    ]
+   },
+   "noFreeLunch": {
+    "cards": 24,
+    "withCost": 24,
+    "missing": []
+   }
+  }
+ ]
+}

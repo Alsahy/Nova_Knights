@@ -1,7 +1,12 @@
 # Junior Astronaut Mission Trainer: Mars Events & Action Cards
 
-**Version 0.5 (Mars only, kid scope) · 13 Nov 2026 · NASA Space Apps 2026 (Cairo)**
+**Version 0.6 (Mars only, one kid game) · 13 Nov 2026 · NASA Space Apps 2026 (Cairo)**
 This is the logic sketch for a card game where kids (7–12) run a **Mars outpost** with 4 astronauts and 4 systems. The theme and art will come later. The file lists every event, every choice, what each choice costs, and the real NASA fact behind it.
+
+> **What changed from v0.5** (lead feedback + kid critique, 13 Nov 2026)
+> - **D-021 One game.** Kids get one game with no difficulty choice: M3 *Storm from the Sun* (calm sols + the real May 2024 storm). M1 stays in the design as the full-rules tutorial reference.
+> - **D-022 Guided first sol** (tutorial that highlights each part). **D-023** base resources on the left, crew on the right. **D-024** crew jobs are picked one astronaut at a time. (UI decisions; no rule changes.)
+> - **D-025 Kid-critique fixes.** Missions of **10 sols or fewer** plant lettuce vs radishes (peppers can't pay off; extends D-014). In the kid scope (no FD-05) a pepper harvest gives `FOOD+8` directly. Trips outside now say in the night report that the badge went up.
 
 > **What changed from v0.4** (lead decisions after the first playtest of the UI, 13 Nov 2026)
 > - **D-018 Kid scope.** The playable game uses only **10 easy surprises** a 7–12-year-old can face and win: FD-01, PW-02, PW-03, PW-08, LS-03, LS-05, RS-01, RS-04 (M1 *First Steps*) + SW-01, SW-02 from real May 2024 DONKI data (M3 *Storm from the Sun*). Setup is FD-01 only. Chains to events outside the scope never happen and are not shown on cards. All 60 events stay in this file as the full design (§8.4).
@@ -777,7 +782,7 @@ Deck tags: 🟢 Core (any mission, random draw) · 🎯 Mission (only in the mis
 | ★ b. Chile peppers (slow) | RES | `RES.EN-1`; greenhouse `PWR 1`/sol | ⏳9: `FOOD+8` → FD-05 | Needs help to pollinate (FD-02) | Big rewards take patience |
 | c. Radishes (medium) | ANY | `ME.EN-1`; greenhouse `PWR 1`/sol | ⏳4: `FOOD+4` (game timing) | — | Middle choices exist too |
 
-*8-sol missions (D-014):* peppers (⏳9) can't ripen, so FD-01 shows **lettuce (a) vs radishes (c)** instead; in Cadet these are the two shown cards. *Cadet pollination (D-014):* Cadet never sees FD-02, so pepper pollination is automatic and the harvest is `FOOD+8` as in FD-01.b.
+*Missions of 10 sols or fewer (D-014 + D-025):* peppers (⏳9) can't pay off, so FD-01 shows **lettuce (a) vs radishes (c)** instead; in Cadet these are the two shown cards. If FD-05 is outside the mission's scope, a pepper harvest gives `FOOD+8` directly. *Cadet pollination (D-014):* Cadet never sees FD-02, so pepper pollination is automatic and the harvest is `FOOD+8` as in FD-01.b.
 *Morning Briefing (D-004):* re-planting FD-01 appears as the Morning Briefing card. If it is bumped by another briefing, the same crop is replanted automatically.
 
 #### FD-02 · Flowers Need Help 🐝
@@ -1181,8 +1186,8 @@ The playable game (both missions, Cadet) uses a small set so young players are n
 
 | Mission | Sols | Goal | Events it can show |
 |---|---|---|---|
-| M1 First Steps | 8 | 6 SP sent | FD-01 (setup + re-plant), PW-02, PW-03, PW-08, LS-03, LS-05, RS-01, RS-04 |
-| M3 Storm from the Sun | 10 | 8 SP sent, badge never red | the M1 set + SW-01 (sol 2, real X3.9 flare 2024-05-10) + SW-02 (sol 6, real particle event 2024-05-13) |
+| M1 First Steps *(design reference; not offered to players since D-021)* | 8 | 6 SP sent | FD-01 (setup + re-plant), PW-02, PW-03, PW-08, LS-03, LS-05, RS-01, RS-04 |
+| **M3 Storm from the Sun (the one game, D-021)** | 10 | 8 SP sent, badge never red | the M1 set + SW-01 (sol 2, real X3.9 flare 2024-05-10) + SW-02 (sol 6, real particle event 2024-05-13) |
 
 **Jobs (4 per astronaut, all their own):** Manager: Rest · Pep talk · Care for plants · Send data. Engineer: Rest · Maintain life support · Clean solar panels · Pile soil bags. Doctor: Rest · Treat (when someone is in Sick Bay, otherwise Check-up) · Care for plants · Lab experiment. Researcher: Rest · Lab experiment · Rock-study walk · Care for plants.
 

@@ -6,13 +6,13 @@
 ---
 
 ## Now
-- **Current phase:** Phase 4 🟡 code done (kid-simplified game, D-018…D-020); waiting on 2 adult playtests + GitHub Pages. Preview link is live.
+- **Current phase:** Phase 5 🟡 balance report done; **tuning waits for the lead** (P-010). One kid game (D-021) with a guided first sol (D-022). Preview link live; GitHub Pages ⛔.
 - **Language:** English only (lead, 13 Nov), so no RTL work. Q3 closed
 - **Big change:** D-017 shared crew stats (lead, 13 Nov): one crew card (FUL/HYD/AIR/EN pools 0–20, one DOSE badge). Spec v0.4.
 - **Next gate:** G0, Fri 13 Nov 23:30 (blocking A-items decided ✅, repo exists ⬜ (local only), toolchains work 🟡)
 - **Pre-event coding:** **allowed** (Q4), so Phase 1 can run tonight after `GO PHASE 1`
 - **Repo:** local git only (no remote yet; name assumed `mars-base-adventure`) · **Live URL (preview):** https://claude.ai/artifact/GCexFXof8QhJLbVhK9tfio (claude.ai page, shared by link) · GitHub Pages: — · **Latest tag:** —
-- **Last updated:** 2026-11-13 19:31 by Claude (Phase 4, kid simplification)
+- **Last updated:** 2026-11-13 20:00 by Claude (lead feedback round 2 + Phase 5)
 
 ## Clock
 | Milestone | Planned (Cairo) | Actual |
@@ -45,7 +45,7 @@
 | 2 Engine core | ✅ | E | Sat 11:00–17:00 | Fri 17:55 | Fri 18:37 | local; CI pending the push |
 | 3 Content & real data | ✅ | S | Sat 11:00–16:00 | Fri 18:50 | Fri 19:07 | 112 tests; check:content ✔ |
 | 4 Playable M1 | 🟡 | U | Sat 11:00–23:00 | Fri 18:40 | | simplified per lead feedback (D-018…D-020); automated checks green; needs 2 adult playtests + real phone |
-| 5 M3 + balance | ⬜ | E | Sun 07:00–12:00 | | | |
+| 5 M3 + balance | 🟡 | E | Sun 07:00–12:00 | Fri 19:35 | | report + charts committed; tuning proposal P-010 waits for the lead |
 | 6 Playtest, polish, freeze | ⬜ | L | Sun 12:00–16:00 | | | |
 | 7 Submission package | ⬜ | P | Sun 10:00–20:00 | | | |
 | 8 Live pitch (conditional) | ⬜ | P | TBD (Q2) | | | |
@@ -70,7 +70,14 @@
 | 4.3 | Settings: projector, less movement, start over · Sources: DONKI archive line · How to play: 4 lines + word helper | U | Claude (lead session) | ✅ | main (local) | meet-the-crew screen cut (first on the cut list) |
 | 4.4 | Perf: card notation parsed at build time (`content.json`) | S/U | Claude (lead session) | ✅ | main (local) | Lighthouse perf 86 → 93 |
 | 4.5 | Automated checks: 1280×800, 360×640, 1024×768 projector, 4× CPU + Fast 3G, Lighthouse | U | Claude (lead session) | ✅ | — | see `docs/playtest-notes.md` |
-| 4.6 | Two adult playtests of M1 without help → `docs/playtest-notes.md` | L/P | people | ⬜ | — | needs humans |
+| 4.6 | Two adult playtests of the game without help → `docs/playtest-notes.md` | L/P | people | ⬜ | — | needs humans |
+| 4.7 | Lead feedback round 2: D-021 one game (no difficulty choice) · D-022 guided first sol (highlights, only the taught button works) · D-023 base LEFT / crew RIGHT · D-024 jobs one astronaut at a time | U | Claude (lead session) | ✅ | main (local) | tutorial verified headless on laptop + phone |
+| 4.8 | Kid critique (7–12) → D-025 fixes: lettuce vs radishes in the 10-sol game (pepper trap), pepper fallback food, "badge went up" lines, badge "turns red at 7" + yellow/red morning warnings, broken-machine fix hints, debrief "Next time" tip, no repeated ending words, kid dates, "a sol is a day on Mars" | U/E/S | Claude (lead session) | ✅ | main (local) | |
+| 5.1 | Bots: random, maxShield, maxScience (never repairs), balanced, bestMove (1-step lookahead) | E | Claude (lead session) | ✅ | main (local) | `src/sim/bots.ts` |
+| 5.2 | `npm run sim -- --report` → `docs/balance-report.md` + `.json` + `docs/charts/winrate.svg`, `dose.svg` (1,000 games per bot, M3 + M1) | E | Claude (lead session) | ✅ | main (local) | |
+| 5.3 | Tuning experiments (goal 12, reactor 1, both) → proposal P-010 | E/L | Claude (lead session) | ⏳ | — | **lead to decide** |
+| 5.4 | M3 UI: particle warning in the morning (rule 7), storm glow (respects less movement), storm-replay honesty line in the briefing | U/S | Claude (lead session) | ✅ | main (local) | |
+| 5.5 | M3 labels checked against DONKI records (generated from the snapshot, tests) · science review SW-01, SW-02 | S | Claude (lead session) | ✅ | — | see Science review log |
 | 2.1 | D-017 shared crew stats → spec v0.4 + kids guide | S | Claude (lead session) | ✅ | main (local) | §1.2, §1.3, §2.2 rewritten; SW-07, CR-07 adjusted; P-005 for SW-06/MG-04 |
 | 2.2 | spec-extract: §7 card tables + §4 tasks → spec.json | S | Claude (lead session) | ✅ | main (local) | 60 details, 18 tasks; needed by the engine (pulled forward from Phase 3) |
 | 2.3 | `overrides.ts` (all 37 MVP events + tasks), `missions.ts` (M1 + draft M3), `content/index.ts`, `copy.ts` log/chip/reason text, `format.ts` | S | Claude (lead session) | ✅ | main (local) | 0 MVP prose cells left; 107 non-MVP cells → Phase 3 |
@@ -125,6 +132,7 @@ Write **Approve / Modify (how) / Reject** in the Decision column. Full text: `PL
 | P-007 | **Balance.** *Update after D-018:* the lead wants a game kids can win, so the spec's 60–75 % target for balanced play may no longer fit; kid-scope sims: M1 random bot 94 %, balanced 100 %; M3 random 63 %, balanced 92 %. Decide the target before Phase 5. *Original:* **M1 Cadet is too easy.** 300 games: balanced bot 100 % success, random bot 71 % (target: balanced 60–75 %, no strategy > 80 %, spec §1.4). M3 draft: balanced 91 %, random 43 %. Proposed for Phase 5: tune via the simulator (e.g. M1 SP goal, starting EN pool, quiet-sol rate) and report in `docs/balance-report.md` | config.ts, spec §1.3/§8.2 | ⏳ | |
 | P-008 | **Source fixes from the Phase 3 audit** (no swap applied yet): S2 → cite DONKI record WSA-ENLIL/30726/1 (kauai host down) · S6 → NASA JPL original "NASA Watches Mars Light Up During Epic Solar Storm" (same 8,100 µGy / 30 chest X-rays) · S16 → find the JPL page for Opportunity's June 2018 power (468 Wh no longer on the page) · S23 → LS-02 cites S24 until the right Apollo Flight Journal page is found · S25 → replace (link redirects to the APPEL home page) · S26, S42, S55 → check by hand in a browser | Spec §11, sources | ⏳ | |
 | P-009 | **Background picture shows a big round Moon in the Mars sky.** Mars's moons are tiny and lumpy; a judge could call it a science error. It is also AI-generated. Proposed: replace it with a credited real panorama (Curiosity/Perseverance, images.nasa.gov) in Phase 6, or crop the moon out; keep "AI-generated illustration" in the credits until then | UI, credits | ⏳ | |
+| P-010 | **Phase 5 tuning (batch for the lead).** 1,000 games per strategy, M3 (the one game): random 59 % · max shield 79 % · max science 8 % · balanced 54 % · best move 52 % (`docs/balance-report.md`). Spec §1.4 targets: none > 80 % ✔ · greed loses ✔ · variety 90 % ✔ · 96/100 different games ✔ · no-free-lunch 30/30 ✔ · balanced 60–75 % ✖ (54 %: the "balanced" bot still walks outside a lot; the winning lesson is *stay safe*, which is the point of M3) · card coverage 15/20 ✖ (never best: FD-01.c radishes, PW-03.a, PW-08.a/b (power is never short), LS-05.b). Experiments (200 games): SP goal 8→12: random 38 %, max shield 77 %, balanced 59 % (science starts to matter but kids lose more) · reactor 2→1: little change. **Recommendation: no number changes now** (the lead wants kids to succeed; random play wins 59 %); accept the two misses with these reasons. Optional later: make power matter (PW-08 never fires) and give PW-03.a / FD-01.c a reason to be picked | config.ts, spec §1.4 | ⏳ | |
 | P-004 | **Spec §5 field notes from the real snapshot:** add ENLIL `impactList[].isMinorImpact`; `impactList` can be `null` (35/128 runs); FLR `linkedEvents` can be `null` (129/181); "no impact to Earth" = `estimatedShockArrivalTime == null` (plus `isEarthGB`, `isEarthMinorImpact`); CME speed type letters S/C/O/R/ER; `notifications.messageType` values FLR, CME, SEP, GST, Report, IPS, MPC, RBE. Also fix the §0 note: old `api.nasa.gov/DONKI` now returns **404 JSON**, not HTML. Add "CORS ✔ (GET)" to §5 | Spec §5 text, parser | ⏳ | |
 
 ## Decisions log (approved)
@@ -149,7 +157,12 @@ Write **Approve / Modify (how) / Reject** in the Decision column. Full text: `PL
 | D-018 | 2026-11-13 19:15 | **Kid scope**: the playable game uses only 10 easy events (M1: FD-01, PW-02, PW-03, PW-08, LS-03, LS-05, RS-01, RS-04; M3 adds SW-01, SW-02 from real DONKI). Setup = FD-01. Out-of-scope chains never happen and never show. All 60 events stay in the spec as the full design | lead (chat feedback) | spec v0.5 §8.4; `missions.ts`; engine deck/effects/selectors; M3 timeline (2 beats, SW-02 on sol 6); data-sources.md | P4 commit |
 | D-019 | 2026-11-13 19:15 | **4 jobs per astronaut**, all their own (no stand-in rule in the kid game): MGR Rest/Pep/Garden/Send · ENG Rest/Maintain LS/Panels/Shield · MED Rest/Treat-or-Check-up/Garden/Lab · RES Rest/Lab/Rock walk/Garden | lead | spec §8.4; `KID_JOBS`; engine `jobsFor` | P4 commit |
 | D-020 | 2026-11-13 19:15 | **Simpler screens**: resources board on the LEFT; no separate morning or power-plan screens (PW-08 shows as a card when short); less text per screen | lead | spec §2.4 note, §8.4; UI | P4 commit |
-| D-017 | 2026-11-13 18:00 | N-08 closed: DONKI GET sends `Access-Control-Allow-Origin: *`, so Today's Sun may fetch in the browser. Still say LIVE only when it really is fetched live | N-08 | PROGRESS (spec text via P-004) | P0 first commit |
+| D-021 | 2026-11-13 19:40 | **One game**: no mission select, no difficulty levels; Play → briefing → M3 Storm from the Sun (Cadet). M1 stays in the design and in tests | lead | spec v0.6 §8.4; `App.tsx` | P5 commit |
+| D-022 | 2026-11-13 19:40 | **Guided first sol**: tutorial highlights base, stars, crew, cards, chips, jobs, buttons; only the highlighted part works; skippable; replay from How to play | lead | `Tutorial.tsx`, copy | P5 commit |
+| D-023 | 2026-11-13 19:40 | **Base resources LEFT, crew (with the shared bars) RIGHT** | lead | `Panels.tsx`, CSS | P5 commit |
+| D-024 | 2026-11-13 19:40 | **Jobs one astronaut at a time** ("Nova's turn", progress avatars, summary) | lead | `Phases.tsx` | P5 commit |
+| D-025 | 2026-11-13 19:50 | **Kid-critique fixes**: ≤ 10-sol missions plant lettuce vs radishes (extends D-014); pepper harvest = FOOD+8 when FD-05 is out of scope; EVA dose logged; badge hints; fix hints; debrief tips | lead ("criticize as a kid") | spec v0.6 FD-01 note; `config.ts` SHORT_MISSION_SOLS 10; greenhouse; radiation; copy | P5 commit |
+| D-016 | 2026-11-13 17:40 | N-08 closed: DONKI GET sends `Access-Control-Allow-Origin: *`, so Today's Sun may fetch in the browser. Still say LIVE only when it really is fetched live | N-08 | PROGRESS (spec text via P-004) | P0 first commit |
 
 ## Open questions
 | ID | Question | Asked | Answer |
@@ -212,6 +225,8 @@ Write **Approve / Modify (how) / Reject** in the Decision column. Full text: `PL
 | CR-02, CR-07 | Claude | ? | S42 blocked to scripts; check by hand |
 | RS-03 | Claude | ? | S55 blocked to scripts; check by hand |
 | RS-04 / CM-02 | Claude | ✔ | 3–21 min [S54] + up to 22 min [S44] (N-05 wording note) |
+| SW-01 (M3 sol 2) | Claude | ✔ | label = FLR `2024-05-10T06:27:00-FLR-001` X3.9, peak 06:54Z; "seen from Earth" wording (spec §5); 10× rule [S3] ✔ |
+| SW-02 (M3 sol 6) | Claude | ✔ | label = SEP `2024-05-13T14:00:00-SEP-001` after an M6.6 flare; S 2 from the linked flare; Curiosity 8,100 µGy fact ✔ (JPL original) |
 | Honesty table | Claude | ✔ | S8, S9, S13, S15, S17, S20, S21, S27, S33, S34 confirmed; S16 problem (P-008) |
 
 ## Bugs
@@ -239,10 +254,28 @@ Write **Approve / Modify (how) / Reject** in the Decision column. Full text: `PL
 | 1 Skeleton | 2.0 | 0.5 | −1.5 | local only until the push |
 | 2 Engine core | 6.0 | 0.7 | −5.3 | incl. D-017 + the content needed to play |
 | 3 Content & data | 5.0 | 0.5 | −4.5 | + playable UI (0.3 h) |
+| 4 Playable | 12.0 | 0.4 | −11.6 | + 2 rounds of lead feedback |
+| 5 Balance | 5.0 | 0.7 | −4.3 | report incl. ~11 min of simulation |
 
 ---
 
 ## Handoff (latest only; older ones move into the Session log)
+```
+HANDOFF 2026-11-13 20:05 Cairo · from Claude (lead session) · Phase 5 🟡 (report done; tuning P-010 waits for the lead) · Phase 1 deploy ⛔
+Repo: — (local git, main) · Live (preview): https://claude.ai/artifact/GCexFXof8QhJLbVhK9tfio · Last commit: `git log -1`
+State: ONE kid game (M3 Storm from the Sun, D-021) with a guided first sol (D-022), base LEFT / crew RIGHT (D-023), jobs one
+       astronaut at a time (D-024), kid-critique fixes (D-025). Real DONKI beats on sols 2 and 6 with honest labels.
+       Balance report (1,000 games × 5 bots × M3/M1) + 2 SVG charts in docs/. 120 tests, typecheck, build, check:content green.
+Next: (1) Lead: decide P-010 (recommended: no tuning) and P-007; then Phase 6 (playtest, polish, freeze)
+      (2) Two adults play from the link → docs/playtest-notes.md
+      (3) GitHub: approve a device login or push yourself → Pages
+Blocked on: lead decisions P-002…P-010; playtesters; GitHub login
+Watch out: `npm run sim -- --report` takes ~11 min for 1,000 games (bestMove does a lookahead per card).
+           Tutorial steps live in src/ui/components/Tutorial.tsx (selectors must match the UI classes).
+Read first: CLAUDE.md → PROGRESS.md → PLAN.md §6 Phase 6
+```
+
+### Previous handoff (Phase 4)
 ```
 HANDOFF 2026-11-13 19:31 Cairo · from Claude (lead session) · Phase 4 🟡 (code done; human playtests open) · Phase 1 deploy ⛔
 Repo: — (local git, main) · Live (preview): https://claude.ai/artifact/GCexFXof8QhJLbVhK9tfio · Last commit: `git log -1`
@@ -333,6 +366,7 @@ Read first: CLAUDE.md → PROGRESS.md → PLAN.md §6 Phase 1
 ## Session log (newest on top)
 | When (Cairo) | Lane / agent | What changed | Files |
 |---|---|---|---|
+| 2026-11-13 19:32–20:05 | Claude (lead session) | Lead feedback round 2 (D-021 one game, D-022 tutorial, D-023 crew right, D-024 jobs in a row); kid critique → D-025; spec v0.6; Phase 5: 5 bots, balance report + charts, tuning experiments → P-010; M3 storm warning/glow/replay text | `src/**`, `scripts/simulate.ts`, `docs/balance-report.*`, `docs/charts/*`, `events-and-actions.md`, `README.md`, `PROGRESS.md` |
 | 2026-11-13 19:08–19:31 | Claude (lead session) | Lead feedback → D-018 kid scope, D-019 4 jobs, D-020 simpler screens; spec v0.5; UI rebuilt (resources left, one astronaut at a time on phones, short texts); settings; build-time content.json; projector/throttle/Lighthouse checks; playtest-notes template | `events-and-actions.md`, `src/**`, `scripts/build-content.ts`, `tests/**`, `docs/**`, `PROGRESS.md` |
 | 2026-11-13 18:40–19:07 | Claude (lead session) | Playable cockpit UI from the lead's design canvas + claude.ai preview link; Phase 3: DONKI snapshot, M3 real timeline, source audit, stories, glossary, full check-content, data-sources.md, science review; P-008, P-009; P-001 superseded | `src/ui/**`, `src/content/**`, `scripts/**`, `data/donki/**`, `docs/data-sources.md`, `tests/**`, `public/**`, `PROGRESS.md` |
 | 2026-11-13 17:55–18:37 | Claude (lead session, E + S) | D-017 shared stats → spec v0.4 + kids guide; spec-extract §7/§4; overrides for 37 MVP events; engine core (18 modules, contract v2); sim + bots; 102 tests; P-005…P-007. GitHub device login tried twice (expired) | `events-and-actions.md`, `mars-adventure-kids-guide.md`, `scripts/**`, `src/engine/**`, `src/content/**`, `src/sim/**`, `tests/**`, `PROGRESS.md` |

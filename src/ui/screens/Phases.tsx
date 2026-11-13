@@ -14,7 +14,7 @@ import { ChipRow } from '../components/Chips';
 import { GlossaryText } from '../components/Glossary';
 import { Icon, systemIcon, type UiIcon } from '../components/Icon';
 import { engine } from '../engine';
-import { actionTitle, fill, kidText, logLine, ui } from '../text';
+import { actionTitle, fill, kidDate, kidText, logLine, ui } from '../text';
 
 const ROLES: Role[] = ['MGR', 'ENG', 'MED', 'RES'];
 
@@ -99,7 +99,7 @@ export function EventPanel(props: {
           ? ui.powerProblem
           : ui.surprise;
   return (
-    <section class="holo" aria-labelledby="ev-title">
+    <section class={`holo ${ev.id.startsWith('SW') ? 'storm' : ''}`} aria-labelledby="ev-title">
       <div class="holo-head">
         <p class="holo-tag">{tag}</p>
         {p.donki && (
@@ -108,7 +108,7 @@ export function EventPanel(props: {
             aria-expanded={showData}
             onClick={() => setShowData(!showData)}
           >
-            <Icon name="DATA" size={16} /> {ui.realData} · {p.donki.date}
+            <Icon name="DATA" size={16} /> {ui.realData} · {kidDate(p.donki.date)}
           </button>
         )}
       </div>
@@ -196,40 +196,34 @@ function morningNotes(s: GameState): string[] {
   else if (s.sol % 4 === 0) notes.push(ui.noteSend);
   if (s.dust.addedToday || s.dust.stacks >= 2) notes.push(ui.noteDust);
   if (s.crop && s.crop.readySol - s.sol <= 1) notes.push(fill(ui.noteCrop, { crop: s.crop.kind }));
+  if (s.queue.some((q) => q.eventId === 'SW-02' && q.dueSol === s.sol))
+    notes.unshift(ui.noteParticles); // rule 7
+  if (s.crew.DOSE >= 7) notes.unshift(ui.noteBadgeRed);
+  else if (s.crew.DOSE >= 4) notes.unshift(ui.noteBadgeYellow);
   if (s.mission === 'M3' && s.sol === 1) notes.push(ui.noteStorm);
   return notes.slice(0, 2);
 }
 
+/** D-024: jobs in a row, one astronaut at a time ("Nova's turn"), then a short summary. */
 export function JobsPanel({
   s,
   onPlan,
+  current,
+  setCurrent,
 }: {
   s: GameState;
   onPlan: (a: AstronautId, t: string | null) => void;
+  current: AstronautId | null;
+  setCurrent: (a: AstronautId | null) => void;
 }) {
   const free = ROLES.filter((r) => {
     const a = s.astronauts.find((x) => x.id === r)!;
     return a.sickBaySols === 0 && a.busyUntilSol < s.sol;
   });
-  const [active, setActive] = useState<Role | undefined>(
-    free.find((r) => !s.astronauts.find((x) => x.id === r)!.plannedTask) ?? free[0],
-  );
-  const energyCost = s.astronauts.reduce((sum, a) => {
-    const t = a.plannedTask ? CONTENT.tasks[a.plannedTask] : undefined;
-    return (
-      sum +
-      (t
-        ? t.cost.reduce(
-            (x, e) => x + (e.kind === 'stat' && e.stat === 'EN' && e.delta < 0 ? -e.delta : 0),
-            0,
-          )
-        : 0)
-    );
-  }, 0);
-  const energyGain =
-    s.astronauts.filter((a) => a.plannedTask === 'T-REST').length * 3 +
-    s.astronauts.filter((a) => a.plannedTask === 'T-PEP').length * 2;
-  const after = Math.max(0, Math.min(s.crew.ENMAX, s.crew.EN - energyCost + energyGain));
+  const done = free.filter((r) => s.astronauts.find((x) => x.id === r)!.plannedTask);
+  const who = current && free.includes(current) ? current : null;
+  const a = who ? s.astronauts.find((x) => x.id === who)! : null;
+  const step = who ? free.indexOf(who) + 1 : free.length;
   return (
     <section class="holo" aria-labelledby="jobs-title">
       <p class="holo-tag">{fill(ui.morning, { sol: s.sol })}</p>
@@ -238,92 +232,99 @@ export function JobsPanel({
           <Icon name="EVENT" size={18} /> {n}
         </p>
       ))}
-      <h2 id="jobs-title" class="holo-title" tabIndex={-1}>
-        <Icon name="CREW" size={32} /> {ui.jobsTitle}
-      </h2>
-      <p class="kid-text small-kid">{ui.pickJobs}</p>
-      <div class="crew-grid">
-        {ROLES.map((r) => {
-          const a = s.astronauts.find((x) => x.id === r)!;
-          const away = a.sickBaySols > 0 || a.busyUntilSol >= s.sol;
+      <ol class="turns" aria-label={ui.jobsTitle}>
+        {free.map((r, k) => {
+          const x = s.astronauts.find((y) => y.id === r)!;
           return (
-            <div key={r} class={`crew-card ${away ? 'away' : ''} ${active === r ? 'active' : ''}`}>
+            <li key={r}>
               <button
-                class="crew-head"
-                aria-expanded={active === r}
-                onClick={() => setActive(r)}
-                disabled={away}
+                class={`turn ${who === r ? 'now' : ''} ${x.plannedTask ? 'done' : ''}`}
+                aria-current={who === r ? 'step' : undefined}
+                aria-label={`${k + 1}. ${x.callSign}${x.plannedTask ? ' ✓' : ''}`}
+                onClick={() => setCurrent(r)}
               >
-                <Avatar role={r} size={44} dim={away} />
-                <span class="crew-id">
-                  <b>{a.callSign}</b>
-                  <span class="small muted">{ui.roleNames[r]}</span>
-                </span>
-                <span class="crew-pick small">
-                  {a.plannedTask ? (
-                    <>
-                      <Icon name="CHECK" size={16} /> {ui.jobNames[a.plannedTask] ?? a.plannedTask}
-                    </>
-                  ) : away ? (
-                    ''
-                  ) : (
-                    ui.noTask
-                  )}
-                </span>
+                <Avatar role={r} size={30} />
+                {x.plannedTask && <Icon name="CHECK" size={14} />}
               </button>
-              {away ? (
-                <p class="muted">
-                  {a.sickBaySols > 0 ? fill(ui.inSickBay, { n: a.sickBaySols }) : ui.busy}
-                </p>
-              ) : (
-                <div class="job-grid" role="group" aria-label={`${a.callSign}: ${ui.jobsTitle}`}>
-                  {engine.availableTasks(s, r).map((o) => {
-                    const chosen = a.plannedTask === o.taskId;
-                    const gain = o.effects.find((c) => c.tone === 'effect');
-                    return (
-                      <button
-                        key={o.taskId}
-                        class={`job ${chosen ? 'chosen' : ''}`}
-                        aria-pressed={chosen}
-                        disabled={!o.allowed && !chosen}
-                        onClick={() => {
-                          onPlan(r, chosen ? null : o.taskId);
-                          if (!chosen)
-                            setActive(
-                              free.find(
-                                (x) =>
-                                  x !== r && !s.astronauts.find((y) => y.id === x)!.plannedTask,
-                              ) ?? r,
-                            );
-                        }}
-                      >
-                        <span class="job-name">
-                          <Icon name={JOB_ICON[o.taskId] ?? 'RULE'} size={20} />{' '}
-                          {ui.jobNames[o.taskId] ?? o.title}
-                        </span>
-                        <ChipRow
-                          compact
-                          chips={[
-                            ...o.costs.filter((c) => c.amount !== undefined || c.icon === 'DOSE'),
-                            ...(gain ? [gain] : []),
-                          ]}
-                        />
-                        {!o.allowed && o.reason && (
-                          <span class="choice-reason small">{reasonText(o.reason)}</span>
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
+            </li>
           );
         })}
-      </div>
-      <p class={`energy-line ${after <= 4 ? 'warn' : ''}`}>
-        <Icon name="EN" /> {fill(ui.energyAfter, { n: after, max: s.crew.ENMAX })}
-        {after <= 4 ? ` · ${ui.energyLow}` : ''}
-      </p>
+      </ol>
+      {a && who ? (
+        <div class="job-step">
+          <h2 id="jobs-title" class="holo-title" tabIndex={-1}>
+            <Avatar role={who} size={40} /> {fill(ui.turnOf, { name: a.callSign })}
+          </h2>
+          <p class="kid-text small-kid">
+            {fill(ui.stepOf, { n: step, total: free.length })} · {ui.roleNames[who]}
+          </p>
+          <div
+            class="job-grid big"
+            role="group"
+            aria-label={fill(ui.pickFor, { name: a.callSign })}
+          >
+            {engine.availableTasks(s, who).map((o) => {
+              const chosen = a.plannedTask === o.taskId;
+              const gain = o.effects.find((c) => c.tone === 'effect');
+              return (
+                <button
+                  key={o.taskId}
+                  class={`job ${chosen ? 'chosen' : ''}`}
+                  aria-pressed={chosen}
+                  disabled={!o.allowed && !chosen}
+                  onClick={() => {
+                    onPlan(who, o.taskId);
+                    const next = free.find(
+                      (r) => r !== who && !s.astronauts.find((y) => y.id === r)!.plannedTask,
+                    );
+                    setCurrent(next ?? null);
+                  }}
+                >
+                  <span class="job-name">
+                    <Icon name={JOB_ICON[o.taskId] ?? 'RULE'} size={22} />{' '}
+                    {ui.jobNames[o.taskId] ?? o.title}
+                  </span>
+                  <ChipRow
+                    compact
+                    chips={[
+                      ...o.costs.filter((c) => c.amount !== undefined || c.icon === 'DOSE'),
+                      ...(gain ? [gain] : []),
+                    ]}
+                  />
+                  {!o.allowed && o.reason && (
+                    <span class="choice-reason small">{reasonText(o.reason)}</span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      ) : (
+        <div class="job-step">
+          <h2 id="jobs-title" class="holo-title" tabIndex={-1}>
+            <Icon name="CHECK" size={30} color="var(--green)" /> {ui.allSet}
+          </h2>
+          <ul class="job-summary">
+            {free.map((r) => {
+              const x = s.astronauts.find((y) => y.id === r)!;
+              return (
+                <li key={r}>
+                  <button class="summary-row" onClick={() => setCurrent(r)}>
+                    <Avatar role={r} size={30} /> <b>{x.callSign}</b>
+                    <span>
+                      {x.plannedTask ? (ui.jobNames[x.plannedTask] ?? x.plannedTask) : ui.noTask}
+                    </span>
+                    <span class="muted small">{ui.change}</span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+          <p class="kid-text small-kid">
+            {done.length === free.length ? ui.pressStart : ui.pickJobs}
+          </p>
+        </div>
+      )}
     </section>
   );
 }
@@ -331,6 +332,7 @@ export function JobsPanel({
 // ── night report ──
 const SHOW = new Set([
   'log.harvest',
+  'log.evaDose',
   'log.stormDose',
   'log.backgroundDose',
   'log.spBanked',

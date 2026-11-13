@@ -30,3 +30,21 @@ export function loadGame(): GameState | null {
 export function newSeed(): number {
   return Math.floor(Math.random() * 9000) + 1000;
 }
+
+const TUT_KEY = 'mba.tutorial.done';
+/** Has this device finished (or skipped) the guided first sol? (D-022) */
+export function tutorialDone(): boolean {
+  try {
+    return localStorage.getItem(TUT_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
+export function setTutorialDone(done: boolean): void {
+  try {
+    if (done) localStorage.setItem(TUT_KEY, '1');
+    else localStorage.removeItem(TUT_KEY);
+  } catch {
+    /* storage blocked: the tutorial shows again next time */
+  }
+}

@@ -42,6 +42,13 @@ export function Debrief({
         <p class="stars-big num">
           <Icon name="SP" size={28} color="var(--star)" /> {d.stats.spBanked} / {d.stats.spGoal}
         </p>
+        {ui.endTips[d.ending.reason] && (
+          <p class="lesson">
+            <Icon name="SP" color="var(--star)" />{' '}
+            <b>{d.ending.kind === 'success' ? ui.youLearned : ui.nextTime}:</b>{' '}
+            {ui.endTips[d.ending.reason]}
+          </p>
+        )}
         <h2>{ui.debriefChoices}</h2>
         <ol class="big-choices">
           {d.top3.map((t, i) => {
@@ -83,7 +90,7 @@ export function Debrief({
         <p class="muted small">{fill(copy.ui.missionCode + ': {seed}', { seed: s.seed })}</p>
         <div class="briefing-actions">
           <button class="btn" onClick={onNew}>
-            {ui.newMission}
+            {ui.newGame}
           </button>
           <button class="btn btn-go" onClick={onAgain}>
             {ui.playAgain} <Icon name="ARROW" size={18} />

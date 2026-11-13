@@ -139,7 +139,7 @@ export const CROPS = {
   radish: { growSols: 4, food: 4 }, // spec FD-01.c
   pepper: { growSols: 9, food: 8 }, // spec FD-01.b (Cadet pollination automatic, D-014)
 } as const;
-export const SHORT_MISSION_SOLS = 8; // D-014: ≤ 8 sols → lettuce vs radishes
+export const SHORT_MISSION_SOLS = 10; // D-014 + D-025: missions ≤ 10 sols plant lettuce vs radishes (peppers can't pay off)
 export const RES_HARVEST_BONUS = 1; // spec §2.3 / T-GARDEN
 
 // ── Conditions (spec §6) ──
