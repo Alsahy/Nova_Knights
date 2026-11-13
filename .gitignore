@@ -1,0 +1,14 @@
+node_modules/
+dist/
+coverage/
+.env
+.env.*
+*.log
+.DS_Store
+.vscode/
+.claude/settings.local.json
+
+# Private mood boards: NOT for the public repo
+# (general-theme.jpeg shows the NASA logo; inside-game-theme.jpg shows realistic AI faces). See PROGRESS Q6.
+general-theme.jpeg
+inside-game-theme.jpg
