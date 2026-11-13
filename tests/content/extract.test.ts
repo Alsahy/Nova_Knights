@@ -34,7 +34,7 @@ describe('spec-extract v0', () => {
 
   it('applies approved decisions (D-015: LS-02 is Cadet)', () => {
     expect(spec.events.find((e) => e.id === 'LS-02')?.tier).toBe('cadet');
-    expect(spec.specVersion).toBe('0.3');
+    expect(spec.specVersion).toBe('0.4');
   });
 
   it('every [S#] cited in the spec exists in §11', () => {

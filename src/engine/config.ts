@@ -21,10 +21,13 @@ export const START: Record<
     startDose: 0, // MG-04 sets 2–3 (spec §1.3, MG-04)
   },
 };
-export const START_STATS = { FUL: 4, HYD: 4, AIR: 5, EN: 4, DOSE: 0 } as const; // spec §1.3
+/** Shared crew card (D-017): pools = 4 astronauts × spec §1.3 per-person values (FUL 4, HYD 4, AIR 5, EN 4). */
+export const CREW_SIZE = 4; // spec §2.3
+export const START_CREW = { FUL: 16, HYD: 16, AIR: 20, EN: 16, ENMAX: 20, DOSE: 0 } as const; // D-017
+export const POOL_MAX = 20; // D-017: 4 × 5
+export const POOL_ZERO_RESET = 4; // D-017: a pool that hits 0 sends one astronaut to Sick Bay and resets to 4
 export const SYSTEM_MAX = 10; // spec §1.3 (0–10)
 export const BAT_MAX = 10; // spec §1.3 (PW-01 can lower it to 7)
-export const STAT_MAX = 5; // spec §1.3 (stats 0–5)
 export const DOSE_MAX = 10; // spec §1.3 / §2.2 (10 → Indoor only)
 
 // ── Power (spec §2.1, D-002, D-003) ──
@@ -47,14 +50,13 @@ export const RECYCLER_LOSS_EVERY_SOLS = 4; // spec §2.6: 4 crew lose 1 H2O ever
 export const RECYCLER_LOSS_EVERY_SOLS_BRINE = 12; // spec §2.6 / LS-06
 
 // ── Astronaut upkeep (spec §2.2, D-011) ──
-export const SLEEP_EN = 1; // spec §2.2
+export const SLEEP_EN = 1; // spec §2.2 (per astronaut → +4 on the shared pool, D-017)
 export const REST_EN = 3; // spec §4 T-REST
 export const AIR_REFILL_LS_MIN = 4; // spec §2.2: LS ≥ 4 → AIR refills to 5
-export const AIR_LOSS_LOW_LS = 1; // spec §2.2: LS 1–3 → AIR −1
-export const AIR_LOSS_ZERO_LS = 2; // spec §2.2: LS 0 → AIR −2
+export const AIR_LOSS_LOW_LS = 1; // spec §2.2: LS 1–3 → AIR −1 per astronaut (D-017)
+export const AIR_LOSS_ZERO_LS = 2; // spec §2.2: LS 0 → AIR −2 per astronaut (D-017)
 export const SICK_BAY_SOLS = 2; // spec §2.2
-export const SICK_BAY_RESET_STAT = 2; // D-011
-export const CR07_EN_TRIGGER = 1; // D-011 (EN ≤ 1)
+export const CR07_EN_TRIGGER = 4; // D-011 + D-017: crew EN ≤ 4 (≈ 1 per astronaut)
 
 // ── Roles (spec §2.3, D-006) ──
 export const FALLBACK_EXTRA_EN = 1; // spec §2.3
@@ -92,6 +94,7 @@ export const QUIET_SOL_CHANCE: Record<Tier, number> = { cadet: 0.3, commander: 0
 export const MAX_EVENTS_PER_SOL: Record<Tier, number> = { cadet: 1, commander: 2 }; // spec §8.3
 export const CARDS_SHOWN: Record<Tier, number> = { cadet: 2, commander: 3 }; // spec §1.1
 export const TIMER_EVERY_SOLS = { 'CR-01': 3, 'RS-04': 4 } as const; // spec CR-01, RS-04
+export const FOREVER = 9999; // flag/modifier "until cleared" (JSON has no Infinity)
 export const RS04_ON_LAST_SOL = true; // D-005
 export const CONDITION_COOLDOWN_SOLS = 3; // D-004
 export const DISPLACED_WAIT_SOLS = 1; // D-004
@@ -182,3 +185,16 @@ export const MISSION_SP_GOAL: Record<MissionId, { cadet?: number; commander?: nu
   M9: { cadet: 8, commander: 18 },
 };
 export const M3_MAX_DOSE = 6; // D-010
+
+// ── Card / hook values the spec states in prose (spec §7 card cells) ──
+export const SW07_NO_EVA_SOLS = 3; // D-017 (SW-07.a "inside jobs only")
+export const ROOM_CLOSED_SOLS = 3; // spec LS-04.b, LS-07.b
+export const PW02_WIND_CHANCE = 0.2; // spec PW-02.b (20 % per sol)
+export const LS03_CANDLE_FIRE = 0.15; // spec LS-03.b
+export const FD06_RATION_SOLS = 3; // ASSUMPTION (Phase 2): FD-06.a "while rationing" lasts 3 sols
+export const FD06_EXTRA_LIGHT_SOLS = 2; // ASSUMPTION (Phase 2): FD-06.b extra lights for 2 sols
+export const CM02_RETRY_SOLS = 2; // ASSUMPTION (Phase 2): CM-02.c antenna problem comes back after 2 sols
+export const CR02_MISTAKE_EVENTS = ['LS-03', 'LS-05', 'RS-03'] as const; // ASSUMPTION: CR-02.c "random repair event"
+export const MG02_PUSH_SICK_CHANCE = 0.3; // spec MG-02.c
+export const SW04_CM02_CHANCE = 0.3; // spec SW-04.b
+export const T_SEND_PWR = 2; // ASSUMPTION (Phase 2): T-SEND banks all pending SP for PWR-2 (spec §4 "all = PWR-2")

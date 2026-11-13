@@ -1,11 +1,12 @@
 /**
- * Mars Base Adventure: engine contract v1 (owned by lane E).
+ * Mars Base Adventure: engine contract v2 (owned by lane E).
  *
  * This file + the API in `index.ts` are the contract between engine, content and UI.
  * Any change must be logged in PROGRESS.md → Contract changes (what, why, who must adapt).
  *
- * Rules: pure data, JSON-serialisable (no classes, no functions, no Date, no Map/Set).
- * Based on spec §10 (events-and-actions.md v0.3) + decisions D-001…D-016.
+ * Rules: pure data, JSON-serialisable (no classes, functions, Date, Map/Set).
+ * Based on spec §10 (events-and-actions.md v0.4) + decisions D-001…D-017.
+ * v2: shared crew stats (D-017), richer Effect kinds, content passed to createEngine().
  */
 
 // ───────────────────────── basic vocab ─────────────────────────
@@ -17,155 +18,166 @@ export type AstronautId = Role;
 export type MissionId = 'M1' | 'M2' | 'M3' | 'M4' | 'M5' | 'M6' | 'M7' | 'M8' | 'M9';
 export type DeckType = 'core' | 'mission' | 'chain' | 'condition' | 'timer' | 'donki' | 'setup';
 
-/** Base systems (0–10, BAT max can drop, see PW-01). */
+/** Base systems (0–10; BAT max is BATMAX). */
 export type SystemKey = 'LS' | 'SH' | 'LAB' | 'BAT';
 /** Supplies (spec §2.1). */
 export type SupplyKey = 'FOOD' | 'H2O' | 'O2T' | 'PARTS' | 'MEDKIT';
-/** Astronaut stats (spec §2.2). ENMAX = max energy cap. */
-export type StatKey = 'FUL' | 'HYD' | 'AIR' | 'EN' | 'DOSE' | 'ENMAX';
+/** Shared crew pools (D-017): 0–20 each; ENMAX caps EN. */
+export type PoolKey = 'FUL' | 'HYD' | 'AIR' | 'EN';
+/** Crew stats incl. the shared DOSE badge (0–10) and the EN cap. */
+export type StatKey = PoolKey | 'DOSE' | 'ENMAX';
 
-/** Who can play a card / do a task (spec §3, §4). */
-export type Who =
-  | Role
-  | 'ANY'
-  | 'EVA' // astronauts outside today
-  | 'NAME' // the astronaut the event is about ([Name])
-  | Role[] // e.g. ['ENG', 'ANY'] = engineer + one helper
-  | ['ANY', 'ANY'];
-
-/** Effect targets for astronaut stats (spec §3). */
-export type Target = 'ALL' | 'ME' | 'EVA' | 'PICK' | 'NAME' | Role;
+/** Effect targets (spec §3). With shared stats they only decide the multiplier (spec §2.2, D-017). */
+export type Target = 'ALL' | 'ME' | 'EVA' | 'PICK' | 'NAME' | 'EACH' | 'CREW' | Role;
 
 // ───────────────────────── effects ─────────────────────────
 
-/** One parsed effect token from the spec notation (parsed by notation.ts). */
+/** One parsed effect token (src/engine/notation.ts). */
 export type Effect =
-  | { kind: 'system'; key: SystemKey | 'PWR' | 'SP' | 'BATMAX'; delta: number }
+  | { kind: 'system'; key: SystemKey; delta: number }
+  | { kind: 'power'; delta: number } // PWR±N: spend (−) or bonus (+) today's power
+  | { kind: 'sp'; delta: number } // SP±N → pending (D-005)
   | { kind: 'supply'; key: SupplyKey; delta: number }
   | { kind: 'stat'; target: Target; stat: StatKey; delta: number }
-  | { kind: 'flag'; op: 'set' | 'clear'; flag: string; sols?: number } // e.g. broken:o2maker (D-012)
-  | { kind: 'trigger'; event: string } // → EVT-ID
+  | { kind: 'flag'; op: 'set' | 'clear'; flag: string; sols?: number }
+  | { kind: 'trigger'; event: string } // → EVT-ID (chain, next sol)
   | { kind: 'lost'; what: string } // LOST: … (a lost chance counts as a cost)
-  | { kind: 'hook'; hook: string; args?: Record<string, string | number | boolean> }; // prose cells → hooks.ts
+  | { kind: 'evaDose' } // "EVA dose": +1 with 50 % per astronaut outside (spec §2.6)
+  | { kind: 'chance'; p: number; effects: Effect[] } // p=0.3: …
+  | { kind: 'hook'; hook: string; args: (string | number)[] }; // named rule in hooks.ts
 
 /** ⏳N: effects, optionally with p= chance. A ⏳ with no N means ⏳1 (D-012). */
 export interface Delayed {
   inSols: number;
-  chance?: number; // 0–1
+  chance?: number;
   effects: Effect[];
 }
 
-/** A Delayed effect that has been scheduled in a running game. */
-export interface ScheduledEffect extends Delayed {
-  id: string;
+export interface ScheduledEffect {
+  id: number;
   dueSol: number;
-  source: string; // card or task id that caused it
-  actor?: AstronautId; // resolves ME / PICK / NAME later
+  chance?: number;
+  effects: Effect[];
+  source: string; // card / task id
+  nameTarget?: AstronautId;
 }
 
-/** A timed or permanent modifier (e.g. "lab off 2 sols", "solar ×0.3 for 3 sols"). */
 export interface Modifier {
-  id: string;
-  source: string; // card id
-  kind: string; // e.g. 'labOff', 'solarMult', 'greenhouseOff', 'enmax', 'rationing'
-  value?: number;
-  target?: AstronautId;
-  solsLeft: number | null; // null = until cleared
+  id: number;
+  source: string;
+  kind: string; // 'labOff' | 'greenhouseOff' | 'noEva' | 'needDelta' | 'solarBonus' | 'rationing' | …
+  value: number;
+  fromSol: number; // first sol it applies
+  untilSol: number | null; // last sol it applies (inclusive); null = until cleared
 }
 
 // ───────────────────────── content definitions ─────────────────────────
 
-export interface ActionDef {
-  id: string; // 'SW-02.a'
-  title: string;
-  who: Who;
-  cadet: boolean; // ★
-  costNow: Effect[];
-  lostChance?: string;
-  effects: Effect[];
-  later?: Delayed[];
-  lesson: string; // ≤ 12 words (N-02)
-  tags?: 'repair'[]; // D-006
-  /** The original spec cells, kept for the content checker and debugging. */
-  raw?: { who: string; cost: string; effect: string; later: string };
+/** Parsed "Who" cell (src/engine/who.ts). */
+export interface WhoSpec {
+  roles: Role[]; // specific specialists needed
+  alt: Role[]; // "ENG or RES": any of these counts as the specialist
+  any: number; // extra helpers (anyone available)
+  name: boolean; // the astronaut the event is about
+  pick: boolean; // player picks one (Cadet: auto)
+  eva: boolean; // the card sends people outside
+  evaCrew: boolean; // "EVA crew": whoever is outside today
+  raw: string;
 }
 
-export type EventTrigger =
-  | {
-      kind: 'donki';
-      type: 'FLR' | 'SEP' | 'CME' | 'WSAEnlilSimulations' | 'notifications' | 'quiet';
-    }
-  | { kind: 'condition'; expr: string } // e.g. 'H2O <= 6'
-  | { kind: 'timer'; everySols: number }
-  | { kind: 'scripted'; sol: number }
-  | { kind: 'chain'; from: string }
-  | { kind: 'setup' };
+export interface ActionDef {
+  id: string; // 'SW-02.a'
+  eventId: string;
+  letter: string;
+  title: string;
+  who: WhoSpec;
+  cadet: boolean; // ★
+  costNow: Effect[];
+  effects: Effect[];
+  later: Delayed[];
+  lesson: string;
+  tags: ('repair' | 'hiddenUnlessLS10')[];
+  raw: { who: string; cost: string; effect: string; later: string };
+}
 
 export interface EventDef {
-  id: string; // 'SW-02'
+  id: string;
   title: string;
   icon: string;
-  systems: string[];
-  tier: Tier; // lowest tier that sees it
+  system: string;
+  tier: Tier;
   deck: DeckType[];
   missions: MissionId[] | 'all';
-  repeatable?: boolean | number;
-  weight?: number; // draw weight (default 1)
-  triggers: EventTrigger[];
-  warningSols: number;
-  briefing?: boolean; // Morning Briefing card (D-004)
-  cooldownSols?: number; // ⚠️ conditions: 3 (D-004)
+  repeatable: boolean;
   kidText: string;
-  realScience: { text: string; sources: string[] }; // every fact keeps its [S#]
-  actions: ActionDef[]; // 2–3
+  realScience: { text: string; sources: string[] };
+  /** Effects applied when the event appears (before the choice), e.g. "machine stopped". */
+  onStart: Effect[];
+  actions: ActionDef[];
 }
 
 export interface TaskDef {
   id: string; // 'T-LAB'
   title: string;
-  who: Who;
+  who: WhoSpec;
   cost: Effect[];
   effects: Effect[];
-  eva: boolean; // outside: EVA dose applies
-  res2x?: boolean; // "RES ×2" (D-006)
-  needs?: string; // e.g. 'LAB >= 3'
-  unlockedBy?: string; // e.g. 'LS-10'
+  eva: boolean;
+  res2x: boolean;
   lesson: string;
+  needs?: { lab?: number; sickBay?: boolean; unlock?: string };
 }
 
 export interface Mission {
   id: MissionId;
   name: string;
   site: string;
-  sols: { cadet?: number; commander?: number };
-  goal: { sp: { cadet?: number; commander?: number }; maxDose?: number; extra?: string };
+  goal: { maxDose?: number };
   missionEvents: string[];
-  scripted: { sol: number; event: string; donkiRecord?: string }[];
-  startOverrides?: Partial<Record<SupplyKey, number>>;
-  donkiWindow?: { start: string; end: string } | 'live-last-60-days' | 'quiet';
+  scripted: {
+    sol: number;
+    event: string;
+    severity?: number;
+    warningSols?: number;
+    donki?: DonkiRef;
+  }[];
+  donki: 'quiet' | 'scripted' | 'live';
+  dustEverySols?: number;
   specialRules: string[];
+}
+
+export interface Content {
+  specVersion: string;
+  events: Record<string, EventDef>;
+  tasks: Record<string, TaskDef>;
+  missions: Partial<Record<MissionId, Mission>>;
 }
 
 // ───────────────────────── game state ─────────────────────────
 
 export interface RngState {
-  s: number; // mulberry32 state (uint32)
+  s: number;
 }
 
+/** Each astronaut keeps only role-level state; all stats are on the shared crew card (D-017). */
 export interface Astronaut {
   id: AstronautId;
   role: Role;
   callSign: string;
+  sickBaySols: number; // 0 = available
+  busyUntilSol: number; // no tasks up to and including this sol (CR-02.a, CR-06.b, CR-07.a)
+  plannedTask: string | null; // planned in step 3, resolved at night (D-001)
+}
+
+/** The shared crew card (D-017). */
+export interface Crew {
   FUL: number;
   HYD: number;
   AIR: number;
   EN: number;
   ENMAX: number;
   DOSE: number;
-  sickBaySols: number; // 0 = not in Sick Bay
-  sickStat?: Exclude<StatKey, 'DOSE' | 'ENMAX'>; // the stat that hit 0 (reset to 2 on leaving, D-011)
   indoorOnly: boolean; // DOSE reached 10
-  plannedTask: string | null; // planned in step 3, resolved at night (D-001)
 }
 
 export type CropKind = 'lettuce' | 'radish' | 'pepper';
@@ -173,55 +185,71 @@ export interface Crop {
   kind: CropKind;
   plantedSol: number;
   readySol: number;
-  tended: boolean; // T-GARDEN at least once (D-013)
+  tended: boolean;
   tendedByRes: boolean;
+  delayedUntended: boolean;
 }
 
 export type PoweredSystem = 'LS' | 'recycler' | 'greenhouse';
 
 export interface PowerBudget {
-  solar: number; // floor(4 × mult) − dust stacks, min 0 (D-002)
+  solar: number;
   reactor: number;
+  bonus: number;
+  supply: number; // solar + reactor + bonus
   battery: number;
-  supply: number; // solar + reactor
-  budget: number; // supply + battery
-  need: { LS: number; recycler: number; greenhouse: number; heaters: number; tasks: number };
+  batteryUsable: boolean;
+  need: { LS: number; recycler: number; greenhouse: number; extra: number };
   totalNeed: number;
+  spent: number; // PWR already spent/reserved today (cards + planned tasks)
+  available: number; // supply + battery − totalNeed − spent
   shortfall: number; // > 0 → PW-08 shortage mode (D-003)
   plugged: Record<PoweredSystem, boolean>;
 }
 
-/** Where the sol loop is (spec §2.4 + D-001/D-003/D-004). */
-export type Phase =
-  | 'setup' // FD-04, FD-01, (Commander) MG-04, (M9) MG-01 + PW-10
-  | 'morning' // report + optional Morning Briefing card
-  | 'power' // power plan (PW-08 shortage mode when shortfall > 0)
-  | 'tasks' // plan one task per astronaut
-  | 'event' // the event slot
-  | 'night' // resolved; showing "What happened today"
-  | 'ended';
+export type Phase = 'setup' | 'morning' | 'power' | 'tasks' | 'event' | 'night' | 'ended';
 
-/** The card(s) currently waiting for a choice. */
 export interface Pending {
   slot: 'setup' | 'briefing' | 'shortage' | 'event';
   eventId: string;
-  offered: string[]; // action ids shown (Cadet: 2, Commander: 3)
-  nameTarget?: AstronautId; // [Name] for crew events
-  donkiRecord?: DonkiRef;
+  offered: string[]; // action ids shown (Cadet: 2 ★, Commander: 3; + c revealed when stuck)
+  stuck: boolean; // nothing affordable → "We can't fix it today" (D-012)
+  nameTarget?: AstronautId;
+  severity?: number;
+  warningSols?: number;
+  donki?: DonkiRef;
 }
 
 export interface DonkiRef {
-  type: string; // 'FLR' | 'SEP' | 'CME' | 'WSAEnlilSimulations' | 'notifications'
-  id: string; // e.g. '2024-05-20T05:36:00-CME-001'
-  date: string; // real date (YYYY-MM-DD) shown on the card (D-009)
-  label: string; // honesty label (spec §5)
-  severity?: number; // S
+  type: string;
+  id: string;
+  date: string;
+  label: string;
+}
+
+export interface QueuedEvent {
+  eventId: string;
+  dueSol: number;
+  sinceSol: number;
+  severity?: number;
+  nameTarget?: AstronautId;
+  source: string;
 }
 
 export interface LogEntry {
   sol: number;
-  kind: 'event' | 'choice' | 'task' | 'power' | 'upkeep' | 'dose' | 'harvest' | 'warning' | 'info';
-  /** Key into src/content/copy.ts (all kid-facing strings live there). */
+  kind:
+    | 'event'
+    | 'choice'
+    | 'task'
+    | 'power'
+    | 'upkeep'
+    | 'dose'
+    | 'harvest'
+    | 'warning'
+    | 'info'
+    | 'ending';
+  /** Key into src/content/copy.ts → log templates. */
   key: string;
   params?: Record<string, string | number>;
 }
@@ -230,51 +258,78 @@ export interface ChoiceRecord {
   sol: number;
   eventId: string;
   actionId: string;
-  /** Short consequence keys collected later, for the debrief "what it caused". */
-  consequences: string[];
-  weight: number; // how big its impact was (for "your 3 biggest choices")
+  deltas: Record<string, number>; // resource changes caused right away
+  causedEvents: string[];
+  score: number;
 }
 
 export type EndingKind = 'success' | 'safe-return' | 'brought-home';
 export interface Ending {
   kind: EndingKind;
   sol: number;
-  reason: string; // copy key, e.g. 'end.ls-zero-2-sols'
+  reason: string; // copy key, e.g. 'end.lsZero'
 }
 
 export interface Debrief {
   ending: Ending;
-  bigChoices: { choice: ChoiceRecord; causedKey: string; nasaDoesKey: string }[]; // top 3
-  totals: { spBanked: number; spGoal: number; maxDose: number; solsPlayed: number };
+  top3: {
+    choice: ChoiceRecord;
+    eventTitle: string;
+    actionTitle: string;
+    lesson: string;
+    nasa: string;
+    sources: string[];
+  }[];
+  stats: { spBanked: number; spPending: number; spGoal: number; dose: number; sols: number };
 }
 
 export interface GameState {
-  version: 1;
+  version: 2;
   seed: number;
   rng: RngState;
   mission: MissionId;
   tier: Tier;
-  sol: number; // 1-based; 0 during setup
+  sol: number; // 0 during setup
   lastSol: number;
   phase: Phase;
   systems: Record<SystemKey, number> & { BATMAX: number };
   supplies: Record<SupplyKey, number>;
-  sp: { pending: number; banked: number; goal: number }; // D-005
+  crew: Crew;
+  sp: { pending: number; banked: number; goal: number };
   astronauts: Astronaut[];
-  dust: { stacks: number; multiplier: number; nextStackSol: number };
+  dust: { stacks: number; multiplier: number; nextStackSol: number; addedToday: boolean };
   power: PowerBudget;
   crop: Crop | null;
-  flags: Record<string, number | true>; // number = sols left
+  lastCrop: CropKind | null;
+  flags: Record<string, number>; // value = last sol it applies (Infinity is not JSON → 9999)
   modifiers: Modifier[];
   scheduled: ScheduledEffect[];
-  deck: string[]; // shuffled event ids still to draw
-  played: string[]; // event ids played (in order)
-  cooldowns: Record<string, number>; // event id → sol it is allowed again
-  waiting: { eventId: string; sinceSol: number }[]; // displaced chains/conditions (D-004)
+  queue: QueuedEvent[]; // chains waiting for the event slot (D-004)
+  setupQueue: string[];
+  deck: string[];
+  played: string[];
+  cooldowns: Record<string, number>; // event id → first sol it may fire again
+  timers: {
+    lsWearSol: number;
+    labWearSol: number;
+    bgDoseSol: number;
+    recyclerLossSol: number;
+    rs04Pending: boolean;
+  };
+  counters: {
+    labTasks: number;
+    lsZeroSols: number;
+    lsUnpoweredSols: number;
+    evaToday: number;
+    evaYesterday: number;
+    waterWalls: number;
+    kitLeft: number;
+  };
   pending: Pending | null;
+  eventsToday: number;
+  nextId: number;
   log: LogEntry[];
   choices: ChoiceRecord[];
-  counters: { lsZeroSols: number; lsUnpoweredSols: number; labTasks: number };
   ending: Ending | null;
 }
 
@@ -283,17 +338,16 @@ export interface GameState {
 export interface NewGameOptions {
   mission: MissionId;
   tier: Tier;
-  seed?: number; // omitted → caller supplies one (the engine never uses Math.random)
+  seed: number;
 }
 
 export type Command =
   | { type: 'CHOOSE'; actionId: string; pick?: AstronautId } // answers state.pending
-  | { type: 'CONTINUE' } // morning report → power, night log → next sol
+  | { type: 'CONTINUE' } // morning → power · night → next sol
   | { type: 'SET_POWER'; system: PoweredSystem; on: boolean }
   | { type: 'CONFIRM_POWER' }
   | { type: 'PLAN_TASK'; astronaut: AstronautId; taskId: string | null }
-  | { type: 'CONFIRM_TASKS' }
-  | { type: 'END_MISSION' }; // MG-02.a style safe return
+  | { type: 'CONFIRM_TASKS' };
 
 // ───────────────────────── view models (engine → UI) ─────────────────────────
 
@@ -316,19 +370,23 @@ export type IconName =
   | 'EN'
   | 'TIME'
   | 'RISK'
-  | 'LOST';
+  | 'LOST'
+  | 'EVENT'
+  | 'RULE';
 
 export interface Chip {
   icon: IconName;
-  text: string; // e.g. '−2', '+3', '1 in 3', 'lab science today'
   tone: 'cost' | 'effect' | 'later' | 'risk';
+  amount?: number; // signed number, e.g. −2
+  label?: string; // plain text from the spec (LOST: …) or a copy key prefixed with 'chip.'
+  params?: Record<string, string | number>;
+  inSols?: number;
 }
 
-/** A card ready to render: costs first, then effects, then ⏳ / risk (CLAUDE.md §9). */
 export interface CardView {
   id: string;
   title: string;
-  whoLabel: string;
+  who: string[]; // tokens: astronaut ids, 'ANY', 'NAME', 'PICK', 'EVA' (the UI turns them into words)
   star: boolean;
   costs: Chip[];
   effects: Chip[];
@@ -336,7 +394,8 @@ export interface CardView {
   risk?: { pct: number; words: string };
   lesson: string;
   affordable: boolean;
-  reason?: string; // why not affordable
+  fallback: boolean; // specialist unavailable: +1 EN, 50 % (spec §2.3)
+  reason?: string; // copy key when not affordable
 }
 
 export interface TaskOption {
@@ -344,10 +403,32 @@ export interface TaskOption {
   title: string;
   astronaut: AstronautId;
   allowed: boolean;
-  fallback: boolean; // not the specialist: +1 EN, 50 % (spec §2.3)
-  reason?: string;
+  fallback: boolean;
+  reason?: string; // copy key
   costs: Chip[];
   effects: Chip[];
+  lesson: string;
 }
 
-export type BadgeColour = 'green' | 'yellow' | 'red'; // D-010
+export type BadgeColour = 'green' | 'yellow' | 'red';
+
+export interface Hud {
+  sol: number;
+  lastSol: number;
+  phase: Phase;
+  core: { LS: number; PWR: number; BAT: number; SH: number; shieldTier: number };
+  sp: { pending: number; banked: number; goal: number };
+  crew: Crew & { badge: BadgeColour };
+  systems: Record<SystemKey, number> & { BATMAX: number };
+  supplies: Record<SupplyKey, number>;
+  astronauts: {
+    id: AstronautId;
+    callSign: string;
+    sickBaySols: number;
+    busy: boolean;
+    plannedTask: string | null;
+  }[];
+  crop: Crop | null;
+  dustStacks: number;
+  flags: string[];
+}

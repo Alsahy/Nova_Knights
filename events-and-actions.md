@@ -1,7 +1,10 @@
 # Junior Astronaut Mission Trainer: Mars Events & Action Cards
 
-**Version 0.3 (Mars only, spec freeze) · 13 Nov 2026 · NASA Space Apps 2026 (Cairo)**
+**Version 0.4 (Mars only) · 13 Nov 2026 · NASA Space Apps 2026 (Cairo)**
 This is the logic sketch for a card game where kids (7–12) run a **Mars outpost** with 4 astronauts and 4 systems. The theme and art will come later. The file lists every event, every choice, what each choice costs, and the real NASA fact behind it.
+
+> **What changed from v0.3** (lead decision, 13 Nov 2026)
+> - **D-017 Shared crew stats.** The crew shares **one** set of stats instead of one card per astronaut: 🍽️ FUL, 💧 HYD, 🫁 AIR and ⚡ EN are crew pools (0–20, i.e. 4 astronauts × 5) and ☢️ DOSE is one crew badge (0–10). Roles still decide who can play a card and who is in Sick Bay. Rules in §2.2; targets in §3; SW-07 and CR-07 adjusted. SW-06 and MG-04 (Commander) wait for a rework (P-005).
 
 > **What changed from v0.2** (lead decisions, 13 Nov 2026; full text in `PROGRESS.md → Decisions`)
 > - **D-001 (A-01) Task timing:** tasks are *planned* in step 3 and *resolved* at the start of Night, after the event. Fixed night order (§2.4).
@@ -87,7 +90,7 @@ This is the logic sketch for a card game where kids (7–12) run a **Mars outpos
 | Events per sol | 0–1 (30% of sols are quiet) | 1 (15% quiet), +1 if DONKI has a real event that sol |
 | Events seen per game | ~8–12 of 60 | ~15–22 of 60 |
 | Choices shown | 2 (★) | 3 |
-| Astronaut stats shown | 🍽️ Food, 💧 Water, ⚡ Energy (🫁 Air only during EVA). Dose as a badge: green 0–3 · yellow 4–6 · red 7–10 (D-010) | All 5 as numbers |
+| Crew stats shown (shared, D-017) | 🍽️ Food, 💧 Water, ⚡ Energy bars (🫁 Air only during EVA). Dose as one crew badge: green 0–3 · yellow 4–6 · red 7–10 (D-010) | All 5 as numbers |
 | Commander-only events | hidden | shown |
 
 ### 1.3 Starter values (missions can change these, see §8)
@@ -103,7 +106,7 @@ This is the logic sketch for a card game where kids (7–12) run a **Mars outpos
 | 🫧 O2T Oxygen tanks | 3 | 2 | emergency air |
 | 🔩 PARTS Spare parts | 4 | 3 | |
 | 🩹 MEDKIT | 3 | 2 | |
-| Astronaut stats | FUL 4, HYD 4, AIR 5, EN 4, DOSE 0 | same, but DOSE from MG-04 (2–3) | stats 0–5, DOSE 0–10 |
+| Crew stats (shared, D-017) | FUL 16, HYD 16, AIR 20, EN 16 (max 20), DOSE 0 | same, but DOSE from MG-04 (2–3) | pools 0–20 (4 astronauts × 5), DOSE 0–10 |
 
 ### 1.4 Balance targets (for the simulator)
 Run 1,000 seeded games per **mission** and strategy: *max-shield*, *max-science*, *balanced*, *random*.
@@ -143,18 +146,26 @@ Run 1,000 seeded games per **mission** and strategy: *max-shield*, *max-science*
 
 **Shortage (D-003):** if the need is bigger than today's power plus the battery, the **Power Plan** step switches to **PW-08's shortage mode** and shows PW-08's cards (unplug the lab / the greenhouse / turn down LS). It does **not** use the event slot. If an event later in the same sol adds a need, the battery covers it; if the battery can't, LS is unpowered that night (`LS-2`).
 
-### 2.2 Astronaut card (one per astronaut)
+### 2.2 Crew card (shared by the whole crew, D-017)
+
+The 4 astronauts share **one** crew card. Each pool is the sum of what 4 people would have (4 × 0–5 = 0–20), so the card costs keep their size. Roles still matter: they decide who can play a card or do a task (§2.3), and each astronaut can be in Sick Bay on their own.
 
 | Stat | Icon | Scale | Sol upkeep (automatic at night) |
 |---|---|---|---|
-| Fullness (hunger) | 🍽️ FUL | 0–5 | Eats 1 FOOD → FUL stays. No food → FUL −1 |
-| Hydration (thirst) | 💧 HYD | 0–5 | Recycler ON: drinks without using stock (see the recycler loss rule). Recycler OFF: H2O −1 each. No water → HYD −1 |
-| Air | 🫁 AIR | 0–5 | Inside: LS ≥4 → AIR refills to 5. LS 1–3 → AIR −1. LS 0 → AIR −2. On EVA the suit uses AIR |
-| Energy | ⚡ EN | 0–5 | +1 from sleep each night. The *Rest* task gives +3 instead of working |
-| Radiation dose | ☢️ DOSE | 0–10 (never goes down) | Trip (MG-04) + background + EVA + storms (§2.6) |
+| Fullness (hunger) | 🍽️ FUL | 0–20 | Each astronaut eats 1 FOOD → FUL stays. For each astronaut with no food → FUL −1 |
+| Hydration (thirst) | 💧 HYD | 0–20 | Recycler ON: the crew drinks without using stock (see the recycler loss rule). Recycler OFF: H2O −1 per astronaut. For each astronaut with no water → HYD −1 |
+| Air | 🫁 AIR | 0–20 | Inside: LS ≥4 → AIR refills to 20. LS 1–3 → AIR −4. LS 0 → AIR −8 (−1 / −2 per astronaut). EVA suits use AIR from the pool |
+| Energy | ⚡ EN | 0–20 (cap ENMAX 20) | +1 per astronaut from sleep each night (+4). The *Rest* task gives +3 instead of working |
+| Radiation dose | ☢️ DOSE | 0–10 (never goes down) | **One crew badge.** Trip (MG-04) + background + EVA + storms (§2.6) |
 
-- **Any of FUL/HYD/AIR/EN reaches 0** → the astronaut goes to **Sick Bay** (no tasks for 2 sols). MED's *Treat* task brings them back next sol. **On leaving Sick Bay, the stat that hit 0 is set to 2** (D-011), so they don't go straight back in.
-- **DOSE reaches 10** → "Indoor only" for the rest of the mission (no EVAs). This is the career-limit lesson.
+**How card targets hit the shared pools (D-017):**
+- `ME`, `PICK`, `[Name]` and role targets (`ENG.EN-2`) change the pool **once** (`ENG.EN-2` → crew EN −2).
+- `ALL` changes the pool **once per astronaut not in Sick Bay** (`ALL.EN-1` → −1 × 4 = −4). `EVA` changes it once per astronaut outside today. `EN-2 each` = once per named astronaut.
+- **DOSE** is one badge: any DOSE effect is applied **once**, whatever the target (`ALL.DOSE+2` → badge +2).
+- `[Name]` events still name one astronaut for the story and for who skips tasks (e.g. CR-02 "[Name] skips first task tomorrow").
+
+- **A pool (FUL/HYD/AIR/EN) reaches 0** → one astronaut (seeded pick among those not in Sick Bay) goes to **Sick Bay** (no tasks for 2 sols), and that pool is reset to **4** so the crew can recover (D-017, replaces D-011's per-astronaut reset). MED's *Treat* task brings them back next sol.
+- **DOSE reaches 10** → the **whole crew** is "Indoor only" for the rest of the mission (no EVAs). This is the career-limit lesson.
 
 ### 2.3 The 4 roles
 These match the real roles in NASA's year-long Mars-habitat test (CHAPEA): Commander, Flight Engineer, Medical Officer, Science Officer [S43].
@@ -168,7 +179,7 @@ These match the real roles in NASA's year-long Mars-habitat test (CHAPEA): Comma
 
 **Superpowers are cards, not extra actions (D-006).** Each superpower *is* that role's exclusive tasks and cards; there are no extra free actions. MGR's *Plan Ahead* = T-PLAN and *Pep Talk* = T-PEP (both cost `MGR.EN-1`). ENG's *Fixer*: the costs listed on repair cards are **already** the engineer's price. RES's ×2 SP applies **only** to tasks marked "RES ×2" (T-LAB, T-EVA-SCI), not to event SP. MED's exact dose numbers come from T-MED and SW-07.b.
 
-**Fallback rule:** if the right role can't play a card (Sick Bay, EN 0, Indoor-only), **anyone** can try it for **+1 EN** with a **50% chance** to work. The costs are paid even if it fails (D-006). This keeps the game playable and teaches why specialists matter.
+**Fallback rule:** if the right role can't play a card (Sick Bay, or Indoor-only for an EVA card), **anyone** can try it for **+1 EN** with a **50% chance** to work. The costs are paid even if it fails (D-006). This keeps the game playable and teaches why specialists matter.
 
 ### 2.4 One sol (turn)
 A Mars day ("sol") is 24 hours 39 minutes long [S7].
@@ -233,7 +244,7 @@ Effects are written as `TARGET.STAT ±N` or `SUPPLY ±N`, joined by `;`.
 |---|---|
 | `LS`, `SH`, `LAB`, `BAT`, `PWR`, `SP` | systems / today's power / science points |
 | `FOOD`, `H2O`, `O2T`, `PARTS`, `MEDKIT` | supplies |
-| `ALL`, `ME`, `MGR`, `ENG`, `MED`, `RES`, `EVA`, `PICK` | targets (`ME` = whoever plays the card; `EVA` = astronauts outside today; `PICK` = player picks one) |
+| `ALL`, `ME`, `MGR`, `ENG`, `MED`, `RES`, `EVA`, `PICK` | targets (`ME` = whoever plays the card; `EVA` = astronauts outside today; `PICK` = player picks one). Stats are shared crew pools: see §2.2 for how each target counts (D-017) |
 | `.FUL`, `.HYD`, `.AIR`, `.EN`, `.DOSE`, `.ENMAX` | astronaut stats (`.ENMAX` = max energy cap) |
 | `⏳N:` | happens N sols later |
 | `p=0.3:` | 30% chance (Cadet text: "maybe, 1 in 3") |
@@ -324,8 +335,8 @@ Deck tags: 🟢 Core (any mission, random draw) · 🎯 Mission (only in the mis
 | SW-03 | Storm Cloud Coming | Radiation/Power | ☀️ (ENLIL) | all | Cadet |
 | SW-04 | The Storm Cloud Hits | Radiation/Comms | 🔗 after SW-03 | all | Cadet |
 | SW-05 | Quiet Sun Day | Research | 🟢 (when DONKI is quiet) | all | Cadet |
-| SW-06 | Rays Add Up | Radiation | ⚠️ DOSE ≥4 | all | Commander |
-| SW-07 | Dose Badge Turning Red | Crew | ⚠️ DOSE ≥7 | all | Cadet |
+| SW-06 | Rays Add Up | Radiation | ⚠️ crew DOSE ≥4 | all | Commander |
+| SW-07 | Dose Badge Turning Red | Crew | ⚠️ crew DOSE ≥7 | all | Cadet |
 | SW-08 | Earth Is Safe, Mars Is Not | Radiation | ☀️ (ENLIL) | M3, M9 | Commander |
 | SW-09 | Forecasters' Message | Radiation | ☀️ notifications | M3, M9 | Commander |
 | SW-10 | Radiation Sensor Glitch | Radiation | 🎯 | M3, M8, M9 | Commander |
@@ -363,7 +374,7 @@ Deck tags: 🟢 Core (any mission, random draw) · 🎯 Mission (only in the mis
 | CR-04 | Dust Sneezes | Crew/LS | 🔗 after an EVA (20%) | all | Cadet |
 | CR-05 | Water in the Helmet! | Crew | 🔗 during an EVA (mishap 15%) | all | Cadet |
 | CR-06 | Slip on a Rock | Crew | 🔗 during an EVA (mishap 15%) | all | Cadet |
-| CR-07 | Too Tired to Work | Crew | ⚠️ EN ≤ 1 | all | Cadet |
+| CR-07 | Too Tired to Work | Crew | ⚠️ crew EN ≤ 4 | all | Cadet |
 | CR-08 | Blurry Vision | Crew | 🟢 | all | Commander |
 | RS-01 | Shiny Rock Far Away | Research | 🟢 | all | Cadet |
 | RS-02 | The Ground Is Shaking! | Research/Power | 🎯 (repeatable in M5) | M5, M9 | Cadet |
@@ -447,7 +458,7 @@ Deck tags: 🟢 Core (any mission, random draw) · 🎯 Mission (only in the mis
 | c. Rest sol | MGR | `LOST: all tasks today` | `ALL.EN+2` | — | Rest is a resource too |
 
 #### SW-06 · Rays Add Up 📈
-`deck: ⚠️ any DOSE reaches 4 · tier: Commander · systems: DOSE`
+`deck: ⚠️ crew DOSE reaches 4 · tier: Commander · systems: DOSE` *(cards a and b assume one badge per astronaut; rework pending P-005)*
 - **Kid text:** "Space rays add up a little every sol. Who goes outside next?"
 - **Real science:** Curiosity measured ~0.64 mSv/day on the Martian surface [S8]. NASA's career limit is 600 mSv [S9].
 
@@ -458,15 +469,15 @@ Deck tags: 🟢 Core (any mission, random draw) · 🎯 Mission (only in the mis
 | c. Add another soil layer | ENG + ANY (EVA) | `ENG.EN-2; PICK.EN-2`; EVA dose | `SH+2` | — | Shields help every day |
 
 #### SW-07 · Dose Badge Turning Red 🔴
-`deck: ⚠️ an astronaut DOSE ≥7 · tier: Cadet · systems: DOSE`
-- **Kid text:** "[Name]'s radiation badge is almost full!"
+`deck: ⚠️ crew DOSE ≥7 (D-017) · tier: Cadet · systems: DOSE`
+- **Kid text:** "The crew's radiation badge is almost full!"
 - **Real science:** Artemis crews wear personal radiation badges [S12]. The 600 mSv career limit decides how long an astronaut can fly [S9].
 
 | Card | Who | Cost now | Effect | Later ⏳ / risk | Lesson |
 |---|---|---|---|---|---|
-| ★ a. Inside jobs only for [Name] | MGR | [Name] can't EVA; others must cover | Their DOSE stops climbing (except storms) | — | Limits protect long-term health |
+| ★ a. Inside jobs only | MGR | No EVAs for 3 sols (D-017) | DOSE stops climbing (except storms) | — | Limits protect long-term health |
 | ★ b. Medical check-up | MED | `MED.EN-1` | Exact dose shown; `+FLAG:medWatch` (warnings 1 sol earlier) | — | Measure before you decide |
-| c. One last important trip | PICK | — | Key EVA done: `SP+3` | `PICK.DOSE+1` (may hit 10 → Indoor only) | Some risks aren't worth it |
+| c. One last important trip | PICK | — | Key EVA done: `SP+3` | `DOSE+1` (may hit 10 → Indoor only) | Some risks aren't worth it |
 
 #### SW-08 · Earth Is Safe, Mars Is Not 🌍✅🔴⚠️
 `deck: ☀️ DONKI WSA-ENLIL run with "no impact to Earth" but a Mars arrival · warning: N sols · tier: Commander · systems: SH, comms`
@@ -903,8 +914,8 @@ Deck tags: 🟢 Core (any mission, random draw) · 🎯 Mission (only in the mis
 | c. Tape it and keep going | [Name] | — | Keeps working | `p=0.4:` ⏳ Sick Bay 2 sols | Pushing through can make it worse |
 
 #### CR-07 · Too Tired to Work 🥱
-`deck: ⚠️ an astronaut reaches EN ≤ 1 (a warning before Sick Bay, D-011) · tier: Cadet`
-- **Kid text:** "[Name] is almost out of energy!"
+`deck: ⚠️ crew EN ≤ 4 (≈ 1 per astronaut; a warning before Sick Bay, D-011 + D-017) · tier: Cadet`
+- **Kid text:** "The crew is almost out of energy!"
 - **Real science:** Astronauts often sleep less than planned, which makes their work harder [S42].
 
 | Card | Who | Cost now | Effect | Later ⏳ / risk | Lesson |

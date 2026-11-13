@@ -1,5 +1,5 @@
 {
-  "specVersion": "0.3",
+  "specVersion": "0.4",
   "events": [
     {
       "id": "SW-01",
@@ -74,7 +74,7 @@
       "deck": [
         "condition"
       ],
-      "deckRaw": "⚠️ DOSE ≥4",
+      "deckRaw": "⚠️ crew DOSE ≥4",
       "missions": "all",
       "missionsRaw": "all",
       "tier": "commander",
@@ -87,7 +87,7 @@
       "deck": [
         "condition"
       ],
-      "deckRaw": "⚠️ DOSE ≥7",
+      "deckRaw": "⚠️ crew DOSE ≥7",
       "missions": "all",
       "missionsRaw": "all",
       "tier": "cadet",
@@ -629,7 +629,7 @@
       "deck": [
         "condition"
       ],
-      "deckRaw": "⚠️ EN ≤ 1",
+      "deckRaw": "⚠️ crew EN ≤ 4",
       "missions": "all",
       "missionsRaw": "all",
       "tier": "cadet",
@@ -844,6 +844,3266 @@
       "missionsRaw": "all (Commander)",
       "tier": "commander",
       "tierRaw": "Commander"
+    }
+  ],
+  "details": {
+    "SW-01": {
+      "id": "SW-01",
+      "title": "Flash on the Sun!",
+      "icon": "☀️⚡",
+      "deckLine": "☀️ DONKI FLR (class M or X) · warning: this IS the warning · tier: Cadet · systems: SH, DOSE",
+      "kidText": "A bright flash on the Sun! Fast particles might follow soon.",
+      "realScience": {
+        "text": "Flares are graded A, B, C, M, X. Each letter is 10× stronger than the last [S3]. Flare light reaches Earth in ~8 minutes, and fast particles can follow ~20–30 minutes later [S4].",
+        "sources": [
+          "S3",
+          "S4"
+        ]
+      },
+      "notes": [
+        {
+          "label": "Engine",
+          "text": "if `linkedEvents` includes an SEP → SW-02 fires. Otherwise SEP chance by S: 1→20%, 2→30%, 3→50%, 4→70%."
+        }
+      ],
+      "extra": [],
+      "cards": [
+        {
+          "id": "SW-01.a",
+          "letter": "a",
+          "star": true,
+          "title": "Everyone inside now",
+          "who": "MGR",
+          "cost": "`LOST: today's EVA tasks`",
+          "effect": "Nobody outside if particles come",
+          "later": "—",
+          "lesson": "Safety first costs time"
+        },
+        {
+          "id": "SW-01.b",
+          "letter": "b",
+          "star": true,
+          "title": "Finish the outside job fast",
+          "who": "EVA crew",
+          "cost": "`EVA.EN-1`",
+          "effect": "EVA task completes as planned",
+          "later": "If SEP fires: `EVA.DOSE+S`",
+          "lesson": "Racing a storm is a gamble"
+        },
+        {
+          "id": "SW-01.c",
+          "letter": "c",
+          "star": false,
+          "title": "Get the shelter ready",
+          "who": "ENG",
+          "cost": "`ENG.EN-1; PWR-1`",
+          "effect": "`+FLAG:shelterReady` (next storm counts as sheltered)",
+          "later": "—",
+          "lesson": "Prepare before danger"
+        }
+      ]
+    },
+    "SW-02": {
+      "id": "SW-02",
+      "title": "Radiation Storm!",
+      "icon": "☢️",
+      "deckLine": "🔗 after SW-01 / ☀️ DONKI SEP · warning: none · tier: Cadet · systems: SH, DOSE, SP",
+      "kidText": "Invisible particles from the Sun are here! Hide in the shelter or keep working?",
+      "realScience": {
+        "text": "Particles from big solar eruptions arrive within tens of minutes [S4]. In May 2024, Curiosity's radiation detector on Mars recorded its biggest surge since 2012: 8,100 micrograys, like 30 chest X-rays [S6]. Orion crews make a shelter by stacking stowage bags around themselves [S10] within about 30 minutes of an alert [S11]. NASA limits one storm's dose to 250 mSv [S9].",
+        "sources": [
+          "S4",
+          "S6",
+          "S10",
+          "S11",
+          "S9"
+        ]
+      },
+      "notes": [
+        {
+          "label": "Dose rule",
+          "text": "§2.6 (storm dose; sheltered = −2)."
+        }
+      ],
+      "extra": [],
+      "cards": [
+        {
+          "id": "SW-02.a",
+          "letter": "a",
+          "star": true,
+          "title": "Everyone to the shelter",
+          "who": "MGR",
+          "cost": "`LOST: all tasks today (SP+0)`",
+          "effect": "`ALL` take the *sheltered* dose",
+          "later": "—",
+          "lesson": "Shelters trade work for safety"
+        },
+        {
+          "id": "SW-02.b",
+          "letter": "b",
+          "star": true,
+          "title": "Build a water-bag wall",
+          "who": "ENG + ANY",
+          "cost": "`ENG.EN-2; PICK.EN-1`",
+          "effect": "`SH+2` until the storm ends; inside tasks continue",
+          "later": "⏳1: `ENG.EN-1` (put the bags back)",
+          "lesson": "Water stops radiation too"
+        },
+        {
+          "id": "SW-02.c",
+          "letter": "c",
+          "star": false,
+          "title": "Keep working at stations",
+          "who": "MGR",
+          "cost": "—",
+          "effect": "Inside tasks continue (normal SP)",
+          "later": "`ALL.DOSE +` unsheltered dose",
+          "lesson": "Science vs health"
+        }
+      ]
+    },
+    "SW-03": {
+      "id": "SW-03",
+      "title": "Storm Cloud Coming",
+      "icon": "🌪️",
+      "deckLine": "☀️ DONKI WSA-ENLIL Mars impact (CME speed as backup) · warning: N sols (computed) · tier: Cadet · systems: SH, BAT, SP",
+      "kidText": "The Sun threw a giant cloud. It reaches Mars in [N] sols! How do we get ready?",
+      "realScience": {
+        "text": "A coronal mass ejection (CME) is a huge cloud from the Sun that takes ~1–3 days to reach Earth [S4]. NASA's DONKI models also predict when CMEs reach Mars [S2].",
+        "sources": [
+          "S4",
+          "S2"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "SW-03.a",
+          "letter": "a",
+          "star": true,
+          "title": "Pile soil on the roof",
+          "who": "ENG + ANY (EVA)",
+          "cost": "`ENG.EN-2; PICK.EN-2`; EVA dose",
+          "effect": "`SH+2` (permanent)",
+          "later": "—",
+          "lesson": "Thick walls block radiation"
+        },
+        {
+          "id": "SW-03.b",
+          "letter": "b",
+          "star": true,
+          "title": "Rush science before it hits",
+          "who": "RES",
+          "cost": "`RES.EN-2`",
+          "effect": "`SP+3` now",
+          "later": "Shield unchanged when it arrives",
+          "lesson": "Use the calm before the storm"
+        },
+        {
+          "id": "SW-03.c",
+          "letter": "c",
+          "star": false,
+          "title": "Charge every battery",
+          "who": "MGR",
+          "cost": "Greenhouse off until arrival",
+          "effect": "`BAT+3`",
+          "later": "⏳ crops 1 sol late",
+          "lesson": "Store energy for hard days"
+        }
+      ]
+    },
+    "SW-04": {
+      "id": "SW-04",
+      "title": "The Storm Cloud Hits",
+      "icon": "💥",
+      "deckLine": "🔗 arrival from SW-03 / SW-08 · tier: Cadet · systems: comms, SH",
+      "kidText": "The cloud is here! Radios crackle and shields get tested.",
+      "realScience": {
+        "text": "In May 2024, at least seven CMEs reached Earth and made the strongest geomagnetic storm in over 20 years [S5]. That same month, Curiosity measured a record radiation jump on Mars [S6].",
+        "sources": [
+          "S5",
+          "S6"
+        ]
+      },
+      "notes": [
+        {
+          "label": "Auto effects",
+          "text": "if shield tier = 0 → 30% chance of SW-02."
+        }
+      ],
+      "extra": [],
+      "cards": [
+        {
+          "id": "SW-04.a",
+          "letter": "a",
+          "star": true,
+          "title": "Hunker down, radios off",
+          "who": "MGR",
+          "cost": "`LOST: Ask Earth & data today`",
+          "effect": "Electronics protected",
+          "later": "—",
+          "lesson": "Sometimes you wait it out"
+        },
+        {
+          "id": "SW-04.b",
+          "letter": "b",
+          "star": true,
+          "title": "Keep radios on",
+          "who": "ANY",
+          "cost": "`PWR-1`",
+          "effect": "Can send to Earth / send data",
+          "later": "`p=0.3: → CM-02`",
+          "lesson": "Storms scramble radio"
+        },
+        {
+          "id": "SW-04.c",
+          "letter": "c",
+          "star": false,
+          "title": "Measure the storm for science",
+          "who": "RES",
+          "cost": "`RES.EN-1; PWR-1`",
+          "effect": "`SP+2`",
+          "later": "`p=0.3: LAB-1` (sensor zapped)",
+          "lesson": "Storms are science too"
+        }
+      ]
+    },
+    "SW-05": {
+      "id": "SW-05",
+      "title": "Quiet Sun Day",
+      "icon": "😎",
+      "deckLine": "🟢 (only when DONKI shows nothing in the last 3 days) · tier: Cadet · systems: SP, SH, LS",
+      "kidText": "The Sun is calm today. A great sol to go outside!",
+      "realScience": {
+        "text": "Even on calm days, cosmic rays keep coming. Curiosity measured about 0.64 mSv a day on Mars' surface, about a third of the ~1.8 mSv a day during the flight to Mars [S8].",
+        "sources": [
+          "S8"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "SW-05.a",
+          "letter": "a",
+          "star": true,
+          "title": "Big science walk",
+          "who": "RES + ANY (EVA)",
+          "cost": "`EVA.EN-2; EVA.AIR-2`",
+          "effect": "`SP+4`",
+          "later": "EVA dose",
+          "lesson": "Calm days are for big trips"
+        },
+        {
+          "id": "SW-05.b",
+          "letter": "b",
+          "star": true,
+          "title": "Fix things outside",
+          "who": "ENG (EVA)",
+          "cost": "`ENG.EN-2; PARTS-1`",
+          "effect": "`LS+1; SH+1`; panels cleaned",
+          "later": "EVA dose",
+          "lesson": "Maintenance keeps you alive"
+        },
+        {
+          "id": "SW-05.c",
+          "letter": "c",
+          "star": false,
+          "title": "Rest sol",
+          "who": "MGR",
+          "cost": "`LOST: all tasks today`",
+          "effect": "`ALL.EN+2`",
+          "later": "—",
+          "lesson": "Rest is a resource too"
+        }
+      ]
+    },
+    "SW-06": {
+      "id": "SW-06",
+      "title": "Rays Add Up",
+      "icon": "📈",
+      "deckLine": "⚠️ crew DOSE reaches 4 · tier: Commander · systems: DOSE",
+      "kidText": "Space rays add up a little every sol. Who goes outside next?",
+      "realScience": {
+        "text": "Curiosity measured ~0.64 mSv/day on the Martian surface [S8]. NASA's career limit is 600 mSv [S9].",
+        "sources": [
+          "S8",
+          "S9"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "SW-06.a",
+          "letter": "a",
+          "star": true,
+          "title": "Take turns outside",
+          "who": "MGR",
+          "cost": "Next EVAs go to the lowest-DOSE astronaut (maybe not the expert: −1 SP per EVA)",
+          "effect": "Dose shared evenly",
+          "later": "—",
+          "lesson": "Sharing risk protects everyone"
+        },
+        {
+          "id": "SW-06.b",
+          "letter": "b",
+          "star": true,
+          "title": "Send the expert again",
+          "who": "MGR",
+          "cost": "—",
+          "effect": "EVA tasks +1 SP",
+          "later": "Expert's DOSE climbs fastest → SW-07 sooner",
+          "lesson": "The best person isn't always the safest choice"
+        },
+        {
+          "id": "SW-06.c",
+          "letter": "c",
+          "star": false,
+          "title": "Add another soil layer",
+          "who": "ENG + ANY (EVA)",
+          "cost": "`ENG.EN-2; PICK.EN-2`; EVA dose",
+          "effect": "`SH+2`",
+          "later": "—",
+          "lesson": "Shields help every day"
+        }
+      ]
+    },
+    "SW-07": {
+      "id": "SW-07",
+      "title": "Dose Badge Turning Red",
+      "icon": "🔴",
+      "deckLine": "⚠️ crew DOSE ≥7 (D-017) · tier: Cadet · systems: DOSE",
+      "kidText": "The crew's radiation badge is almost full!",
+      "realScience": {
+        "text": "Artemis crews wear personal radiation badges [S12]. The 600 mSv career limit decides how long an astronaut can fly [S9].",
+        "sources": [
+          "S12",
+          "S9"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "SW-07.a",
+          "letter": "a",
+          "star": true,
+          "title": "Inside jobs only",
+          "who": "MGR",
+          "cost": "No EVAs for 3 sols (D-017)",
+          "effect": "DOSE stops climbing (except storms)",
+          "later": "—",
+          "lesson": "Limits protect long-term health"
+        },
+        {
+          "id": "SW-07.b",
+          "letter": "b",
+          "star": true,
+          "title": "Medical check-up",
+          "who": "MED",
+          "cost": "`MED.EN-1`",
+          "effect": "Exact dose shown; `+FLAG:medWatch` (warnings 1 sol earlier)",
+          "later": "—",
+          "lesson": "Measure before you decide"
+        },
+        {
+          "id": "SW-07.c",
+          "letter": "c",
+          "star": false,
+          "title": "One last important trip",
+          "who": "PICK",
+          "cost": "—",
+          "effect": "Key EVA done: `SP+3`",
+          "later": "`DOSE+1` (may hit 10 → Indoor only)",
+          "lesson": "Some risks aren't worth it"
+        }
+      ]
+    },
+    "SW-08": {
+      "id": "SW-08",
+      "title": "Earth Is Safe, Mars Is Not",
+      "icon": "🌍✅🔴⚠️",
+      "deckLine": "☀️ DONKI WSA-ENLIL run with \"no impact to Earth\" but a Mars arrival · warning: N sols · tier: Commander · systems: SH, comms",
+      "kidText": "Mission Control says Earth is fine… but the solar cloud is heading for Mars!",
+      "realScience": {
+        "text": "NASA's DONKI model runs sometimes report \"no or little impact to Earth\" while still predicting a CME arrival time at Mars [S2]. Earth and Mars are in different places, so a storm can miss one and hit the other.",
+        "sources": [
+          "S2"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "SW-08.a",
+          "letter": "a",
+          "star": true,
+          "title": "Trust the Mars forecast, prepare",
+          "who": "MGR",
+          "cost": "`MGR.EN-1`; `LOST: 1 EVA`",
+          "effect": "`+FLAG:shelterReady`",
+          "later": "—",
+          "lesson": "Earth's space weather isn't Mars' space weather"
+        },
+        {
+          "id": "SW-08.b",
+          "letter": "b",
+          "star": true,
+          "title": "\"Earth is fine, so are we\"",
+          "who": "MGR",
+          "cost": "—",
+          "effect": "No work lost",
+          "later": "On arrival: unprepared (no shelter flag)",
+          "lesson": "Check whose forecast you're reading"
+        },
+        {
+          "id": "SW-08.c",
+          "letter": "c",
+          "star": false,
+          "title": "Ask Mars orbiters to measure",
+          "who": "RES",
+          "cost": "`RES.EN-1; PWR-1`",
+          "effect": "Shows the exact storm strength S; `SP+1`",
+          "later": "—",
+          "lesson": "Measure locally"
+        }
+      ]
+    },
+    "SW-09": {
+      "id": "SW-09",
+      "title": "Forecasters' Message",
+      "icon": "📨",
+      "deckLine": "☀️ DONKI notifications · tier: Commander",
+      "kidText": "Real space-weather forecasters sent a message. Read it and decide.",
+      "realScience": {
+        "text": "DONKI messages come from NASA's Moon to Mars Space Weather Analysis Office [S2].",
+        "sources": [
+          "S2"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "SW-09.a",
+          "letter": "a",
+          "star": true,
+          "title": "Follow the forecast",
+          "who": "MGR",
+          "cost": "Cancel 1 planned EVA",
+          "effect": "`+FLAG:prepared` (next SW event: DOSE −1)",
+          "later": "—",
+          "lesson": "Listen to experts"
+        },
+        {
+          "id": "SW-09.b",
+          "letter": "b",
+          "star": true,
+          "title": "Keep our schedule",
+          "who": "MGR",
+          "cost": "—",
+          "effect": "No lost SP",
+          "later": "Next SW event: `EVA.DOSE+1`",
+          "lesson": "Ignoring warnings can cost"
+        },
+        {
+          "id": "SW-09.c",
+          "letter": "c",
+          "star": false,
+          "title": "Ask Earth what it means",
+          "who": "ANY",
+          "cost": "`PWR-1`",
+          "effect": "Answer arrives next sol (`SP+1` for learning)",
+          "later": "Too late if a storm comes today",
+          "lesson": "Distance slows help"
+        }
+      ]
+    },
+    "SW-10": {
+      "id": "SW-10",
+      "title": "Radiation Sensor Glitch",
+      "icon": "📟",
+      "deckLine": "🎯 M3, M8, M9 · tier: Commander",
+      "kidText": "Our radiation sensor stopped. We can't see storms coming!",
+      "realScience": {
+        "text": "Orion carries HERA radiation sensors that warn the crew when to take shelter [S12].",
+        "sources": [
+          "S12"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "SW-10.a",
+          "letter": "a",
+          "star": true,
+          "title": "Fix the sensor",
+          "who": "ENG",
+          "cost": "`ENG.EN-2; PARTS-1`",
+          "effect": "Sensor works",
+          "later": "—",
+          "lesson": "Warnings need working tools"
+        },
+        {
+          "id": "SW-10.b",
+          "letter": "b",
+          "star": true,
+          "title": "Use Earth's forecasts",
+          "who": "MGR",
+          "cost": "`PWR-1` per sol",
+          "effect": "Warnings arrive, but one step late (signal delay)",
+          "later": "Storms may hit before the warning",
+          "lesson": "Help from Earth is slow at Mars"
+        },
+        {
+          "id": "SW-10.c",
+          "letter": "c",
+          "star": false,
+          "title": "Stay inside more",
+          "who": "MGR",
+          "cost": "EVA tasks −1 SP each until fixed",
+          "effect": "Safe",
+          "later": "—",
+          "lesson": "Not knowing = play it safe"
+        }
+      ]
+    },
+    "PW-01": {
+      "id": "PW-01",
+      "title": "Hot Machine!",
+      "icon": "🌡️",
+      "deckLine": "🟢 (×2 weight if PWR >8 was used) · tier: Cadet · systems: BAT, H2O",
+      "kidText": "The battery box is overheating while it charges! What do we do?",
+      "realScience": {
+        "text": "Spacecraft carry heat away with liquid cooling loops and radiators. In 2022 a tiny hole emptied a Soyuz spacecraft's cooling loop [S29].",
+        "sources": [
+          "S29"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "PW-01.a",
+          "letter": "a",
+          "star": true,
+          "title": "Leave it running",
+          "who": "MGR",
+          "cost": "—",
+          "effect": "Normal power today",
+          "later": "`p=0.4:` ⏳1 loud POP! Max battery 10 → 7 for the rest of the mission (no one hurt)",
+          "lesson": "Ignoring warnings is a gamble"
+        },
+        {
+          "id": "PW-01.b",
+          "letter": "b",
+          "star": true,
+          "title": "Cool it with water",
+          "who": "ENG",
+          "cost": "`ENG.EN-1; H2O-2`",
+          "effect": "Temperature safe",
+          "later": "—",
+          "lesson": "Water is precious: everything costs"
+        },
+        {
+          "id": "PW-01.c",
+          "letter": "c",
+          "star": false,
+          "title": "Switch it off to cool",
+          "who": "ENG",
+          "cost": "Battery unusable today (only today's sun power)",
+          "effect": "Safe; no water used",
+          "later": "Tonight may run short → PW-08",
+          "lesson": "Turning off is safe but slows you"
+        }
+      ]
+    },
+    "PW-02": {
+      "id": "PW-02",
+      "title": "Dusty Solar Panels",
+      "icon": "🟫",
+      "deckLine": "📅 dust timer (every 4 sols: PWR −1 per sol, stacks) · tier: Cadet",
+      "kidText": "Mars dust is covering our solar panels. Less power each sol!",
+      "realScience": {
+        "text": "By 2009, dust on rover Spirit's panels let only 25% of sunlight through [S17].",
+        "sources": [
+          "S17"
+        ]
+      },
+      "notes": [
+        {
+          "label": "Slot rule (D-004)",
+          "text": "dust stacks are added **automatically** and shown in the Morning Report. PW-02 is played as an event only on a sol when a stack is added **and** the event slot is free."
+        }
+      ],
+      "extra": [],
+      "cards": [
+        {
+          "id": "PW-02.a",
+          "letter": "a",
+          "star": true,
+          "title": "Go out and brush them",
+          "who": "ANY (EVA)",
+          "cost": "`ME.EN-2; ME.AIR-1`",
+          "effect": "Dust stack cleared",
+          "later": "EVA dose",
+          "lesson": "Cleaning costs time and dose"
+        },
+        {
+          "id": "PW-02.b",
+          "letter": "b",
+          "star": true,
+          "title": "Wait for a lucky wind",
+          "who": "MGR",
+          "cost": "Dust keeps stacking",
+          "effect": "20% chance per sol of PW-03",
+          "later": "If 3 stacks build up → PW-06 (in M2, M5)",
+          "lesson": "Luck is not a plan"
+        },
+        {
+          "id": "PW-02.c",
+          "letter": "c",
+          "star": false,
+          "title": "Tilt panels from inside",
+          "who": "ENG",
+          "cost": "`ENG.EN-1; PWR-1`",
+          "effect": "Half the dust stack removed",
+          "later": "—",
+          "lesson": "Clever fixes beat hard work"
+        }
+      ]
+    },
+    "PW-03": {
+      "id": "PW-03",
+      "title": "Lucky Wind!",
+      "icon": "🌪️✨",
+      "deckLine": "🔗 after PW-02.b / 🎯 M1, M2, M9 · tier: Cadet",
+      "kidText": "A whirlwind blew the dust off our panels! Extra power today!",
+      "realScience": {
+        "text": "In Feb 2009, Martian wind cleaned Spirit's panels: power rose from ~210 to ~240 watt-hours a day. The rover needed ~180 to survive [S17].",
+        "sources": [
+          "S17"
+        ]
+      },
+      "notes": [
+        {
+          "label": "Engine",
+          "text": "dust stack = 0, **+3 ⚡ bonus today** → choose how to use it."
+        }
+      ],
+      "extra": [],
+      "cards": [
+        {
+          "id": "PW-03.a",
+          "letter": "a",
+          "star": true,
+          "title": "Charge the batteries",
+          "who": "MGR",
+          "cost": "`LOST: bonus science`",
+          "effect": "`BAT+3`",
+          "later": "—",
+          "lesson": "Save for a rainy day"
+        },
+        {
+          "id": "PW-03.b",
+          "letter": "b",
+          "star": true,
+          "title": "Power a big experiment",
+          "who": "RES",
+          "cost": "`RES.EN-2`",
+          "effect": "`SP+3`",
+          "later": "—",
+          "lesson": "Use luck to get ahead"
+        },
+        {
+          "id": "PW-03.c",
+          "letter": "c",
+          "star": false,
+          "title": "Extra greenhouse light",
+          "who": "ANY",
+          "cost": "`ME.EN-1`",
+          "effect": "Crops 1 sol faster",
+          "later": "—",
+          "lesson": "Energy can become food"
+        }
+      ]
+    },
+    "PW-04": {
+      "id": "PW-04",
+      "title": "Dust Storm on the Way",
+      "icon": "🌫️",
+      "deckLine": "🎯 M2 (scripted), M9 (random) · warning: 2 sols · tier: Cadet",
+      "kidText": "Orbiters see a dust storm coming. In 2 sols, sunlight drops a lot.",
+      "realScience": {
+        "text": "Normal dust haze (\"tau\") at Opportunity's site was about 0.5. The rover needed tau below 2 to recharge [S14].",
+        "sources": [
+          "S14"
+        ]
+      },
+      "notes": [
+        {
+          "label": "On arrival",
+          "text": "solar ×0.3 for 3 sols."
+        }
+      ],
+      "extra": [],
+      "cards": [
+        {
+          "id": "PW-04.a",
+          "letter": "a",
+          "star": true,
+          "title": "Fill the batteries now",
+          "who": "MGR",
+          "cost": "Lab off for 2 sols (`LOST: lab SP`)",
+          "effect": "`BAT` → 10",
+          "later": "—",
+          "lesson": "Prepare before trouble"
+        },
+        {
+          "id": "PW-04.b",
+          "letter": "b",
+          "star": true,
+          "title": "Finish outdoor jobs first",
+          "who": "2× ANY (EVA)",
+          "cost": "`EVA.EN-2` each",
+          "effect": "`SP+2`; panels clean",
+          "later": "EVA dose",
+          "lesson": "Work outside while you can"
+        },
+        {
+          "id": "PW-04.c",
+          "letter": "c",
+          "star": false,
+          "title": "Keep the normal schedule",
+          "who": "MGR",
+          "cost": "—",
+          "effect": "No lost science now",
+          "later": "Storm sols: PW-08 likely",
+          "lesson": "Not preparing pushes problems later"
+        }
+      ]
+    },
+    "PW-05": {
+      "id": "PW-05",
+      "title": "Planet-Wide Dust Storm",
+      "icon": "🌑",
+      "deckLine": "🔗 after PW-04 in M2 · warning: 1 sol · tier: Commander",
+      "kidText": "The dust storm covers the whole planet! Day looks like night.",
+      "realScience": {
+        "text": "In June 2018 the dust haze reached a record tau of 10.8. Opportunity's power fell 97%, to 21 watt-hours, and the rover never woke up [S15].",
+        "sources": [
+          "S15"
+        ]
+      },
+      "notes": [
+        {
+          "label": "Effect",
+          "text": "solar ×0.05 for 5 sols (a reactor still works)."
+        }
+      ],
+      "extra": [],
+      "cards": [
+        {
+          "id": "PW-05.a",
+          "letter": "a",
+          "star": true,
+          "title": "Sleep mode",
+          "who": "MGR",
+          "cost": "`LOST: all science during the storm`",
+          "effect": "Power need drops to 3/sol",
+          "later": "⏳ CR-03 twice as likely",
+          "lesson": "Survive first, science later"
+        },
+        {
+          "id": "PW-05.b",
+          "letter": "b",
+          "star": true,
+          "title": "Reactor powers life support only",
+          "who": "ENG",
+          "cost": "`ENG.EN-1`; greenhouse + lab unplugged",
+          "effect": "LS always powered",
+          "later": "⏳ crops 3 sols late",
+          "lesson": "Steady power saves missions"
+        },
+        {
+          "id": "PW-05.c",
+          "letter": "c",
+          "star": false,
+          "title": "Keep one experiment running",
+          "who": "RES",
+          "cost": "`RES.EN-1; BAT-1` per sol",
+          "effect": "`SP+1` per sol (study the storm!)",
+          "later": "If the battery hits 0: `LS-2`",
+          "lesson": "Is the science worth the risk?"
+        }
+      ]
+    },
+    "PW-06": {
+      "id": "PW-06",
+      "title": "Power Fading Slowly",
+      "icon": "📉",
+      "deckLine": "🎯 M2, M5 (or 🔗 after 3 dust stacks) · tier: Commander",
+      "kidText": "Dust keeps piling up. Every sol there's a bit less power. Which machines stay on?",
+      "realScience": {
+        "text": "Dust slowly covered the solar panels of NASA's InSight lander. The team had to run it part-time to save power, and the mission ended in December 2022 [S18].",
+        "sources": [
+          "S18"
+        ]
+      },
+      "notes": [
+        {
+          "label": "Effect",
+          "text": "max solar −1 for the rest of the mission (unless card b)."
+        }
+      ],
+      "extra": [],
+      "cards": [
+        {
+          "id": "PW-06.a",
+          "letter": "a",
+          "star": true,
+          "title": "Keep only the most important instrument",
+          "who": "MGR",
+          "cost": "`LOST: lab SP` except one chosen task type",
+          "effect": "Power need −1 every sol",
+          "later": "—",
+          "lesson": "Choose what matters most"
+        },
+        {
+          "id": "PW-06.b",
+          "letter": "b",
+          "star": true,
+          "title": "Big cleaning walk (2 people)",
+          "who": "2× ANY (EVA)",
+          "cost": "`EN-2` each; EVA dose",
+          "effect": "Max solar restored; dust stack 0",
+          "later": "—",
+          "lesson": "Hard work can reset a slow problem"
+        },
+        {
+          "id": "PW-06.c",
+          "letter": "c",
+          "star": false,
+          "title": "Part-time mode",
+          "who": "MGR",
+          "cost": "Lab runs every other sol (half SP)",
+          "effect": "Power need −1 every other sol",
+          "later": "—",
+          "lesson": "Slow and steady can last longer"
+        }
+      ]
+    },
+    "PW-07": {
+      "id": "PW-07",
+      "title": "Freezing Night",
+      "icon": "🥶",
+      "deckLine": "🟢 (×2 weight in M4) · tier: Cadet",
+      "kidText": "Tonight is super cold! Pipes and batteries hate the cold.",
+      "realScience": {
+        "text": "NASA's Viking 1 lander measured Mars air from −89 °C at night to −31 °C by day [S13].",
+        "sources": [
+          "S13"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "PW-07.a",
+          "letter": "a",
+          "star": true,
+          "title": "Turn heaters up",
+          "who": "ANY",
+          "cost": "`PWR-2` tonight",
+          "effect": "All safe",
+          "later": "—",
+          "lesson": "Warmth costs power"
+        },
+        {
+          "id": "PW-07.b",
+          "letter": "b",
+          "star": true,
+          "title": "Everyone in one room",
+          "who": "MGR",
+          "cost": "Lab and greenhouse rooms go cold",
+          "effect": "Only `PWR-1`",
+          "later": "`LOST: lab SP tomorrow`; `p=0.3:` crops 1 sol late",
+          "lesson": "Sharing heat saves energy"
+        },
+        {
+          "id": "PW-07.c",
+          "letter": "c",
+          "star": false,
+          "title": "Wrap the pipes",
+          "who": "ENG",
+          "cost": "`ENG.EN-1; PARTS-1`",
+          "effect": "Only `PWR-1`; nothing lost",
+          "later": "—",
+          "lesson": "Insulation is smart engineering"
+        }
+      ]
+    },
+    "PW-08": {
+      "id": "PW-08",
+      "title": "Not Enough Power!",
+      "icon": "🔌",
+      "deckLine": "⚠️ today's need > PWR + BAT · Power Plan shortage mode, does not use the event slot (D-003) · tier: Cadet · the core trade-off (can repeat)",
+      "kidText": "We need more power than we have. Something must be unplugged!",
+      "realScience": {
+        "text": "Mars gets only 43% of the sunlight Earth gets: 586 vs 1,361 watts per square meter [S13].",
+        "sources": [
+          "S13"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "PW-08.a",
+          "letter": "a",
+          "star": true,
+          "title": "Unplug the lab",
+          "who": "MGR",
+          "cost": "`LOST: lab science today`",
+          "effect": "Need −1",
+          "later": "—",
+          "lesson": "Science waits when power is short"
+        },
+        {
+          "id": "PW-08.b",
+          "letter": "b",
+          "star": true,
+          "title": "Unplug greenhouse lights",
+          "who": "MGR",
+          "cost": "Crops paused 1 sol",
+          "effect": "Need −1",
+          "later": "⏳ less food later",
+          "lesson": "Today's power vs tomorrow's food"
+        },
+        {
+          "id": "PW-08.c",
+          "letter": "c",
+          "star": false,
+          "title": "Turn down life support",
+          "who": "MGR",
+          "cost": "—",
+          "effect": "Need −2",
+          "later": "`LS-2`; AIR may drop",
+          "lesson": "Never cheap: air is life"
+        }
+      ]
+    },
+    "PW-09": {
+      "id": "PW-09",
+      "title": "Cut Cable",
+      "icon": "✂️",
+      "deckLine": "🔗 after RS-02 / RS-07 (M5, M9) · tier: Cadet",
+      "kidText": "A cable to the solar panels got cut. Power is down by half!",
+      "realScience": {
+        "text": "In May 2022, NASA's InSight lander felt a magnitude 4.7 marsquake that kept the ground shaking for hours [S49].",
+        "sources": [
+          "S49"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "PW-09.a",
+          "letter": "a",
+          "star": true,
+          "title": "Splice it outside",
+          "who": "ENG (EVA)",
+          "cost": "`ENG.EN-2; PARTS-1`; EVA dose",
+          "effect": "Full power today",
+          "later": "—",
+          "lesson": "Repairs need parts and people"
+        },
+        {
+          "id": "PW-09.b",
+          "letter": "b",
+          "star": true,
+          "title": "Swap in the spare cable",
+          "who": "ANY",
+          "cost": "`PARTS-2`",
+          "effect": "Full power today",
+          "later": "Fewer spares later",
+          "lesson": "Spares are insurance"
+        },
+        {
+          "id": "PW-09.c",
+          "letter": "c",
+          "star": false,
+          "title": "Live on half power",
+          "who": "MGR",
+          "cost": "`PWR ÷2` until fixed",
+          "effect": "No parts used",
+          "later": "PW-08 likely",
+          "lesson": "Delaying fixes adds up"
+        }
+      ]
+    },
+    "PW-10": {
+      "id": "PW-10",
+      "title": "Pick Your Power Plant",
+      "icon": "⚛️☀️",
+      "deckLine": "🚀 setup in M9 (Commander). Other missions use the default (solar 4 + reactor 2) · tier: Commander",
+      "kidText": "How will your Mars base get its power?",
+      "realScience": {
+        "text": "NASA's Fission Surface Power reactor aims for 40 kW for 10 years. If it works on the Moon, the design may be updated for Mars [S19]. NASA also sets a separate small dose limit for radiation from nuclear power systems [S9].",
+        "sources": [
+          "S19",
+          "S9"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "PW-10.a",
+          "letter": "a",
+          "star": true,
+          "title": "Big solar farm, no reactor",
+          "who": "MGR",
+          "cost": "Cargo space: no extra science kit (science goal +2)",
+          "effect": "Solar 5, reactor 0",
+          "later": "Dust storms hit hard",
+          "lesson": "Free sunlight isn't always there"
+        },
+        {
+          "id": "PW-10.b",
+          "letter": "b",
+          "star": true,
+          "title": "Bigger reactor + solar",
+          "who": "MGR",
+          "cost": "Cargo space: `PARTS-2`",
+          "effect": "Solar 4 + steady reactor 3",
+          "later": "—",
+          "lesson": "Steady power costs cargo"
+        },
+        {
+          "id": "PW-10.c",
+          "letter": "c",
+          "star": false,
+          "title": "Reactor close to the base",
+          "who": "ENG",
+          "cost": "—",
+          "effect": "Repairs cost 1 EN less",
+          "later": "`ALL.DOSE+1` every 6 sols",
+          "lesson": "Convenience vs safe distance"
+        }
+      ]
+    },
+    "LS-01": {
+      "id": "LS-01",
+      "title": "Stuffy Air",
+      "icon": "😮‍💨",
+      "deckLine": "🟢 / ⚠️ LS ≤4 · tier: Cadet",
+      "kidText": "The air feels stuffy and people have headaches. CO₂ is building up!",
+      "realScience": {
+        "text": "Each astronaut breathes out about 1 kg of CO₂ a day [S21]. On the ISS, headaches start at 2.8–4.5 mmHg of CO₂, so NASA keeps it under 3 mmHg [S22].",
+        "sources": [
+          "S21",
+          "S22"
+        ]
+      },
+      "notes": [],
+      "extra": [
+        "*If PARTS = 0 → LS-02.*"
+      ],
+      "cards": [
+        {
+          "id": "LS-01.a",
+          "letter": "a",
+          "star": true,
+          "title": "Fix the CO₂ scrubber",
+          "who": "ENG",
+          "cost": "`ENG.EN-2; PARTS-1`",
+          "effect": "`LS+3`",
+          "later": "—",
+          "lesson": "Fix the cause, not the symptom"
+        },
+        {
+          "id": "LS-01.b",
+          "letter": "b",
+          "star": true,
+          "title": "Use spare filter cans",
+          "who": "ANY",
+          "cost": "`PARTS-1`",
+          "effect": "`LS+1` for 2 sols",
+          "later": "⏳2: problem returns if not fixed",
+          "lesson": "Spares buy time"
+        },
+        {
+          "id": "LS-01.c",
+          "letter": "c",
+          "star": false,
+          "title": "Everyone rests, breathes less",
+          "who": "MGR",
+          "cost": "`LOST: all tasks today`",
+          "effect": "`ALL.EN+1`; CO₂ rises slower",
+          "later": "`LS-1` anyway",
+          "lesson": "Less activity = less CO₂"
+        }
+      ]
+    },
+    "LS-02": {
+      "id": "LS-02",
+      "title": "Square Filter, Round Hole",
+      "icon": "🔲⭕",
+      "deckLine": "🔗 LS-01 when PARTS = 0 · tier: Cadet (Cadet sees ★a and ★b as a normal 2-card event; the shape-matching puzzle is cut to Could, D-015)",
+      "kidText": "Our spare filters are the wrong shape! Can we build an adapter?",
+      "realScience": {
+        "text": "On Apollo 13, the square filters from the command module didn't fit the lunar module's round holder. Mission Control designed an adapter from bags, tape and a flight-plan cover [S23].",
+        "sources": [
+          "S23"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "LS-02.a",
+          "letter": "a",
+          "star": true,
+          "title": "Build an adapter together",
+          "who": "ENG + MGR",
+          "cost": "`ENG.EN-2; MGR.EN-2`",
+          "effect": "`LS+3` (it works!)",
+          "later": "—",
+          "lesson": "Teamwork + creativity solve problems"
+        },
+        {
+          "id": "LS-02.b",
+          "letter": "b",
+          "star": true,
+          "title": "Ask Mission Control for a plan",
+          "who": "MGR",
+          "cost": "`PWR-1`",
+          "effect": "The plan arrives next sol → `LS+3` for `ENG.EN-1`",
+          "later": "Tonight: `LS-1` while waiting",
+          "lesson": "At Mars, help from Earth is slow"
+        },
+        {
+          "id": "LS-02.c",
+          "letter": "c",
+          "star": false,
+          "title": "Use oxygen tanks to freshen air",
+          "who": "ANY",
+          "cost": "`O2T-2`",
+          "effect": "`LS+1`",
+          "later": "Tanks gone for later emergencies",
+          "lesson": "Emergency supplies run out"
+        }
+      ]
+    },
+    "LS-03": {
+      "id": "LS-03",
+      "title": "Oxygen Maker Stopped",
+      "icon": "🫧",
+      "deckLine": "🟢 (×2 weight in M6) · tier: Cadet",
+      "kidText": "The machine that makes oxygen from water stopped!",
+      "realScience": {
+        "text": "Each person needs about 0.8 kg of oxygen a day [S21]. Backup \"oxygen candles\" each make enough oxygen for one person for one day [S25].",
+        "sources": [
+          "S21",
+          "S25"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "LS-03.a",
+          "letter": "a",
+          "star": true,
+          "title": "Repair it",
+          "who": "ENG",
+          "cost": "`ENG.EN-2; PARTS-1`",
+          "effect": "Oxygen maker back",
+          "later": "—",
+          "lesson": "Repair = long-term fix"
+        },
+        {
+          "id": "LS-03.b",
+          "letter": "b",
+          "star": true,
+          "title": "Light an oxygen candle",
+          "who": "ANY",
+          "cost": "`O2T-1`",
+          "effect": "Air safe for 1 sol",
+          "later": "`p=0.15: → LS-04`",
+          "lesson": "Backups have their own risks"
+        },
+        {
+          "id": "LS-03.c",
+          "letter": "c",
+          "star": false,
+          "title": "Breathe from stored tanks",
+          "who": "ANY",
+          "cost": "`O2T-2`",
+          "effect": "Air safe for 1 sol; no fire risk",
+          "later": "—",
+          "lesson": "The safer backup costs more"
+        }
+      ]
+    },
+    "LS-04": {
+      "id": "LS-04",
+      "title": "Smoke!",
+      "icon": "💨🔥",
+      "deckLine": "🔗 after LS-03.b · tier: Cadet (kid-safe)",
+      "kidText": "Smoke alarm! A backup oxygen candle is sparking!",
+      "realScience": {
+        "text": "In Feb 1997, an oxygen candle caught fire on the Mir space station [S25]. The crew wore masks, used extinguishers, and no one was hurt [S26].",
+        "sources": [
+          "S25",
+          "S26"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "LS-04.a",
+          "letter": "a",
+          "star": true,
+          "title": "Masks on, extinguisher!",
+          "who": "ANY + MED",
+          "cost": "`ALL.EN-1; LS-2` (smoke clean-up)",
+          "effect": "Fire out; MED checks everyone",
+          "later": "—",
+          "lesson": "Practice makes emergencies calmer"
+        },
+        {
+          "id": "LS-04.b",
+          "letter": "b",
+          "star": true,
+          "title": "Close that room's hatch",
+          "who": "MGR",
+          "cost": "Lose that room for 3 sols (lab or greenhouse: the game shows which)",
+          "effect": "Fire starved of air; only `LS-1`",
+          "later": "—",
+          "lesson": "Isolate a problem to save the rest"
+        }
+      ]
+    },
+    "LS-05": {
+      "id": "LS-05",
+      "title": "Water Recycler Clogged",
+      "icon": "🚰",
+      "deckLine": "🟢 · tier: Cadet",
+      "kidText": "The water recycler is clogged. No clean water from it today!",
+      "realScience": {
+        "text": "The ISS recycles water from crew sweat, breath and urine into clean drinking water [S27].",
+        "sources": [
+          "S27"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "LS-05.a",
+          "letter": "a",
+          "star": true,
+          "title": "Swap the filter",
+          "who": "ENG",
+          "cost": "`ENG.EN-1; PARTS-1`",
+          "effect": "Recycler back",
+          "later": "—",
+          "lesson": "Spare parts keep water flowing"
+        },
+        {
+          "id": "LS-05.b",
+          "letter": "b",
+          "star": true,
+          "title": "Drink from the reserve",
+          "who": "MGR",
+          "cost": "`H2O-4`",
+          "effect": "Everyone drinks",
+          "later": "⏳ still broken tomorrow",
+          "lesson": "Reserves shrink fast"
+        },
+        {
+          "id": "LS-05.c",
+          "letter": "c",
+          "star": false,
+          "title": "Ration water today",
+          "who": "MGR",
+          "cost": "`ALL.HYD-1`",
+          "effect": "Stock saved",
+          "later": "⏳1: `ALL.EN-1` (thirsty)",
+          "lesson": "Saving water costs comfort"
+        }
+      ]
+    },
+    "LS-06": {
+      "id": "LS-06",
+      "title": "Upgrade: Brine Processor",
+      "icon": "🔧💧",
+      "deckLine": "🎯 M4, M7, M9 (or the FD-04 parts crate) · tier: Commander",
+      "kidText": "We can install a gadget that squeezes more water out of waste!",
+      "realScience": {
+        "text": "Adding a Brine Processor raised ISS water recovery from 93–94% to 98% [S27].",
+        "sources": [
+          "S27"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "LS-06.a",
+          "letter": "a",
+          "star": true,
+          "title": "Install it now",
+          "who": "ENG",
+          "cost": "`ENG.EN-3; PARTS-1; PWR-1`",
+          "effect": "Water loss: 1 per 12 sols (was 1 per 4)",
+          "later": "—",
+          "lesson": "Small upgrades add up"
+        },
+        {
+          "id": "LS-06.b",
+          "letter": "b",
+          "star": true,
+          "title": "Skip it, do science",
+          "who": "RES",
+          "cost": "`LOST: the upgrade`",
+          "effect": "`SP+2`",
+          "later": "Water stays leakier",
+          "lesson": "Long-term vs short-term"
+        },
+        {
+          "id": "LS-06.c",
+          "letter": "c",
+          "star": false,
+          "title": "Install slowly (2 sols)",
+          "who": "ENG",
+          "cost": "`ENG.EN-1` for 2 sols",
+          "effect": "Same upgrade, from sol +2",
+          "later": "—",
+          "lesson": "Spreading work spreads the cost"
+        }
+      ]
+    },
+    "LS-07": {
+      "id": "LS-07",
+      "title": "Tiny Leak",
+      "icon": "🎈",
+      "deckLine": "🟢 / 🔗 after RS-02 or RS-07 · tier: Cadet",
+      "kidText": "Hiss! Air is slowly leaking out of the habitat.",
+      "realScience": {
+        "text": "Tiny space rocks or debris can punch small holes. In Dec 2022 one drained the coolant from a Soyuz spacecraft's outer loop [S29].",
+        "sources": [
+          "S29"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "LS-07.a",
+          "letter": "a",
+          "star": true,
+          "title": "Find and patch it",
+          "who": "ENG + ANY",
+          "cost": "`ENG.EN-2; PICK.EN-1; PARTS-1`",
+          "effect": "Leak fixed",
+          "later": "—",
+          "lesson": "Fast teamwork stops leaks"
+        },
+        {
+          "id": "LS-07.b",
+          "letter": "b",
+          "star": true,
+          "title": "Close off that module",
+          "who": "MGR",
+          "cost": "Lose that module for 3 sols",
+          "effect": "Leak stopped",
+          "later": "—",
+          "lesson": "Closing doors saves the rest"
+        },
+        {
+          "id": "LS-07.c",
+          "letter": "c",
+          "star": false,
+          "title": "Top up air and wait",
+          "who": "ANY",
+          "cost": "`O2T-1` per sol",
+          "effect": "Air OK",
+          "later": "`LS-1` per sol until fixed",
+          "lesson": "Treating symptoms isn't a cure"
+        }
+      ]
+    },
+    "LS-08": {
+      "id": "LS-08",
+      "title": "Cooling Loop Leak",
+      "icon": "❄️💦",
+      "deckLine": "🟢 · tier: Commander",
+      "kidText": "The cooling liquid is leaking. The base will slowly get too hot inside!",
+      "realScience": {
+        "text": "In Dec 2022, a tiny hole let all the coolant leak out of Soyuz MS-22's outer radiator loop in about 18 hours [S29].",
+        "sources": [
+          "S29"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "LS-08.a",
+          "letter": "a",
+          "star": true,
+          "title": "Turn off non-vital machines",
+          "who": "MGR",
+          "cost": "Lab off 2 sols",
+          "effect": "Less heat; time to plan",
+          "later": "—",
+          "lesson": "Less power = less heat"
+        },
+        {
+          "id": "LS-08.b",
+          "letter": "b",
+          "star": true,
+          "title": "Spacewalk repair",
+          "who": "ENG + ANY (EVA)",
+          "cost": "`EN-2` each; `PARTS-1`; EVA dose",
+          "effect": "Loop fixed",
+          "later": "—",
+          "lesson": "Some fixes need outside work"
+        },
+        {
+          "id": "LS-08.c",
+          "letter": "c",
+          "star": false,
+          "title": "Run hot and hope",
+          "who": "MGR",
+          "cost": "—",
+          "effect": "No lost work",
+          "later": "⏳1: `LS-2; LAB-2` (electronics overheat)",
+          "lesson": "Heat quietly damages gear"
+        }
+      ]
+    },
+    "LS-09": {
+      "id": "LS-09",
+      "title": "Air or Water?",
+      "icon": "⚖️",
+      "deckLine": "⚠️ H2O ≤6 · tier: Cadet",
+      "kidText": "Our oxygen comes from splitting water. Water is low. Which matters more?",
+      "realScience": {
+        "text": "Space stations make oxygen by splitting water (electrolysis) [S28]. Each astronaut also needs at least 2.5 L of drinking water a day [S20].",
+        "sources": [
+          "S28",
+          "S20"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "LS-09.a",
+          "letter": "a",
+          "star": true,
+          "title": "Keep making oxygen",
+          "who": "MGR",
+          "cost": "`H2O-1` per sol continues",
+          "effect": "Air safe",
+          "later": "Drinking water runs out sooner",
+          "lesson": "Air needs water"
+        },
+        {
+          "id": "LS-09.b",
+          "letter": "b",
+          "star": true,
+          "title": "Pause it, use tanks",
+          "who": "MGR",
+          "cost": "`O2T-1` per sol",
+          "effect": "Saves 1 H2O per sol",
+          "later": "Tanks run out",
+          "lesson": "Trade one supply for another"
+        },
+        {
+          "id": "LS-09.c",
+          "letter": "c",
+          "star": false,
+          "title": "Go mine ice",
+          "who": "ANY (EVA)",
+          "cost": "`ME.EN-3; ME.AIR-2`; EVA dose",
+          "effect": "⏳1: `H2O+6` (only if LS-10 happened)",
+          "later": "—",
+          "lesson": "Living off the land"
+        }
+      ]
+    },
+    "LS-10": {
+      "id": "LS-10",
+      "title": "Ice Found!",
+      "icon": "🧊",
+      "deckLine": "🎯 M4 (scripted sol 2), M9 · tier: Cadet",
+      "kidText": "We found ice under the dust! It can become water and even air.",
+      "realScience": {
+        "text": "In 2008, NASA's Phoenix lander found and tested ice in the soil of Mars' far north, proving there is water there [S30]. Water can be split into oxygen by electrolysis [S28].",
+        "sources": [
+          "S30",
+          "S28"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "LS-10.a",
+          "letter": "a",
+          "star": true,
+          "title": "Dig and melt it",
+          "who": "ENG + ANY (EVA)",
+          "cost": "`EN-2` each; `PWR-2`; EVA dose",
+          "effect": "`H2O+8`; unlocks T-ICE",
+          "later": "—",
+          "lesson": "Local stuff saves rocket trips"
+        },
+        {
+          "id": "LS-10.b",
+          "letter": "b",
+          "star": true,
+          "title": "Study it for science",
+          "who": "RES",
+          "cost": "`RES.EN-2`",
+          "effect": "`SP+3` (old ice holds history)",
+          "later": "No water gained",
+          "lesson": "Science vs supplies"
+        },
+        {
+          "id": "LS-10.c",
+          "letter": "c",
+          "star": false,
+          "title": "Mark it for later",
+          "who": "MGR",
+          "cost": "—",
+          "effect": "Can dig on a later sol",
+          "later": "Later digging costs `PWR+1` more (dust covers it)",
+          "lesson": "Waiting can cost more"
+        }
+      ]
+    },
+    "LS-11": {
+      "id": "LS-11",
+      "title": "Make Air from Mars Air",
+      "icon": "🔴🫧",
+      "deckLine": "🎯 M6 (scripted sol 1, Cadet), M9 (Commander) · tier: see deck",
+      "kidText": "Mars air is mostly CO₂. A machine can pull oxygen out of it!",
+      "realScience": {
+        "text": "Mars' thin air is about 96% carbon dioxide [S32]. Perseverance's MOXIE made 122 g of oxygen in all, about what a small dog breathes in 10 hours [S31]. At its best it made 12 g per hour [S31b].",
+        "sources": [
+          "S32",
+          "S31",
+          "S31b"
+        ]
+      },
+      "notes": [
+        {
+          "label": "Engine",
+          "text": "after this event, T-MOXIE becomes a daily task."
+        }
+      ],
+      "extra": [],
+      "cards": [
+        {
+          "id": "LS-11.a",
+          "letter": "a",
+          "star": true,
+          "title": "Run the oxygen machine",
+          "who": "ANY",
+          "cost": "`PWR-2`",
+          "effect": "`O2T+1`",
+          "later": "—",
+          "lesson": "Energy can become air"
+        },
+        {
+          "id": "LS-11.b",
+          "letter": "b",
+          "star": true,
+          "title": "Save power for the lab",
+          "who": "RES",
+          "cost": "`LOST: oxygen`",
+          "effect": "`SP+1`",
+          "later": "—",
+          "lesson": "Every watt has many uses"
+        },
+        {
+          "id": "LS-11.c",
+          "letter": "c",
+          "star": false,
+          "title": "Test it for science",
+          "who": "RES",
+          "cost": "`RES.EN-1; PWR-1`",
+          "effect": "`SP+2` (tech demo)",
+          "later": "—",
+          "lesson": "Testing today helps future crews"
+        }
+      ]
+    },
+    "FD-01": {
+      "id": "FD-01",
+      "title": "What Should We Plant?",
+      "icon": "🌱",
+      "deckLine": "🚀 setup + whenever the greenhouse is empty · tier: Cadet",
+      "kidText": "Pick seeds for the greenhouse!",
+      "realScience": {
+        "text": "Astronauts grew red romaine lettuce from seed to salad in 33 days [S33]. Chile peppers grew for 137 days on the ISS [S34], and radishes were grown there too [S35].",
+        "sources": [
+          "S33",
+          "S34",
+          "S35"
+        ]
+      },
+      "notes": [],
+      "extra": [
+        "*8-sol missions (D-014):* peppers (⏳9) can't ripen, so FD-01 shows **lettuce (a) vs radishes (c)** instead; in Cadet these are the two shown cards. *Cadet pollination (D-014):* Cadet never sees FD-02, so pepper pollination is automatic and the harvest is `FOOD+8` as in FD-01.b.",
+        "*Morning Briefing (D-004):* re-planting FD-01 appears as the Morning Briefing card. If it is bumped by another briefing, the same crop is replanted automatically."
+      ],
+      "cards": [
+        {
+          "id": "FD-01.a",
+          "letter": "a",
+          "star": true,
+          "title": "Lettuce (fast)",
+          "who": "ANY",
+          "cost": "`ME.EN-1`; greenhouse `PWR 1`/sol",
+          "effect": "⏳2: `FOOD+3`",
+          "later": "—",
+          "lesson": "Fast food, small harvest"
+        },
+        {
+          "id": "FD-01.b",
+          "letter": "b",
+          "star": true,
+          "title": "Chile peppers (slow)",
+          "who": "RES",
+          "cost": "`RES.EN-1`; greenhouse `PWR 1`/sol",
+          "effect": "⏳9: `FOOD+8` → FD-05",
+          "later": "Needs help to pollinate (FD-02)",
+          "lesson": "Big rewards take patience"
+        },
+        {
+          "id": "FD-01.c",
+          "letter": "c",
+          "star": false,
+          "title": "Radishes (medium)",
+          "who": "ANY",
+          "cost": "`ME.EN-1`; greenhouse `PWR 1`/sol",
+          "effect": "⏳4: `FOOD+4` (game timing)",
+          "later": "—",
+          "lesson": "Middle choices exist too"
+        }
+      ]
+    },
+    "FD-02": {
+      "id": "FD-02",
+      "title": "Flowers Need Help",
+      "icon": "🐝",
+      "deckLine": "🔗 pepper sol 5 · tier: Commander",
+      "kidText": "No bees on Mars! The pepper flowers need help to make peppers.",
+      "realScience": {
+        "text": "For the ISS peppers, the team ran fans to spread pollen, and astronauts also pollinated some flowers by hand [S35].",
+        "sources": [
+          "S35"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "FD-02.a",
+          "letter": "a",
+          "star": true,
+          "title": "Hand-pollinate",
+          "who": "RES",
+          "cost": "`RES.EN-1`",
+          "effect": "Full harvest (`FOOD+8`)",
+          "later": "—",
+          "lesson": "People can do nature's jobs"
+        },
+        {
+          "id": "FD-02.b",
+          "letter": "b",
+          "star": true,
+          "title": "Turn the fans up",
+          "who": "ANY",
+          "cost": "`PWR-1` for 2 sols",
+          "effect": "`FOOD+6`",
+          "later": "—",
+          "lesson": "Machines help, but cost power"
+        },
+        {
+          "id": "FD-02.c",
+          "letter": "c",
+          "star": false,
+          "title": "Skip it",
+          "who": "MGR",
+          "cost": "`LOST: half the harvest`",
+          "effect": "Energy saved",
+          "later": "Harvest `FOOD+4`",
+          "lesson": "Skipping care shrinks results"
+        }
+      ]
+    },
+    "FD-03": {
+      "id": "FD-03",
+      "title": "Old Food Losing Vitamins",
+      "icon": "🥫⏳",
+      "deckLine": "📅 after half the mission (M7, M8, M9) · tier: Commander",
+      "kidText": "Packed food slowly loses vitamins. The crew feels a bit tired.",
+      "realScience": {
+        "text": "Food for Mars needs a 5-year shelf life [S36]. Packed space food loses most of its vitamin C after about a year [S37].",
+        "sources": [
+          "S36",
+          "S37"
+        ]
+      },
+      "notes": [
+        {
+          "label": "Effect",
+          "text": "`ALL.ENMAX-1` until fixed."
+        }
+      ],
+      "extra": [],
+      "cards": [
+        {
+          "id": "FD-03.a",
+          "letter": "a",
+          "star": true,
+          "title": "Eat fresh greens",
+          "who": "ANY",
+          "cost": "Next harvest gives 2 less FOOD",
+          "effect": "Max energy back",
+          "later": "—",
+          "lesson": "Fresh food = vitamins"
+        },
+        {
+          "id": "FD-03.b",
+          "letter": "b",
+          "star": true,
+          "title": "Doctor's vitamin plan",
+          "who": "MED",
+          "cost": "`MED.EN-1; MEDKIT-1`",
+          "effect": "Max energy back",
+          "later": "—",
+          "lesson": "Medicine supports food"
+        },
+        {
+          "id": "FD-03.c",
+          "letter": "c",
+          "star": false,
+          "title": "Ignore it",
+          "who": "MGR",
+          "cost": "—",
+          "effect": "—",
+          "later": "`ALL.ENMAX-1` stays",
+          "lesson": "Small problems grow"
+        }
+      ]
+    },
+    "FD-04": {
+      "id": "FD-04",
+      "title": "Pack the Cargo",
+      "icon": "📦",
+      "deckLine": "🚀 setup (all missions) · tier: Cadet",
+      "kidText": "Rockets to Mars can only leave every 26 months. Pick ONE extra crate!",
+      "realScience": {
+        "text": "Launch windows to Mars open only about every 26 months [S56], so a Mars crew must live with what it brought.",
+        "sources": [
+          "S56"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "FD-04.a",
+          "letter": "a",
+          "star": true,
+          "title": "Food crate",
+          "who": "MGR",
+          "cost": "`LOST: parts & science kit`",
+          "effect": "`FOOD+15`",
+          "later": "—",
+          "lesson": "Eat now or fix later?"
+        },
+        {
+          "id": "FD-04.b",
+          "letter": "b",
+          "star": true,
+          "title": "Spare-parts crate",
+          "who": "MGR",
+          "cost": "`LOST: food & science kit`",
+          "effect": "`PARTS+4; MEDKIT+1` (Commander: unlocks LS-06 early)",
+          "later": "—",
+          "lesson": "Spares prevent future trouble"
+        },
+        {
+          "id": "FD-04.c",
+          "letter": "c",
+          "star": false,
+          "title": "Science-kit crate",
+          "who": "MGR",
+          "cost": "`LOST: food & parts`",
+          "effect": "Unlocks 2 one-time *Kit experiment* tasks (`ME.EN-1` → `SP+2`, no power) (D-013)",
+          "later": "—",
+          "lesson": "Science needs supplies too"
+        }
+      ]
+    },
+    "FD-05": {
+      "id": "FD-05",
+      "title": "Taco Night!",
+      "icon": "🌮🌶️",
+      "deckLine": "🔗 pepper harvest · tier: Cadet",
+      "kidText": "The peppers are ripe! Have a feast or save them?",
+      "realScience": {
+        "text": "In 2021, ISS astronauts made tacos with space-grown chile peppers and sent 12 peppers back to Earth for study [S35].",
+        "sources": [
+          "S35"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "FD-05.a",
+          "letter": "a",
+          "star": true,
+          "title": "Taco party!",
+          "who": "MGR",
+          "cost": "Harvest eaten now (no FOOD stored)",
+          "effect": "`ALL.EN+2` (happy crew)",
+          "later": "—",
+          "lesson": "Happy crews work better"
+        },
+        {
+          "id": "FD-05.b",
+          "letter": "b",
+          "star": true,
+          "title": "Save them",
+          "who": "ANY",
+          "cost": "`LOST: party`",
+          "effect": "`FOOD+8`",
+          "later": "—",
+          "lesson": "Saving keeps you safe longer"
+        },
+        {
+          "id": "FD-05.c",
+          "letter": "c",
+          "star": false,
+          "title": "Send samples to scientists",
+          "who": "RES",
+          "cost": "Only `FOOD+4`",
+          "effect": "`SP+3` (samples wait for the next ship home)",
+          "later": "—",
+          "lesson": "Your food is also an experiment"
+        }
+      ]
+    },
+    "FD-06": {
+      "id": "FD-06",
+      "title": "Food Running Low",
+      "icon": "🍽️⚠️",
+      "deckLine": "⚠️ FOOD ≤ crew × 3 · tier: Cadet",
+      "kidText": "Only a few sols of food left!",
+      "realScience": {
+        "text": "An astronaut needs about 3,035 kcal a day on average [S20]. On Mars, no delivery can arrive quickly [S56].",
+        "sources": [
+          "S20",
+          "S56"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "FD-06.a",
+          "letter": "a",
+          "star": true,
+          "title": "Smaller meals",
+          "who": "MGR",
+          "cost": "`ALL.FUL-1`; `ALL.ENMAX-1` while rationing",
+          "effect": "FOOD use halves",
+          "later": "—",
+          "lesson": "Rationing buys time, costs energy"
+        },
+        {
+          "id": "FD-06.b",
+          "letter": "b",
+          "star": true,
+          "title": "Speed up the greenhouse",
+          "who": "ANY",
+          "cost": "Need `PWR+1` per sol (extra lights)",
+          "effect": "Crops 1 sol faster",
+          "later": "—",
+          "lesson": "Power can turn into food"
+        },
+        {
+          "id": "FD-06.c",
+          "letter": "c",
+          "star": false,
+          "title": "Open the emergency food box",
+          "who": "MGR",
+          "cost": "`-FLAG:reserve` (no backup left)",
+          "effect": "`FOOD+6`",
+          "later": "If food runs low again → MG-02 sooner",
+          "lesson": "Emergency stock is for emergencies"
+        }
+      ]
+    },
+    "FD-07": {
+      "id": "FD-07",
+      "title": "Plants in Mars Soil?",
+      "icon": "🔴🌱",
+      "deckLine": "🎯 M4, M7, M9 · tier: Commander",
+      "kidText": "Free soil outside! But is it safe for plants and people?",
+      "realScience": {
+        "text": "Mars soil contains about 0.5–1% perchlorate, a salt that's toxic to people because it affects the thyroid [S38].",
+        "sources": [
+          "S38"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "FD-07.a",
+          "letter": "a",
+          "star": true,
+          "title": "Test it first",
+          "who": "RES",
+          "cost": "`RES.EN-2; PWR-1`",
+          "effect": "`SP+2`; learn it's unsafe → unlocks a \"Wash the soil\" task",
+          "later": "—",
+          "lesson": "Test before you trust"
+        },
+        {
+          "id": "FD-07.b",
+          "letter": "b",
+          "star": true,
+          "title": "Keep the plant pillows",
+          "who": "MGR",
+          "cost": "`LOST: soil bonus`",
+          "effect": "Safe crops",
+          "later": "—",
+          "lesson": "Safe and slow can win"
+        },
+        {
+          "id": "FD-07.c",
+          "letter": "c",
+          "star": false,
+          "title": "Plant in it now",
+          "who": "ANY",
+          "cost": "`ME.EN-1`",
+          "effect": "⏳3: `FOOD+5`",
+          "later": "`p=0.5: ALL.EN-2` (crew feels sick)",
+          "lesson": "Unknown dirt is a risk"
+        }
+      ]
+    },
+    "CR-01": {
+      "id": "CR-01",
+      "title": "Exercise or Experiment?",
+      "icon": "🏋️🔬",
+      "deckLine": "📅 every 3 sols · Morning Briefing card (D-004) · tier: Cadet",
+      "kidText": "Muscles and bones get weaker in low gravity. Exercise or do science?",
+      "realScience": {
+        "text": "In weightlessness, astronauts lose about 1–1.5% of their bone density per month, so ISS crews exercise about 2 hours a day [S39]. Mice flown to the ISS lost muscle and bone in 33 days (NASA OSDR data) [S40]. Mars has only 38% of Earth's gravity [S13].",
+        "sources": [
+          "S39",
+          "S40",
+          "S13"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "CR-01.a",
+          "letter": "a",
+          "star": true,
+          "title": "Everyone exercises",
+          "who": "MGR",
+          "cost": "`ALL.EN-1`; `LOST: 1 task (SP-1)`",
+          "effect": "Strong bodies: no penalty",
+          "later": "—",
+          "lesson": "Health is a daily job"
+        },
+        {
+          "id": "CR-01.b",
+          "letter": "b",
+          "star": true,
+          "title": "Skip it for science",
+          "who": "MGR",
+          "cost": "—",
+          "effect": "`SP+2`",
+          "later": "⏳3: `ALL.ENMAX-1` (weaker)",
+          "lesson": "Skipping health costs later"
+        },
+        {
+          "id": "CR-01.c",
+          "letter": "c",
+          "star": false,
+          "title": "Doctor plans short workouts",
+          "who": "MED",
+          "cost": "`MED.EN-1`",
+          "effect": "No penalty and no SP lost",
+          "later": "—",
+          "lesson": "Smart planning saves time"
+        }
+      ]
+    },
+    "CR-02": {
+      "id": "CR-02",
+      "title": "Can't Sleep",
+      "icon": "😴",
+      "deckLine": "🟢 (more likely after storms) · tier: Cadet",
+      "kidText": "[Name] can't sleep. Tomorrow they'll be very tired.",
+      "realScience": {
+        "text": "NASA schedules 8.5 hours of sleep for astronauts, but they average only about 6 hours [S42].",
+        "sources": [
+          "S42"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "CR-02.a",
+          "letter": "a",
+          "star": true,
+          "title": "Let them sleep in",
+          "who": "MGR",
+          "cost": "[Name] skips first task tomorrow",
+          "effect": "`[Name].EN+3`",
+          "later": "—",
+          "lesson": "Rest makes people safer"
+        },
+        {
+          "id": "CR-02.b",
+          "letter": "b",
+          "star": true,
+          "title": "Doctor's sleep routine",
+          "who": "MED",
+          "cost": "`MED.EN-1`",
+          "effect": "`[Name].EN+2`; next CR-02 less likely",
+          "later": "—",
+          "lesson": "Good habits prevent problems"
+        },
+        {
+          "id": "CR-02.c",
+          "letter": "c",
+          "star": false,
+          "title": "Work anyway",
+          "who": "MGR",
+          "cost": "—",
+          "effect": "Normal tasks",
+          "later": "`[Name].EN-2`; `p=0.2:` a mistake → random repair event",
+          "lesson": "Tired people make mistakes"
+        }
+      ]
+    },
+    "CR-03": {
+      "id": "CR-03",
+      "title": "Missing Home",
+      "icon": "🏠💬",
+      "deckLine": "🟢 (×2 in M8 and during long storms) · tier: Cadet",
+      "kidText": "[Name] misses their family. A message home would help.",
+      "realScience": {
+        "text": "NASA's CHAPEA crew lived 378 days in a pretend Mars habitat [S43], with message delays of up to 22 minutes each way [S44].",
+        "sources": [
+          "S43",
+          "S44"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "CR-03.a",
+          "letter": "a",
+          "star": true,
+          "title": "Send a video home",
+          "who": "ANY",
+          "cost": "`PWR-1`",
+          "effect": "`EN+1` now, `+1` more when the reply arrives next sol",
+          "later": "—",
+          "lesson": "On Mars you can't call live"
+        },
+        {
+          "id": "CR-03.b",
+          "letter": "b",
+          "star": true,
+          "title": "Crew game night",
+          "who": "MGR",
+          "cost": "`LOST: 1 task (SP-1)`",
+          "effect": "`ALL.EN+1`",
+          "later": "—",
+          "lesson": "Teams look after each other"
+        },
+        {
+          "id": "CR-03.c",
+          "letter": "c",
+          "star": false,
+          "title": "Keep busy with work",
+          "who": "MGR",
+          "cost": "—",
+          "effect": "`SP+1`",
+          "later": "`p=0.3:` ⏳1 `[Name].EN-2`",
+          "lesson": "Ignoring feelings can backfire"
+        }
+      ]
+    },
+    "CR-04": {
+      "id": "CR-04",
+      "title": "Dust Sneezes",
+      "icon": "🤧",
+      "deckLine": "🔗 after an EVA: 20% chance next sol (D-013) · tier: Cadet",
+      "kidText": "Red dust came inside on the spacesuits. Achoo!",
+      "realScience": {
+        "text": "On the Moon, Apollo 17 astronaut Harrison Schmitt got \"lunar hay fever\" from dust brought inside [S48]. Mars dust adds another problem: the soil contains perchlorate, which is toxic to people [S38].",
+        "sources": [
+          "S48",
+          "S38"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "CR-04.a",
+          "letter": "a",
+          "star": true,
+          "title": "Clean suits in the airlock",
+          "who": "ANY",
+          "cost": "`EVA.EN-1` each",
+          "effect": "No sneezes",
+          "later": "—",
+          "lesson": "Clean-up is part of the job"
+        },
+        {
+          "id": "CR-04.b",
+          "letter": "b",
+          "star": true,
+          "title": "Run air filters extra",
+          "who": "ANY",
+          "cost": "`PWR-1`",
+          "effect": "Dust removed",
+          "later": "—",
+          "lesson": "Machines can clean air"
+        },
+        {
+          "id": "CR-04.c",
+          "letter": "c",
+          "star": false,
+          "title": "Ignore it",
+          "who": "MGR",
+          "cost": "—",
+          "effect": "—",
+          "later": "⏳1: `ALL.EN-1`; MED needed",
+          "lesson": "Dust inside is a real hazard"
+        }
+      ]
+    },
+    "CR-05": {
+      "id": "CR-05",
+      "title": "Water in the Helmet!",
+      "icon": "🪖💧",
+      "deckLine": "🔗 during an EVA (weight 1) · tier: Cadet",
+      "kidText": "Water is floating inside [Name]'s helmet! Come back or keep going?",
+      "realScience": {
+        "text": "In 2013, water collected in astronaut Luca Parmitano's helmet during a spacewalk. NASA ended the walk early and he got back inside safely [S46]. About 1–1.5 L of water got into his suit [S47].",
+        "sources": [
+          "S46",
+          "S47"
+        ]
+      },
+      "notes": [
+        {
+          "label": "EVA mishap (D-013)",
+          "text": "on a sol with ≥ 1 EVA planned, 15% chance the event slot becomes CR-05 or CR-06 (50/50), on an EVA astronaut."
+        }
+      ],
+      "extra": [],
+      "cards": [
+        {
+          "id": "CR-05.a",
+          "letter": "a",
+          "star": true,
+          "title": "Come back inside now",
+          "who": "[Name]",
+          "cost": "`LOST: EVA task`",
+          "effect": "[Name] safe",
+          "later": "—",
+          "lesson": "Safety rules protect people"
+        },
+        {
+          "id": "CR-05.b",
+          "letter": "b",
+          "star": true,
+          "title": "Buddy walks them back",
+          "who": "ANY + [Name]",
+          "cost": "`PICK.EN-1`; `LOST: EVA task`",
+          "effect": "Safe, and the suit gets checked (no repeat)",
+          "later": "—",
+          "lesson": "Teams watch out for each other"
+        },
+        {
+          "id": "CR-05.c",
+          "letter": "c",
+          "star": false,
+          "title": "Finish the task first",
+          "who": "[Name]",
+          "cost": "—",
+          "effect": "Task done (+SP)",
+          "later": "`p=0.5:` [Name] to Sick Bay for 2 sols",
+          "lesson": "Never risk a person for a task"
+        }
+      ]
+    },
+    "CR-06": {
+      "id": "CR-06",
+      "title": "Slip on a Rock",
+      "icon": "🦶",
+      "deckLine": "🔗 during an EVA (weight 1) · tier: Cadet",
+      "kidText": "[Name] slipped on a rock outside. Their ankle hurts.",
+      "realScience": {
+        "text": "Gravity on Mars is about 38% of Earth's, so walking in a bulky suit feels very different [S13].",
+        "sources": [
+          "S13"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "CR-06.a",
+          "letter": "a",
+          "star": true,
+          "title": "Doctor treats it",
+          "who": "MED",
+          "cost": "`MED.EN-1; MEDKIT-1`",
+          "effect": "[Name] OK tomorrow",
+          "later": "—",
+          "lesson": "Medical supplies matter"
+        },
+        {
+          "id": "CR-06.b",
+          "letter": "b",
+          "star": true,
+          "title": "Rest for 2 sols",
+          "who": "MGR",
+          "cost": "[Name]: no tasks for 2 sols",
+          "effect": "Heals",
+          "later": "—",
+          "lesson": "Time is medicine too"
+        },
+        {
+          "id": "CR-06.c",
+          "letter": "c",
+          "star": false,
+          "title": "Tape it and keep going",
+          "who": "[Name]",
+          "cost": "—",
+          "effect": "Keeps working",
+          "later": "`p=0.4:` ⏳ Sick Bay 2 sols",
+          "lesson": "Pushing through can make it worse"
+        }
+      ]
+    },
+    "CR-07": {
+      "id": "CR-07",
+      "title": "Too Tired to Work",
+      "icon": "🥱",
+      "deckLine": "⚠️ crew EN ≤ 4 (≈ 1 per astronaut; a warning before Sick Bay, D-011 + D-017) · tier: Cadet",
+      "kidText": "The crew is almost out of energy!",
+      "realScience": {
+        "text": "Astronauts often sleep less than planned, which makes their work harder [S42].",
+        "sources": [
+          "S42"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "CR-07.a",
+          "letter": "a",
+          "star": true,
+          "title": "Day off",
+          "who": "MGR",
+          "cost": "[Name]: no task today",
+          "effect": "`[Name].EN+3`",
+          "later": "—",
+          "lesson": "Rest is not lazy"
+        },
+        {
+          "id": "CR-07.b",
+          "letter": "b",
+          "star": true,
+          "title": "Others cover the job",
+          "who": "MGR",
+          "cost": "`PICK.EN-1` extra",
+          "effect": "The job still gets done",
+          "later": "—",
+          "lesson": "Teams share the load"
+        },
+        {
+          "id": "CR-07.c",
+          "letter": "c",
+          "star": false,
+          "title": "Energy snack",
+          "who": "ANY",
+          "cost": "`FOOD-1` extra",
+          "effect": "`[Name].EN+1`",
+          "later": "—",
+          "lesson": "Food is fuel"
+        }
+      ]
+    },
+    "CR-08": {
+      "id": "CR-08",
+      "title": "Blurry Vision",
+      "icon": "👓",
+      "deckLine": "🟢 · tier: Commander",
+      "kidText": "[Name]'s eyes are a bit blurry. Body fluids shift toward the head in low gravity.",
+      "realScience": {
+        "text": "About 70% of long-mission astronauts get eye changes (called SANS) as fluid shifts toward the head [S39].",
+        "sources": [
+          "S39"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "CR-08.a",
+          "letter": "a",
+          "star": true,
+          "title": "Eye check",
+          "who": "MED",
+          "cost": "`MED.EN-1`",
+          "effect": "Watched closely: no worse",
+          "later": "—",
+          "lesson": "Doctors track small changes"
+        },
+        {
+          "id": "CR-08.b",
+          "letter": "b",
+          "star": true,
+          "title": "Switch to non-screen jobs",
+          "who": "MGR",
+          "cost": "[Name]'s lab tasks −1 SP",
+          "effect": "More comfortable",
+          "later": "—",
+          "lesson": "Adapt tasks to people"
+        },
+        {
+          "id": "CR-08.c",
+          "letter": "c",
+          "star": false,
+          "title": "Ignore it",
+          "who": "MGR",
+          "cost": "—",
+          "effect": "—",
+          "later": "`p=0.3:` ⏳ `[Name].ENMAX-1`",
+          "lesson": "Watch small symptoms"
+        }
+      ]
+    },
+    "RS-01": {
+      "id": "RS-01",
+      "title": "Shiny Rock Far Away",
+      "icon": "💎",
+      "deckLine": "🟢 · tier: Cadet",
+      "kidText": "Cameras spot an amazing rock, but it's far away!",
+      "realScience": {
+        "text": "Spacewalks are usually planned for about 6.5 hours, because suits carry limited air and supplies [S47].",
+        "sources": [
+          "S47"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "RS-01.a",
+          "letter": "a",
+          "star": true,
+          "title": "Long trip to get it",
+          "who": "RES + ANY (EVA)",
+          "cost": "`EVA.EN-3; EVA.AIR-3`; EVA dose",
+          "effect": "`SP+5`",
+          "later": "`p=0.2: → CR-05 or CR-06`",
+          "lesson": "Big science, big risk"
+        },
+        {
+          "id": "RS-01.b",
+          "letter": "b",
+          "star": true,
+          "title": "Study a closer rock",
+          "who": "RES (EVA)",
+          "cost": "`RES.EN-2; RES.AIR-1`; EVA dose",
+          "effect": "`SP+2`",
+          "later": "—",
+          "lesson": "\"Good enough\" can be smart"
+        },
+        {
+          "id": "RS-01.c",
+          "letter": "c",
+          "star": false,
+          "title": "Send a robot rover",
+          "who": "ENG",
+          "cost": "`PWR-2; ENG.EN-1`",
+          "effect": "`SP+3`; no human dose",
+          "later": "`p=0.3:` robot gets stuck (lost)",
+          "lesson": "Robots save astronaut dose"
+        }
+      ]
+    },
+    "RS-02": {
+      "id": "RS-02",
+      "title": "The Ground Is Shaking!",
+      "icon": "🌋",
+      "deckLine": "🎯 M5 (repeatable, up to 2×), M9 · tier: Cadet",
+      "kidText": "Rumble! A marsquake is shaking the base.",
+      "realScience": {
+        "text": "On 4 May 2022, NASA's InSight felt a magnitude 4.7 marsquake that lasted hours [S49]. InSight detected 1,319 marsquakes in total [S50]. The most active quake area known on Mars is Cerberus Fossae, in Elysium Planitia, where InSight landed [S52].",
+        "sources": [
+          "S49",
+          "S50",
+          "S52"
+        ]
+      },
+      "notes": [
+        {
+          "label": "Engine",
+          "text": "40% chance of PW-09 or LS-07 next sol, unless card b is played."
+        }
+      ],
+      "extra": [],
+      "cards": [
+        {
+          "id": "RS-02.a",
+          "letter": "a",
+          "star": true,
+          "title": "Record it with the seismometer",
+          "who": "RES",
+          "cost": "`RES.EN-1; PWR-1`",
+          "effect": "`SP+3`",
+          "later": "Damage chance stays 40%",
+          "lesson": "Quakes show what's inside a planet"
+        },
+        {
+          "id": "RS-02.b",
+          "letter": "b",
+          "star": true,
+          "title": "Inspect the base for cracks",
+          "who": "ENG",
+          "cost": "`ENG.EN-2`",
+          "effect": "Cancels follow-up damage",
+          "later": "`LOST: quake science`",
+          "lesson": "Check after every shake"
+        },
+        {
+          "id": "RS-02.c",
+          "letter": "c",
+          "star": false,
+          "title": "Do both, rushed",
+          "who": "ENG + RES",
+          "cost": "`EN-1` each",
+          "effect": "`SP+1`; damage chance halves",
+          "later": "—",
+          "lesson": "Split effort = half results"
+        }
+      ]
+    },
+    "RS-03": {
+      "id": "RS-03",
+      "title": "Lab Machine Broken",
+      "icon": "🔬❌",
+      "deckLine": "🟢 / ⚠️ LAB ≤3 · tier: Cadet",
+      "kidText": "The lab's main machine stopped. No experiments until it's fixed!",
+      "realScience": {
+        "text": "In 2016, the ISS lost its main CO₂-removal machines for a while and the crew had to work on repairs [S55]. Breakdowns happen even on the best stations.",
+        "sources": [
+          "S55"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "RS-03.a",
+          "letter": "a",
+          "star": true,
+          "title": "Engineer fixes it",
+          "who": "ENG",
+          "cost": "`ENG.EN-2; PARTS-1`",
+          "effect": "`LAB+4`",
+          "later": "—",
+          "lesson": "Engineers keep science running"
+        },
+        {
+          "id": "RS-03.b",
+          "letter": "b",
+          "star": true,
+          "title": "Scientist tries to fix it",
+          "who": "RES",
+          "cost": "`RES.EN-3`",
+          "effect": "`p=0.5: LAB+2`",
+          "later": "—",
+          "lesson": "Experts are faster"
+        },
+        {
+          "id": "RS-03.c",
+          "letter": "c",
+          "star": false,
+          "title": "Use backup tools",
+          "who": "RES",
+          "cost": "`LOST: half of lab SP until fixed`",
+          "effect": "Some science continues",
+          "later": "—",
+          "lesson": "Backups keep a little going"
+        }
+      ]
+    },
+    "RS-04": {
+      "id": "RS-04",
+      "title": "Send Your Data Home",
+      "icon": "📡",
+      "deckLine": "📅 every 4 sols (comms window) **and on the last sol** (D-005) · Morning Briefing card (D-004) · tier: Cadet",
+      "kidText": "The antenna is ready. Send your science to Earth now?",
+      "realScience": {
+        "text": "Signals between Earth and Mars take about 3–22 minutes each way [S54][S44].",
+        "sources": [
+          "S54",
+          "S44"
+        ]
+      },
+      "notes": [
+        {
+          "label": "Rule (D-005)",
+          "text": "**all** SP (from tasks and events) starts *pending*. Only **banked** SP (sent to Earth) counts toward the goal. Pending SP is lost if LAB reaches 0. Cadet UI: \"⭐ collected\" vs \"⭐ sent to Earth\"."
+        }
+      ],
+      "extra": [],
+      "cards": [
+        {
+          "id": "RS-04.a",
+          "letter": "a",
+          "star": true,
+          "title": "Send everything",
+          "who": "ANY",
+          "cost": "`PWR-2`",
+          "effect": "All pending SP banked",
+          "later": "—",
+          "lesson": "Science only counts when shared"
+        },
+        {
+          "id": "RS-04.b",
+          "letter": "b",
+          "star": true,
+          "title": "Send only the best",
+          "who": "ANY",
+          "cost": "`PWR-1`",
+          "effect": "Half banked; the rest waits",
+          "later": "—",
+          "lesson": "Prioritize when bandwidth is short"
+        },
+        {
+          "id": "RS-04.c",
+          "letter": "c",
+          "star": false,
+          "title": "Wait for the next window",
+          "who": "MGR",
+          "cost": "—",
+          "effect": "Power saved",
+          "later": "Pending SP still at risk",
+          "lesson": "Delaying has risks"
+        }
+      ]
+    },
+    "RS-05": {
+      "id": "RS-05",
+      "title": "Experiment Results!",
+      "icon": "🐭🌱",
+      "deckLine": "🔗 after 3 lab tasks · tier: Cadet",
+      "kidText": "Your space-biology experiment is finished. What do we do with it?",
+      "realScience": {
+        "text": "In an ISS study, mice lost muscle and bone after 33 days in space, and a treatment helped protect them (the data is in NASA's OSDR) [S40]. NASA's Twins Study found most of Scott Kelly's body changes went back to normal within months of returning [S41].",
+        "sources": [
+          "S40",
+          "S41"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "RS-05.a",
+          "letter": "a",
+          "star": true,
+          "title": "Share results with Earth",
+          "who": "ANY",
+          "cost": "`PWR-1`",
+          "effect": "`SP+3`",
+          "later": "—",
+          "lesson": "Sharing turns data into knowledge"
+        },
+        {
+          "id": "RS-05.b",
+          "letter": "b",
+          "star": true,
+          "title": "Use it to protect our crew",
+          "who": "MED",
+          "cost": "`MED.EN-1`",
+          "effect": "`SP+1`; CR-01.a costs no SP from now on",
+          "later": "—",
+          "lesson": "Research helps the researchers"
+        },
+        {
+          "id": "RS-05.c",
+          "letter": "c",
+          "star": false,
+          "title": "Run a bigger follow-up",
+          "who": "RES",
+          "cost": "`RES.EN-2; LAB-1; PWR-1`",
+          "effect": "⏳2: `SP+5`",
+          "later": "—",
+          "lesson": "Big questions take longer"
+        }
+      ]
+    },
+    "RS-06": {
+      "id": "RS-06",
+      "title": "Earth Wants More Science",
+      "icon": "📋",
+      "deckLine": "🟢 · tier: Cadet",
+      "kidText": "Mission Control asks: can you do an extra experiment this week?",
+      "realScience": {
+        "text": "NASA's CHAPEA crew split their time between simulated Marswalks, robots, habitat repairs, exercise and growing crops [S45].",
+        "sources": [
+          "S45"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "RS-06.a",
+          "letter": "a",
+          "star": true,
+          "title": "Yes, extra experiment",
+          "who": "MGR",
+          "cost": "`LOST: maintenance` → `LS-1`",
+          "effect": "`SP+3`",
+          "later": "—",
+          "lesson": "Every hour goes somewhere"
+        },
+        {
+          "id": "RS-06.b",
+          "letter": "b",
+          "star": true,
+          "title": "Explain we need repair time",
+          "who": "MGR",
+          "cost": "`PWR-1`",
+          "effect": "Earth agrees: next \"Ask Earth\" is free",
+          "later": "`LOST: SP`",
+          "lesson": "Speaking up is part of leading"
+        },
+        {
+          "id": "RS-06.c",
+          "letter": "c",
+          "star": false,
+          "title": "Yes, everyone works late",
+          "who": "MGR",
+          "cost": "`ALL.EN-1`",
+          "effect": "`SP+3`; no maintenance lost",
+          "later": "⏳ CR-02 more likely",
+          "lesson": "Overwork has hidden costs"
+        }
+      ]
+    },
+    "RS-07": {
+      "id": "RS-07",
+      "title": "Space Rock Hits Mars!",
+      "icon": "☄️",
+      "deckLine": "🎯 M5, M9 · tier: Cadet",
+      "kidText": "BOOM, far away! A space rock just hit Mars and made a brand-new crater.",
+      "realScience": {
+        "text": "InSight felt quakes caused by space rocks hitting Mars. The two biggest impacts made craters about 150 meters wide [S51].",
+        "sources": [
+          "S51"
+        ]
+      },
+      "notes": [
+        {
+          "label": "Engine",
+          "text": "20% chance of LS-07 next sol, unless card c is played."
+        }
+      ],
+      "extra": [
+        "**Rule card \"Ask Mission Control\" (used inside many events):** On Mars the answer arrives **after** the current event (signals take 3–22 min each way, so emergencies can't wait) [S54][S44]. This is the main comm-delay lesson. Show a little animation of the signal travelling, and a countdown."
+      ],
+      "cards": [
+        {
+          "id": "RS-07.a",
+          "letter": "a",
+          "star": true,
+          "title": "Drive out to the fresh crater",
+          "who": "RES + ANY (EVA)",
+          "cost": "`EVA.EN-3; EVA.AIR-2`; EVA dose",
+          "effect": "`SP+5` (fresh crater = rare science)",
+          "later": "`p=0.2: → CR-06`",
+          "lesson": "Rare chances can be worth a trip"
+        },
+        {
+          "id": "RS-07.b",
+          "letter": "b",
+          "star": true,
+          "title": "Record the shaking",
+          "who": "RES",
+          "cost": "`RES.EN-1; PWR-1`",
+          "effect": "`SP+2`",
+          "later": "Damage chance stays 20%",
+          "lesson": "Shaking tells where the hit was"
+        },
+        {
+          "id": "RS-07.c",
+          "letter": "c",
+          "star": false,
+          "title": "Check our base for damage",
+          "who": "ENG",
+          "cost": "`ENG.EN-1`",
+          "effect": "Damage chance cancelled",
+          "later": "`LOST: crater science`",
+          "lesson": "Safety check first"
+        }
+      ]
+    },
+    "CM-01": {
+      "id": "CM-01",
+      "title": "The Sun Is Between Us",
+      "icon": "🌞🚫",
+      "deckLine": "🎯 M8 (scripted mid-mission) · warning: 3 sols · tier: Commander",
+      "kidText": "Mars is going behind the Sun. No talking to Earth for a while!",
+      "realScience": {
+        "text": "About every 2 years, Earth and Mars end up on opposite sides of the Sun. NASA stops sending commands for about 2 weeks and hears nothing at all for about 2 days [S53].",
+        "sources": [
+          "S53"
+        ]
+      },
+      "notes": [
+        {
+          "label": "Effect",
+          "text": "Ask Earth and Send Data are disabled for 5 sols (game-scaled)."
+        }
+      ],
+      "extra": [],
+      "cards": [
+        {
+          "id": "CM-01.a",
+          "letter": "a",
+          "star": true,
+          "title": "Plan 2 weeks ahead",
+          "who": "MGR",
+          "cost": "`MGR.EN-2`",
+          "effect": "Random breakdowns −50% during the blackout",
+          "later": "—",
+          "lesson": "Planning replaces live help"
+        },
+        {
+          "id": "CM-01.b",
+          "letter": "b",
+          "star": true,
+          "title": "Send all data before it starts",
+          "who": "ANY",
+          "cost": "`PWR-2`",
+          "effect": "Pending SP banked",
+          "later": "—",
+          "lesson": "Finish important talks first"
+        },
+        {
+          "id": "CM-01.c",
+          "letter": "c",
+          "star": false,
+          "title": "Wing it",
+          "who": "MGR",
+          "cost": "—",
+          "effect": "Effort saved",
+          "later": "During the blackout, \"Ask Earth\" cards fail",
+          "lesson": "Alone and unprepared is harder"
+        }
+      ]
+    },
+    "CM-02": {
+      "id": "CM-02",
+      "title": "Antenna Off Target",
+      "icon": "📡↗️",
+      "deckLine": "🔗 after a storm or quake · tier: Cadet",
+      "kidText": "The antenna isn't pointing at Earth anymore!",
+      "realScience": {
+        "text": "Messages between Earth and Mars take about 3–22 minutes each way, and only if the antenna points the right way [S54][S44].",
+        "sources": [
+          "S54",
+          "S44"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "CM-02.a",
+          "letter": "a",
+          "star": true,
+          "title": "Re-aim it outside",
+          "who": "ENG (EVA)",
+          "cost": "`ENG.EN-2`; EVA dose",
+          "effect": "Comms back",
+          "later": "—",
+          "lesson": "Hardware needs care"
+        },
+        {
+          "id": "CM-02.b",
+          "letter": "b",
+          "star": true,
+          "title": "Use the backup antenna",
+          "who": "ANY",
+          "cost": "`PWR-1` per sol",
+          "effect": "Comms back (slow: sending costs +1 PWR)",
+          "later": "—",
+          "lesson": "Backups work but cost more"
+        },
+        {
+          "id": "CM-02.c",
+          "letter": "c",
+          "star": false,
+          "title": "Go without Earth for now",
+          "who": "MGR",
+          "cost": "—",
+          "effect": "—",
+          "later": "No Ask Earth, no data until fixed",
+          "lesson": "Independence has limits"
+        }
+      ]
+    },
+    "CM-03": {
+      "id": "CM-03",
+      "title": "Garbled Message",
+      "icon": "📻",
+      "deckLine": "☀️ DONKI FLR ≥X1 (M3, M8, M9) · tier: Commander",
+      "kidText": "Mission Control's message came through scrambled!",
+      "realScience": {
+        "text": "Big X-class flares can cause radio blackouts [S3].",
+        "sources": [
+          "S3"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "CM-03.a",
+          "letter": "a",
+          "star": true,
+          "title": "Ask them to repeat",
+          "who": "ANY",
+          "cost": "`PWR-1`; answer arrives next sol",
+          "effect": "Correct info",
+          "later": "—",
+          "lesson": "Check before acting"
+        },
+        {
+          "id": "CM-03.b",
+          "letter": "b",
+          "star": true,
+          "title": "Guess what they meant",
+          "who": "MGR",
+          "cost": "—",
+          "effect": "Act now",
+          "later": "`p=0.4:` wrong action → lose today's task",
+          "lesson": "Guessing saves time but risks mistakes"
+        },
+        {
+          "id": "CM-03.c",
+          "letter": "c",
+          "star": false,
+          "title": "Use our own judgment",
+          "who": "MGR + RES",
+          "cost": "`EN-1` each",
+          "effect": "Make our own plan",
+          "later": "—",
+          "lesson": "Far-away crews must think for themselves"
+        }
+      ]
+    },
+    "MG-01": {
+      "id": "MG-01",
+      "title": "Choose Your Base",
+      "icon": "🗺️",
+      "deckLine": "🚀 setup in M9 Free Play (story missions pick the site for you) · tier: Cadet",
+      "kidText": "Where on Mars will you build your base?",
+      "realScience": {
+        "text": "Curiosity measured surface radiation at Gale crater [S7]. Perseverance, which carried MOXIE, explores Jezero crater [S60][S31]. Phoenix found ice, and also perchlorate, in the far northern plains [S30][S38].",
+        "sources": [
+          "S7",
+          "S60",
+          "S31",
+          "S30",
+          "S38"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "MG-01.a",
+          "letter": "a",
+          "star": true,
+          "title": "Gale Crater (balanced)",
+          "who": "MGR",
+          "cost": "No special bonus",
+          "effect": "Standard values; good rock science (+1 SP on T-EVA-SCI)",
+          "later": "—",
+          "lesson": "A safe start teaches the basics"
+        },
+        {
+          "id": "MG-01.b",
+          "letter": "b",
+          "star": true,
+          "title": "Jezero Crater (air makers)",
+          "who": "MGR",
+          "cost": "Dust timer every 3 sols",
+          "effect": "LS-11 at sol 1 (MOXIE)",
+          "later": "—",
+          "lesson": "Each site has its own trade-offs"
+        },
+        {
+          "id": "MG-01.c",
+          "letter": "c",
+          "star": false,
+          "title": "Northern Plains (ice!)",
+          "who": "MGR",
+          "cost": "PW-07 ×2; FD-07 likely",
+          "effect": "LS-10 at sol 2 (ice)",
+          "later": "Toxic soil",
+          "lesson": "Water nearby, but colder and riskier"
+        }
+      ]
+    },
+    "MG-02": {
+      "id": "MG-02",
+      "title": "Go Home Early?",
+      "icon": "🚀🏠",
+      "deckLine": "⚠️ 2+ of {LS, LAB, BAT} ≤ 2, or 2+ astronauts in Sick Bay; 3-sol cooldown (D-013) · tier: Cadet",
+      "kidText": "Things are going badly. Keep going, or end the mission safely?",
+      "realScience": {
+        "text": "When Apollo 13 lost power and oxygen, the crew gave up the Moon landing and focused on getting home safely [S24].",
+        "sources": [
+          "S24"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "MG-02.a",
+          "letter": "a",
+          "star": true,
+          "title": "End the mission safely",
+          "who": "MGR",
+          "cost": "Mission ends now (banked SP counted, D-005)",
+          "effect": "\"Safe Return\" badge",
+          "later": "—",
+          "lesson": "Knowing when to stop is brave"
+        },
+        {
+          "id": "MG-02.b",
+          "letter": "b",
+          "star": true,
+          "title": "One more sol to fix things",
+          "who": "MGR",
+          "cost": "—",
+          "effect": "Repairs work double next sol",
+          "later": "If still critical → mission ends",
+          "lesson": "Try, but set a limit"
+        },
+        {
+          "id": "MG-02.c",
+          "letter": "c",
+          "star": false,
+          "title": "Push on for the science",
+          "who": "MGR",
+          "cost": "—",
+          "effect": "Continue",
+          "later": "`p=0.3` per sol: an astronaut goes to Sick Bay",
+          "lesson": "Goals vs safety"
+        }
+      ]
+    },
+    "MG-03": {
+      "id": "MG-03",
+      "title": "Crew Disagreement",
+      "icon": "🗣️",
+      "deckLine": "🟢 · tier: Cadet",
+      "kidText": "The Engineer wants to fix the panels. The Researcher wants to explore. There's only power for one!",
+      "realScience": {
+        "text": "NASA's CHAPEA crew had to handle limited resources, isolation and communication delays [S44].",
+        "sources": [
+          "S44"
+        ]
+      },
+      "notes": [],
+      "extra": [],
+      "cards": [
+        {
+          "id": "MG-03.a",
+          "letter": "a",
+          "star": true,
+          "title": "Fix the panels first",
+          "who": "MGR",
+          "cost": "`LOST: RES task (SP-2)`",
+          "effect": "`PWR+1` per sol from now on",
+          "later": "—",
+          "lesson": "Infrastructure first pays off later"
+        },
+        {
+          "id": "MG-03.b",
+          "letter": "b",
+          "star": true,
+          "title": "Explore first",
+          "who": "MGR",
+          "cost": "Panels wait (dust stack +1)",
+          "effect": "`SP+2` now",
+          "later": "—",
+          "lesson": "Quick wins vs long-term"
+        },
+        {
+          "id": "MG-03.c",
+          "letter": "c",
+          "star": false,
+          "title": "Vote as a team",
+          "who": "MGR",
+          "cost": "`MGR.EN-1`",
+          "effect": "Random pick, but `ALL.EN+1` (everyone feels heard)",
+          "later": "—",
+          "lesson": "A fair process builds trust"
+        }
+      ]
+    },
+    "MG-04": {
+      "id": "MG-04",
+      "title": "The Long Trip",
+      "icon": "🚀➡️🔴",
+      "deckLine": "🚀 setup (Commander, all missions) · tier: Commander",
+      "kidText": "Before you land, you fly for months through deep space. How will you travel?",
+      "realScience": {
+        "text": "During the flight to Mars, Curiosity's detector measured about 1.8 mSv a day. A round trip alone would give about 0.66 Sv, more than NASA's 600 mSv career limit [S8][S9].",
+        "sources": [
+          "S8",
+          "S9"
+        ]
+      },
+      "notes": [
+        {
+          "label": "Note",
+          "text": "the real one-way trip dose would be about 5 DOSE pips. The game uses a smaller start (2–3) so the surface part is playable. Label this \"game-simplified\"."
+        }
+      ],
+      "extra": [],
+      "cards": [
+        {
+          "id": "MG-04.a",
+          "letter": "a",
+          "star": true,
+          "title": "Standard ship",
+          "who": "MGR",
+          "cost": "—",
+          "effect": "Start DOSE 3",
+          "later": "Less room for storms later",
+          "lesson": "The trip counts too"
+        },
+        {
+          "id": "MG-04.b",
+          "letter": "b",
+          "star": true,
+          "title": "Extra water walls around the beds",
+          "who": "MGR",
+          "cost": "`FOOD-10` (cargo weight)",
+          "effect": "Start DOSE 2",
+          "later": "—",
+          "lesson": "Shielding costs mass"
+        },
+        {
+          "id": "MG-04.c",
+          "letter": "c",
+          "star": false,
+          "title": "Faster route",
+          "who": "MGR",
+          "cost": "`PARTS-2` (more fuel, less cargo)",
+          "effect": "Start DOSE 2",
+          "later": "—",
+          "lesson": "Speed is a kind of shield"
+        }
+      ]
+    }
+  },
+  "tasks": [
+    {
+      "id": "T-REST",
+      "title": "Rest",
+      "who": "ANY",
+      "cost": "`LOST: today's task`",
+      "effect": "`ME.EN+3`",
+      "lesson": "Rest is a resource"
+    },
+    {
+      "id": "T-EXER",
+      "title": "Exercise",
+      "who": "ANY",
+      "cost": "`ME.EN-1`",
+      "effect": "Counts for CR-01; prevents weakness",
+      "lesson": "Bodies need daily care"
+    },
+    {
+      "id": "T-MAINT-LS",
+      "title": "Maintain life support",
+      "who": "ENG (others +1 EN)",
+      "cost": "`ME.EN-1`",
+      "effect": "`LS+1`; resets the LS wear timer. With an extra `PARTS-1`: clears a `broken:` life-support flag (D-012)",
+      "lesson": "Small fixes prevent big ones"
+    },
+    {
+      "id": "T-MAINT-LAB",
+      "title": "Maintain lab",
+      "who": "ENG or RES",
+      "cost": "`ME.EN-1`",
+      "effect": "`LAB+1`",
+      "lesson": "Tools need care too"
+    },
+    {
+      "id": "T-GARDEN",
+      "title": "Care for plants",
+      "who": "ANY (RES bonus)",
+      "cost": "`ME.EN-1`",
+      "effect": "Crops stay on schedule; RES: `+1 FOOD` at harvest. A crop **never** tended during its growth is 1 sol late (D-013)",
+      "lesson": "Gardens need gardeners"
+    },
+    {
+      "id": "T-LAB",
+      "title": "Lab experiment",
+      "who": "ANY (RES ×2)",
+      "cost": "`ME.EN-2; PWR-1`; needs LAB ≥3",
+      "effect": "`SP+1` (RES `SP+2`) → pending until sent (RS-04)",
+      "lesson": "Science needs power and people"
+    },
+    {
+      "id": "T-EVA-SCI",
+      "title": "Rock-study walk",
+      "who": "ANY (RES ×2)",
+      "cost": "`ME.EN-2; ME.AIR-1`; EVA dose",
+      "effect": "`SP+1` (RES `SP+2`)",
+      "lesson": "Field work = dose"
+    },
+    {
+      "id": "T-SHIELD",
+      "title": "Pile soil bags",
+      "who": "ANY (2 people = double)",
+      "cost": "`ME.EN-2`; EVA dose",
+      "effect": "`SH+1` per person",
+      "lesson": "Thick walls block rays"
+    },
+    {
+      "id": "T-WATERWALL",
+      "title": "Water-bag wall",
+      "who": "ANY",
+      "cost": "`ME.EN-1`",
+      "effect": "`SH+1` while H2O ≥10; the bonus disappears if H2O drops below 10. Water walls give at most `SH+2` in total (D-013)",
+      "lesson": "Water blocks radiation, but you also drink it"
+    },
+    {
+      "id": "T-PANELS",
+      "title": "Clean solar panels",
+      "who": "ANY",
+      "cost": "`ME.EN-2; ME.AIR-1`; EVA dose",
+      "effect": "Dust stack = 0",
+      "lesson": "Dust steals power"
+    },
+    {
+      "id": "T-ICE",
+      "title": "Mine ice (after LS-10)",
+      "who": "ENG + ANY",
+      "cost": "`EN-3 each; PWR-2`; EVA dose",
+      "effect": "`H2O+6`",
+      "lesson": "Live off the land"
+    },
+    {
+      "id": "T-MOXIE",
+      "title": "Run the oxygen machine (Air Makers / after LS-11)",
+      "who": "ANY",
+      "cost": "`PWR-2`",
+      "effect": "`O2T+1`",
+      "lesson": "Energy can become air"
+    },
+    {
+      "id": "T-MED",
+      "title": "Check-up",
+      "who": "MED",
+      "cost": "`MED.EN-1`",
+      "effect": "One stat +1 for one astronaut; shows exact doses",
+      "lesson": "Measure, then decide"
+    },
+    {
+      "id": "T-TREAT",
+      "title": "Treat in Sick Bay",
+      "who": "MED",
+      "cost": "`MED.EN-1; MEDKIT-1`",
+      "effect": "Astronaut returns next sol",
+      "lesson": "Medicine saves time"
+    },
+    {
+      "id": "T-PLAN",
+      "title": "Plan tomorrow",
+      "who": "MGR",
+      "cost": "`MGR.EN-1`",
+      "effect": "Peek at the next event; re-plan power",
+      "lesson": "Leaders look ahead"
+    },
+    {
+      "id": "T-PEP",
+      "title": "Pep talk",
+      "who": "MGR",
+      "cost": "`MGR.EN-1`",
+      "effect": "`PICK.EN+2`",
+      "lesson": "Teams lift each other"
+    },
+    {
+      "id": "T-CALL",
+      "title": "Send a video home",
+      "who": "ANY",
+      "cost": "`PWR-1`",
+      "effect": "`ME.EN+1`; reply arrives next sol (`+1` more)",
+      "lesson": "Distance changes how we talk"
+    },
+    {
+      "id": "T-SEND",
+      "title": "Send data",
+      "who": "ANY",
+      "cost": "`PWR-1` (all = `PWR-2`)",
+      "effect": "Banks pending SP (RS-04)",
+      "lesson": "Science counts when shared"
     }
   ],
   "sources": [

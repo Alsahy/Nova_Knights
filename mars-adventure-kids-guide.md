@@ -54,7 +54,9 @@ So **play again** and you'll get a brand-new story! 🎉
 
 🌍 **True story:** NASA's practice Mars crew, who lived for 378 days in a pretend Mars house on Earth, had these same 4 jobs!
 
-### Each astronaut has 5 bars
+### Your crew shares 5 bars
+
+Your 4 astronauts are a team, so they **share** one set of bars. When one astronaut works hard, the whole crew's energy goes down!
 
 | Bar | What it means | Keep it… |
 |---|---|---|
@@ -62,11 +64,11 @@ So **play again** and you'll get a brand-new story! 🎉
 | 💧 **Water** | Are they drinking enough? | FULL |
 | 🫁 **Air** | Do they have air? (This matters most outside, in a spacesuit.) | FULL |
 | ⚡ **Energy** | How much can they work? | FULL |
-| ☢️ **Radiation badge** | How many space rays have hit them? | **LOW!** It never goes down |
+| ☢️ **Radiation badge** | How many space rays have hit your crew? | **LOW!** It never goes down |
 
-- If a bar (except the badge) goes **empty**, that astronaut rests in **Sick Bay** for 2 sols.
+- If a bar (except the badge) goes **empty**, one astronaut has to rest in **Sick Bay** for 2 sols.
 - The **radiation badge** goes 🟢 **green** → 🟡 **yellow** → 🔴 **red** as it fills up.
-- If the **radiation badge** gets full, that astronaut must **stay inside** for the rest of the mission.
+- If the **radiation badge** gets full, the whole crew must **stay inside** for the rest of the mission.
 
 ---
 
@@ -151,8 +153,8 @@ Radiation badges fill up a little every sol. Who goes outside next?
 🌍 **True story:** NASA has a lifetime limit for how much radiation an astronaut can get.
 
 **🔴 Badge Turning Red**
-Someone's radiation badge is almost full!
-**You can…** give them inside jobs only · get a doctor's check-up · let them do one last important trip (risky!)
+The crew's radiation badge is almost full!
+**You can…** do only inside jobs for a while · get a doctor's check-up · let them do one last important trip (risky!)
 🌍 **True story:** Real astronauts wear radiation badges, just like in the game.
 
 **🌍✅ Earth Is Safe, Mars Is Not** 🎓
@@ -357,7 +359,7 @@ An astronaut slipped outside and hurt their ankle.
 🌍 **True story:** Mars gravity is only about a third of Earth's, so walking feels very different.
 
 **🥱 Too Tired to Work**
-An astronaut is almost out of energy!
+The crew is almost out of energy!
 **You can…** give them a day off · have others do the job · give them an energy snack
 🌍 **True story:** Tired astronauts find their work harder, just like tired kids!
 
@@ -491,4 +493,4 @@ Before landing, you fly through space for months. How will you travel?
 
 ---
 
-*For grown-ups: this guide matches **events-and-actions.md v0.3**. Every "True story" comes from NASA missions and research. The full list of sources and the game rules are in **events-and-actions.md**.*
+*For grown-ups: this guide matches **events-and-actions.md v0.4**. Every "True story" comes from NASA missions and research. The full list of sources and the game rules are in **events-and-actions.md**.*

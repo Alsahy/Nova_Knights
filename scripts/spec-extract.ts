@@ -1,9 +1,9 @@
 /**
  * spec-extract v0 (lane S): events-and-actions.md → src/content/generated/spec.json
  *
- * v0 parses:  §6 event index table → events[] (id, name, system, deck, missions, tier)
+ * Parses: §6 index → events[] · §7 details → details{} (raw card cells) · §4 → tasks[] (raw)
  *             §11 sources          → sources[] (id, title, url, urls)
- * Phase 3 extends it to the §7 card tables and §4 tasks.
+ * Raw cells become EventDef/TaskDef in src/content/index.ts (engine notation.ts + content overrides.ts).
  *
  * Run: npm run spec:extract   (never hand-edit the generated file)
  */
@@ -32,9 +32,44 @@ export interface SpecSource {
   urls: string[];
 }
 
+export interface SpecCard {
+  id: string; // 'SW-01.a'
+  letter: string;
+  star: boolean; // ★ = shown in Cadet
+  title: string;
+  who: string;
+  cost: string;
+  effect: string;
+  later: string;
+  lesson: string;
+}
+
+export interface SpecEventDetail {
+  id: string;
+  title: string;
+  icon: string;
+  deckLine: string;
+  kidText: string;
+  realScience: { text: string; sources: string[] };
+  notes: { label: string; text: string }[]; // Engine / Rule / Effect / Dose rule / Slot rule …
+  extra: string[]; // free lines after the table, e.g. "*If PARTS = 0 → LS-02.*"
+  cards: SpecCard[];
+}
+
+export interface SpecTask {
+  id: string;
+  title: string;
+  who: string;
+  cost: string;
+  effect: string;
+  lesson: string;
+}
+
 export interface SpecJson {
   specVersion: string;
   events: SpecEventIndex[];
+  details: Record<string, SpecEventDetail>;
+  tasks: SpecTask[];
   sources: SpecSource[];
 }
 
@@ -112,11 +147,100 @@ export function parseSources(md: string): SpecSource[] {
   return out;
 }
 
+const sourceIds = (text: string): string[] => [...text.matchAll(/\[(S\d+b?)\]/g)].map((m) => m[1]!);
+
+export function parseEventDetails(md: string): Record<string, SpecEventDetail> {
+  const out: Record<string, SpecEventDetail> = {};
+  const blocks = section(md, 7)
+    .split(/^#### /m)
+    .slice(1);
+  for (const block of blocks) {
+    const lines = block.split('\n');
+    const head = /^([A-Z]{2}-\d{2}) · (.+)$/.exec(lines[0]!.trim());
+    if (!head) continue;
+    const id = head[1]!;
+    const headText = head[2]!.replace(/\*\(.*?\)\*/g, '').trim();
+    // Title = text up to the trailing emoji run.
+    const iconRun = /[\s\p{Extended_Pictographic}\u{FE0F}\u{200D}\u{20E3}]+$/u.exec(headText);
+    const title = (iconRun ? headText.slice(0, iconRun.index) : headText).trim();
+    const icon = (iconRun?.[0] ?? '').replace(/\s+/g, '');
+    let deckLine = '';
+    let kidText = '';
+    let realScience = { text: '', sources: [] as string[] };
+    const notes: { label: string; text: string }[] = [];
+    const extra: string[] = [];
+    const cards: SpecCard[] = [];
+    let afterTable = false;
+    for (const raw of lines.slice(1)) {
+      const line = raw.trim();
+      if (!line || line === '---' || line.startsWith('### ')) continue;
+      if (line.startsWith('`deck:')) {
+        deckLine = line.slice(1, line.indexOf('`', 1)).replace(/^deck:\s*/, '');
+        continue;
+      }
+      const bullet = /^- \*\*(.+?):\*\*\s*(.*)$/.exec(line);
+      if (bullet) {
+        const label = bullet[1]!;
+        const text = bullet[2]!;
+        if (label === 'Kid text') kidText = text.replace(/^"|"$/g, '');
+        else if (label === 'Real science')
+          realScience = { text, sources: [...new Set(sourceIds(text))] };
+        else notes.push({ label, text });
+        continue;
+      }
+      if (line.startsWith('|')) {
+        const c = cells(line);
+        if (c[0] === 'Card' || /^-+$/.test(c[0] ?? '')) continue;
+        const m = /^(★\s*)?([a-c])\.\s*(.+)$/.exec(c[0] ?? '');
+        if (!m || c.length !== 6) throw new Error(`spec §7 ${id}: bad card row: ${line}`);
+        cards.push({
+          id: `${id}.${m[2]}`,
+          letter: m[2]!,
+          star: Boolean(m[1]),
+          title: m[3]!.trim(),
+          who: c[1]!,
+          cost: c[2]!,
+          effect: c[3]!,
+          later: c[4]!,
+          lesson: c[5]!,
+        });
+        afterTable = true;
+        continue;
+      }
+      if (afterTable || line.startsWith('*')) extra.push(line);
+    }
+    if (cards.length < 2)
+      throw new Error(`spec §7 ${id}: expected ≥ 2 cards, found ${cards.length}`);
+    out[id] = { id, title, icon, deckLine, kidText, realScience, notes, extra, cards };
+  }
+  return out;
+}
+
+export function parseTasks(md: string): SpecTask[] {
+  const out: SpecTask[] = [];
+  for (const line of section(md, 4).split('\n')) {
+    if (!/^\|\s*T-[A-Z-]+\s*\|/.test(line)) continue;
+    const c = cells(line);
+    if (c.length !== 6) throw new Error(`spec §4: bad task row: ${line}`);
+    out.push({
+      id: c[0]!,
+      title: c[1]!,
+      who: c[2]!,
+      cost: c[3]!,
+      effect: c[4]!,
+      lesson: c[5]!,
+    });
+  }
+  return out;
+}
+
 export function parseSpec(md: string): SpecJson {
   const v = /\*\*Version (\d+\.\d+)/.exec(md);
   return {
     specVersion: v?.[1] ?? 'unknown',
     events: parseEventIndex(md),
+    details: parseEventDetails(md),
+    tasks: parseTasks(md),
     sources: parseSources(md),
   };
 }
@@ -139,7 +263,7 @@ function main(): void {
   mkdirSync(dirname(OUT_PATH), { recursive: true });
   writeFileSync(OUT_PATH, render(spec));
   console.log(
-    `spec v${spec.specVersion}: ${spec.events.length} events, ${spec.sources.length} sources → ${OUT_PATH}`,
+    `spec v${spec.specVersion}: ${spec.events.length} events, ${Object.keys(spec.details).length} details, ${spec.tasks.length} tasks, ${spec.sources.length} sources`,
   );
 }
 
