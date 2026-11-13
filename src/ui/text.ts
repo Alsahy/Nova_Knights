@@ -42,7 +42,10 @@ export function logLine(e: LogEntry): string {
       /^[A-Z]{2}-\d{2}\.[a-z]+$/.test(id) || id.endsWith('.wait')
         ? actionTitle(id)
         : eventTitle(id);
-  if (typeof params['task'] === 'string') params['task'] = taskTitle(params['task']);
+  if (typeof params['task'] === 'string')
+    params['task'] = copy.ui.jobNames[params['task']] ?? taskTitle(params['task']);
+  if (typeof params['what'] === 'string')
+    params['what'] = copy.ui.thingNames[params['what']] ?? params['what'];
   if (typeof params['source'] === 'string') {
     const src = params['source'];
     params['source'] = src.startsWith('T-') ? taskTitle(src) : actionTitle(src);

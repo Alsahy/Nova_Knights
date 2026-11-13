@@ -1,11 +1,16 @@
-/** The cockpit: HUD on top, mission board left, holo frame centre, crew right, console bottom. */
+/**
+ * The cockpit, simplified (lead feedback): top bar · "Our base" on the LEFT · the current step in the centre · console.
+ * D-020: no morning or power screens; the UI steps through them automatically. A power shortage still
+ * shows PW-08 as a card, and Morning news (briefing) cards still show.
+ */
 import { useEffect, useMemo, useState } from 'preact/hooks';
-import type { AstronautId, CardView, Command, GameState, PoweredSystem } from '../../engine/types';
+import { CONTENT } from '../../content';
+import type { AstronautId, CardView, Command, GameState } from '../../engine/types';
 import { Icon } from '../components/Icon';
-import { CrewPanel, Hud, MissionBoard, type Preview } from '../components/Panels';
+import { BasePanel, TopBar, type Preview } from '../components/Panels';
 import { engine, saveGame } from '../engine';
 import { ui } from '../text';
-import { EventPanel, MorningReport, NightLog, PowerPlan, TaskPlanner } from './Phases';
+import { EventPanel, JobsPanel, NightReport } from './Phases';
 
 const PREVIEW_KEYS = new Set([
   'LS',
@@ -25,7 +30,7 @@ const PREVIEW_KEYS = new Set([
   'EN',
 ]);
 
-/** "Choice → the stats it changes light up" (design canvas). Costs + effects only (not later/maybe). */
+/** "Choice → the stats it changes light up" (design canvas). Costs + gains only. */
 function previewOf(c: CardView | undefined): Preview {
   const p: Preview = {};
   if (!c) return p;
@@ -37,18 +42,28 @@ function previewOf(c: CardView | undefined): Preview {
   return p;
 }
 
+/** Skip the screens a kid doesn't need: morning → power → jobs, unless a card is waiting (D-020). */
+export function autoAdvance(s0: GameState): GameState {
+  let s = s0;
+  for (let i = 0; i < 4 && !s.pending; i++) {
+    if (s.phase === 'morning') s = engine.reduce(s, { type: 'CONTINUE' });
+    else if (s.phase === 'power') s = engine.reduce(s, { type: 'CONFIRM_POWER' });
+    else break;
+  }
+  return s;
+}
+
 export function Game(props: {
   initial: GameState;
   onEnd: (s: GameState) => void;
-  onQuit: () => void;
+  onMenu: () => void;
   onHelp: () => void;
-  onBriefing: () => void;
 }) {
-  const [s, setS] = useState<GameState>(props.initial);
+  const [s, setS] = useState<GameState>(() => autoAdvance(props.initial));
   const [selected, setSelected] = useState<string | null>(null);
 
   const dispatch = (cmd: Command) => {
-    const next = engine.reduce(s, cmd);
+    const next = autoAdvance(engine.reduce(s, cmd));
     setS(next);
     setSelected(null);
     saveGame(next.phase === 'ended' ? null : next);
@@ -64,62 +79,46 @@ export function Game(props: {
   const preview = previewOf(cards.find((c) => c.id === selected));
 
   let center;
-  let action: { label: string; cmd: Command | null; go?: boolean };
+  let action: { label: string; cmd: Command | null };
   if (s.pending) {
     center = <EventPanel s={s} selected={selected} onSelect={setSelected} />;
     action = {
       label: selected ? ui.choose : ui.pickACard,
       cmd: selected ? { type: 'CHOOSE', actionId: selected } : null,
-      go: !!selected,
     };
-  } else if (s.phase === 'morning') {
-    center = <MorningReport s={s} />;
-    action = { label: ui.toPower, cmd: { type: 'CONTINUE' }, go: true };
-  } else if (s.phase === 'power') {
-    center = (
-      <PowerPlan
-        s={s}
-        onToggle={(k: PoweredSystem, on: boolean) => dispatch({ type: 'SET_POWER', system: k, on })}
-      />
-    );
-    action = { label: ui.toTasks, cmd: { type: 'CONFIRM_POWER' }, go: true };
   } else if (s.phase === 'tasks') {
     center = (
-      <TaskPlanner
+      <JobsPanel
         s={s}
         onPlan={(a: AstronautId, t: string | null) =>
           dispatch({ type: 'PLAN_TASK', astronaut: a, taskId: t })
         }
       />
     );
-    action = { label: ui.toEvent, cmd: { type: 'CONFIRM_TASKS' }, go: true };
+    action = { label: ui.toEvent, cmd: { type: 'CONFIRM_TASKS' } };
   } else {
-    center = <NightLog s={s} />;
-    action = { label: ui.nextSol, cmd: { type: 'CONTINUE' }, go: true };
+    center = <NightReport s={s} />;
+    action = { label: ui.nextSol, cmd: { type: 'CONTINUE' } };
   }
 
   return (
     <div class="cockpit">
-      <Hud h={hud} preview={preview} />
-      <MissionBoard s={s} h={hud} />
+      <TopBar h={hud} missionName={CONTENT.missions[s.mission]?.name ?? ''} />
+      <BasePanel s={s} h={hud} preview={preview} />
       <main class="center">{center}</main>
-      <CrewPanel h={hud} preview={preview} />
       <nav class="console" aria-label="Game controls">
-        <button class="btn" onClick={props.onHelp}>
+        <button class="btn" onClick={props.onHelp} aria-label={ui.howToPlay}>
           <Icon name="HELP" /> <span class="hide-sm">{ui.howToPlay}</span>
         </button>
         <button
-          class={`btn btn-main ${action.go ? 'btn-go' : ''}`}
+          class="btn btn-main btn-go"
           disabled={!action.cmd}
           onClick={() => action.cmd && dispatch(action.cmd)}
         >
           {action.label} <Icon name="ARROW" />
         </button>
-        <button class="btn" onClick={props.onBriefing}>
-          <Icon name="BRIEF" /> <span class="hide-sm">{ui.missionBriefing}</span>
-        </button>
-        <button class="btn" onClick={props.onQuit} aria-label={ui.quit}>
-          <Icon name="MENU" />
+        <button class="btn" onClick={props.onMenu} aria-label={ui.menu}>
+          <Icon name="MENU" /> <span class="hide-sm">{ui.menu}</span>
         </button>
       </nav>
     </div>

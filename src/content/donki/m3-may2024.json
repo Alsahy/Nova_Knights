@@ -1,5 +1,16 @@
 {
   "mission": "M3",
+  "modelRun": {
+    "sol": 4,
+    "eventId": "SW-03",
+    "S": 3,
+    "warningSols": 2,
+    "realDate": "2024-05-11",
+    "recordType": "WSAEnlilSimulations",
+    "recordId": "WSA-ENLIL/30726/1",
+    "label": "NASA's model predicted this cloud would reach Mars on 2024-05-13. (CME speed about 1263 km/s.)",
+    "sourceUrl": "https://ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/30726/-1"
+  },
   "window": "2024-05-01 to 2024-05-31",
   "fetchedAt": "2026-11-13T16:55:44.914Z",
   "note": "Compressed replay (D-009): real records, real dates, sped up to fit 10 sols.",
@@ -15,18 +26,7 @@
       "sourceUrl": "https://ccmc.gsfc.nasa.gov/DONKI/view/FLR/30666/-1"
     },
     {
-      "sol": 4,
-      "eventId": "SW-03",
-      "S": 3,
-      "warningSols": 2,
-      "realDate": "2024-05-11",
-      "recordType": "WSAEnlilSimulations",
-      "recordId": "WSA-ENLIL/30726/1",
-      "label": "NASA's model predicted this cloud would reach Mars on 2024-05-13. (CME speed about 1263 km/s.)",
-      "sourceUrl": "https://ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/30726/-1"
-    },
-    {
-      "sol": 7,
+      "sol": 6,
       "eventId": "SW-02",
       "S": 2,
       "realDate": "2024-05-13",

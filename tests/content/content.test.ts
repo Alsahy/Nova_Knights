@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { CONTENT, MVP_EVENTS, UNPARSED } from '../../src/content';
+import { CONTENT, MVP_EVENTS } from '../../src/content';
+import { buildContentData, UNPARSED } from '../../src/content/build';
+import { readFileSync } from 'node:fs';
+import { CONTENT_PATH, renderContent } from '../../scripts/build-content';
+buildContentData();
 import type { ActionDef } from '../../src/engine/types';
 
 const hasCost = (a: ActionDef): boolean =>
@@ -78,15 +82,21 @@ describe('Phase 3 content checks', () => {
   it('M3 beats are real DONKI records with real dates and honest labels (D-009)', () => {
     expect(M3_TIMELINE.beats.map((b) => [b.sol, b.eventId])).toEqual([
       [2, 'SW-01'],
-      [4, 'SW-03'],
-      [7, 'SW-02'],
+      [6, 'SW-02'],
     ]);
     for (const b of M3_TIMELINE.beats) {
-      expect(b.recordId).toMatch(/FLR|SEP|ENLIL/);
+      expect(b.recordId).toMatch(/FLR|SEP/);
       expect(b.realDate).toMatch(/^2024-05-\d\d$/);
       expect(b.sourceUrl).toMatch(/^https:\/\/ccmc\.gsfc\.nasa\.gov\/DONKI\//);
     }
     expect(M3_TIMELINE.beats[0]!.label).toContain('seen from Earth');
-    expect(M3_TIMELINE.beats[1]!.label).toContain("NASA's model predicted");
+    expect(M3_TIMELINE.beats[1]!.label).toContain('measured near Earth');
+    expect(M3_TIMELINE.modelRun.label).toContain("NASA's model predicted");
+  });
+});
+
+describe('generated content.json', () => {
+  it('is up to date with the spec + overrides (run `npm run spec:extract`)', () => {
+    expect(readFileSync(CONTENT_PATH, 'utf8')).toBe(renderContent());
   });
 });

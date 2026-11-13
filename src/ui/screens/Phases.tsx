@@ -1,46 +1,50 @@
-/** The centre "holo frame" for each phase of a sol (spec §2.4). */
+/**
+ * The centre of the screen for each step of a sol, simplified for ages 7–12 (lead feedback, D-018…D-020):
+ * jobs (4 per astronaut) → one surprise (2 cards) → night report. Short words, big buttons.
+ */
 import { useState } from 'preact/hooks';
 import { CONTENT } from '../../content';
 import { copy } from '../../content/copy';
 import { reasonText } from '../../content/format';
-import type { AstronautId, CardView, GameState, PoweredSystem, Role } from '../../engine/types';
+import { sourceById } from '../../content/sources';
+import { STORIES } from '../../content/stories';
+import type { AstronautId, CardView, GameState, LogEntry, Role } from '../../engine/types';
 import { Avatar } from '../components/Avatar';
 import { ChipRow } from '../components/Chips';
-import { Icon, systemIcon } from '../components/Icon';
-import { engine } from '../engine';
-import { STORIES } from '../../content/stories';
-import { sourceById } from '../../content/sources';
 import { GlossaryText } from '../components/Glossary';
-import { callSign, fill, kidText, logLine, ui } from '../text';
+import { Icon, systemIcon, type UiIcon } from '../components/Icon';
+import { engine } from '../engine';
+import { actionTitle, fill, kidText, logLine, ui } from '../text';
 
-// ── Event / briefing / setup / shortage cards ──
-function whoText(s: GameState, c: CardView): string {
-  const parts = c.who.map((t) => {
-    if (t === 'ANY') return c.who.length === 1 ? ui.anyone : ui.helper;
-    if (t === 'NAME') return s.pending?.nameTarget ? callSign(s, s.pending.nameTarget) : ui.anyone;
-    if (t === 'PICK') return ui.anyone;
-    if (t === 'EVA') return ui.evaCrew;
-    if (t.includes('|'))
-      return t
-        .split('|')
-        .map((r) => callSign(s, r as AstronautId))
-        .join(' / ');
-    return callSign(s, t as AstronautId);
-  });
-  const who = parts.length ? parts.join(' + ') : ui.anyone;
-  return fill(ui.doesIt, { who: who.charAt(0).toUpperCase() + who.slice(1) });
+const ROLES: Role[] = ['MGR', 'ENG', 'MED', 'RES'];
+
+// ── a surprise (event / morning news / setup / power problem) ──
+function whoRoles(s: GameState, c: CardView): Role[] {
+  const out: Role[] = [];
+  for (const t of c.who) {
+    if ((ROLES as string[]).includes(t)) out.push(t as Role);
+    else if (t.includes('|')) out.push(t.split('|')[0] as Role);
+    else if (t === 'NAME' && s.pending?.nameTarget) out.push(s.pending.nameTarget);
+  }
+  return out;
 }
 
-export function ChoiceCard(props: {
+function ChoiceCard(props: {
   s: GameState;
   c: CardView;
+  icon: UiIcon;
   selected: boolean;
   dimmed: boolean;
   onPick: () => void;
 }) {
   const { s, c } = props;
-  const ev = s.pending ? CONTENT.events[s.pending.eventId] : undefined;
   const risk = c.risk ? (s.tier === 'cadet' ? c.risk.words : `${c.risk.pct}%`) : undefined;
+  const who = whoRoles(s, c);
+  // Kid wording first: if a rule chip already says what is lost, drop the spec's raw "LOST: …" text.
+  const hasRuleLost = c.costs.some((x) => x.icon === 'LOST' && x.label?.startsWith('chip.'));
+  const costs = hasRuleLost
+    ? c.costs.filter((x) => !(x.icon === 'LOST' && !x.label?.startsWith('chip.')))
+    : c.costs;
   return (
     <button
       class={`choice ${props.selected ? 'chosen' : ''} ${props.dimmed ? 'dimmed' : ''}`}
@@ -54,15 +58,21 @@ export function ChoiceCard(props: {
         </span>
       )}
       <span class="choice-icon">
-        <Icon name={ev ? systemIcon(ev.id) : 'EVENT'} size={24} />
+        <Icon name={props.icon} size={26} />
       </span>
       <span class="choice-title">{c.title.startsWith('chip.') ? copy.chip[c.title] : c.title}</span>
-      {c.who.length > 0 && <span class="choice-who">{whoText(s, c)}</span>}
-      {c.fallback && <span class="choice-warn">{ui.standIn}</span>}
-      <ChipRow chips={c.costs} />
+      {who.length > 0 && (
+        <span class="choice-who">
+          {who.map((r) => (
+            <span key={r} class="who-chip">
+              <Avatar role={r} size={22} /> {s.astronauts.find((a) => a.id === r)!.callSign}
+            </span>
+          ))}
+        </span>
+      )}
+      <ChipRow chips={costs} />
       <ChipRow chips={c.effects} />
       <ChipRow chips={c.later} {...(risk ? { risk } : {})} />
-      {c.lesson && <span class="choice-lesson">“{c.lesson}”</span>}
       {!c.affordable && c.reason && <span class="choice-reason">{reasonText(c.reason)}</span>}
     </button>
   );
@@ -78,30 +88,36 @@ export function EventPanel(props: {
   const ev = CONTENT.events[p.eventId]!;
   const cards = engine.shownCards(s);
   const story = STORIES[ev.id];
+  const [showStory, setShowStory] = useState(false);
+  const [showData, setShowData] = useState(false);
   const tag =
     p.slot === 'setup'
       ? ui.beforeLanding
       : p.slot === 'briefing'
-        ? ui.missionBriefing
+        ? ui.morningNews
         : p.slot === 'shortage'
-          ? ui.powerTitle
-          : `${ui.sol} ${s.sol}`;
+          ? ui.powerProblem
+          : ui.surprise;
   return (
     <section class="holo" aria-labelledby="ev-title">
-      <p class="holo-tag">
-        {tag} · {ev.system}
-      </p>
-      <h2 id="ev-title" class="holo-title">
-        <Icon name={systemIcon(ev.id)} size={30} /> {ev.title}
-      </h2>
-      {p.donki && (
+      <div class="holo-head">
+        <p class="holo-tag">{tag}</p>
+        {p.donki && (
+          <button
+            class="data-badge"
+            aria-expanded={showData}
+            onClick={() => setShowData(!showData)}
+          >
+            <Icon name="DATA" size={16} /> {ui.realData} · {p.donki.date}
+          </button>
+        )}
+      </div>
+      {p.donki && showData && (
         <p class="donki-label">
-          <b>{fill(ui.realEvent, { date: p.donki.date })}</b> · {ui.replay}
+          {p.donki.label} {ui.replay}.
           {p.donki.fetchedAt
-            ? ` · ${fill(ui.archived, { date: p.donki.fetchedAt.slice(0, 10) })}`
-            : ''}
-          <br />
-          {p.donki.label}{' '}
+            ? ` ${fill(ui.archived, { date: p.donki.fetchedAt.slice(0, 10) })}.`
+            : ''}{' '}
           {p.donki.sourceUrl && (
             <a href={p.donki.sourceUrl} target="_blank" rel="noopener noreferrer">
               {ui.seeRecord}
@@ -109,6 +125,9 @@ export function EventPanel(props: {
           )}
         </p>
       )}
+      <h2 id="ev-title" class="holo-title" tabIndex={-1}>
+        <Icon name={systemIcon(ev.id)} size={32} /> {ev.title}
+      </h2>
       <p class="kid-text">
         <GlossaryText text={kidText(s, ev.kidText)} />
       </p>
@@ -118,6 +137,7 @@ export function EventPanel(props: {
             key={c.id}
             s={s}
             c={c}
+            icon={systemIcon(ev.id)}
             selected={props.selected === c.id}
             dimmed={props.selected !== null && props.selected !== c.id}
             onPick={() => props.onSelect(props.selected === c.id ? null : c.id)}
@@ -125,285 +145,269 @@ export function EventPanel(props: {
         ))}
       </div>
       {story && (
-        <p class="story">
-          <b>{ui.trueStoryKid}:</b> {story.trueStory}{' '}
-          {story.sources.map((id) => (
-            <a
-              key={id}
-              href={sourceById(id)?.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="src-link"
-            >
-              [{id}]
-            </a>
-          ))}
-        </p>
-      )}
-      <details class="true-story">
-        <summary>{ui.trueStory}</summary>
-        <p>
-          {ev.realScience.text.split(/(\[S\d+b?\])/).map((part, i) =>
-            /^\[S\d+b?\]$/.test(part) ? (
-              <a
-                key={i}
-                href={sourceById(part.slice(1, -1))?.url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {part}
-              </a>
-            ) : (
-              part
-            ),
+        <div class="story-wrap">
+          <button
+            class="btn btn-small btn-ghost"
+            aria-expanded={showStory}
+            onClick={() => setShowStory(!showStory)}
+          >
+            <Icon name="HELP" size={18} /> {showStory ? ui.hideStory : ui.realStory}
+          </button>
+          {showStory && (
+            <p class="story">
+              {story.trueStory}{' '}
+              {story.sources.map((id) => (
+                <a
+                  key={id}
+                  href={sourceById(id)?.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="src-link"
+                >
+                  [{id}]
+                </a>
+              ))}
+            </p>
           )}
-        </p>
-      </details>
+        </div>
+      )}
     </section>
   );
 }
 
-// ── Morning report ──
-export function MorningReport({ s }: { s: GameState }) {
-  const b = engine.powerBudget(s);
-  const mission = CONTENT.missions[s.mission]!;
-  return (
-    <section class="holo" aria-labelledby="mr-title">
-      <p class="holo-tag">
-        {ui.sol} {s.sol}
-      </p>
-      <h2 id="mr-title" class="holo-title">
-        <Icon name="SUN" size={30} /> {fill(ui.morning, { sol: s.sol })}
-      </h2>
-      <ul class="report">
-        <li>
-          <Icon name="SUN" /> {mission.donki === 'quiet' ? ui.morningSun : ui.morningSunBusy}
-        </li>
-        <li>
-          <Icon name="PWR" />{' '}
-          {fill(ui.morningPower, {
-            solar: b.solar,
-            reactor: b.reactor,
-            supply: b.supply,
-            ...(b.bonus ? { bonus: b.bonus } : {}),
-          })}
-        </li>
-        <li>
-          <Icon name="BAT" />{' '}
-          {fill(ui.morningBattery, { bat: s.systems.BAT, max: s.systems.BATMAX })}
-        </li>
-        {s.dust.stacks > 0 && (
-          <li class="warn">
-            <Icon name="SUN" /> {fill(ui.morningDust, { n: s.dust.stacks })}
-          </li>
-        )}
-        <li>
-          <Icon name="SP" />{' '}
-          {fill(ui.morningStars, { banked: s.sp.banked, pending: s.sp.pending, goal: s.sp.goal })}
-        </li>
-      </ul>
-      <TodayLog s={s} />
-    </section>
-  );
+// ── jobs (D-019: 4 per astronaut) ──
+const JOB_ICON: Record<string, UiIcon> = {
+  'T-REST': 'TIME',
+  'T-PEP': 'CREW',
+  'T-GARDEN': 'SPROUT',
+  'T-SEND': 'ANTENNA',
+  'T-MAINT-LS': 'LS',
+  'T-PANELS': 'SUN',
+  'T-SHIELD': 'SH',
+  'T-TREAT': 'MEDKIT',
+  'T-MED': 'MEDKIT',
+  'T-LAB': 'FLASK',
+  'T-EVA-SCI': 'COMPASS',
+};
+
+function morningNotes(s: GameState): string[] {
+  const notes: string[] = [];
+  if (s.sol === s.lastSol) notes.push(ui.noteLastSol);
+  else if (s.sol % 4 === 0) notes.push(ui.noteSend);
+  if (s.dust.addedToday || s.dust.stacks >= 2) notes.push(ui.noteDust);
+  if (s.crop && s.crop.readySol - s.sol <= 1) notes.push(fill(ui.noteCrop, { crop: s.crop.kind }));
+  if (s.mission === 'M3' && s.sol === 1) notes.push(ui.noteStorm);
+  return notes.slice(0, 2);
 }
 
-// ── Power plan (D-002, D-003) ──
-export function PowerPlan({
-  s,
-  onToggle,
-}: {
-  s: GameState;
-  onToggle: (k: PoweredSystem, on: boolean) => void;
-}) {
-  const b = engine.powerBudget(s);
-  const net = b.supply - b.totalNeed - b.spent;
-  const rows: {
-    k: PoweredSystem;
-    label: string;
-    hint: string;
-    need: number;
-    disabled?: boolean;
-  }[] = [
-    { k: 'LS', label: ui.sysLS, hint: ui.sysLSHint, need: 2 },
-    { k: 'recycler', label: ui.sysRecycler, hint: ui.sysRecyclerHint, need: 1 },
-    {
-      k: 'greenhouse',
-      label: ui.sysGreenhouse,
-      hint: ui.sysGreenhouseHint,
-      need: 1,
-      disabled: !s.crop,
-    },
-  ];
-  return (
-    <section class="holo" aria-labelledby="pw-title">
-      <p class="holo-tag">
-        {ui.sol} {s.sol}
-      </p>
-      <h2 id="pw-title" class="holo-title">
-        <Icon name="PWR" size={30} /> {ui.powerTitle}
-      </h2>
-      <p class="kid-text">{ui.powerIntro}</p>
-      <div class="power-sum">
-        <div>
-          <span class="muted">{ui.supply}</span> <b class="num big">{b.supply}</b>
-        </div>
-        <div>
-          <span class="muted">{ui.need}</span> <b class="num big">{b.totalNeed}</b>
-        </div>
-        <div>
-          <span class="muted">{ui.battery}</span> <b class="num big">{b.battery}</b>
-        </div>
-      </div>
-      <p class={`power-result ${b.shortfall > 0 ? 'bad' : net >= 0 ? 'good' : 'meh'}`}>
-        {b.shortfall > 0
-          ? fill(ui.short, { n: b.shortfall })
-          : net >= 0
-            ? fill(ui.leftover, { n: net })
-            : fill(ui.fromBattery, { n: -net })}
-      </p>
-      <ul class="toggles">
-        {rows.map((r) => {
-          const on = s.power.plugged[r.k] && !(r.k === 'greenhouse' && !s.crop);
-          return (
-            <li key={r.k}>
-              <label class="toggle-row">
-                <input
-                  type="checkbox"
-                  role="switch"
-                  checked={on}
-                  disabled={r.disabled}
-                  onChange={(e) => onToggle(r.k, (e.target as HTMLInputElement).checked)}
-                />
-                <span class="toggle-ui" aria-hidden="true">
-                  {on ? ui.on : ui.off}
-                </span>
-                <span>
-                  <b>{r.label}</b> <span class="chip chip-cost">−{r.need}</span>
-                  <small>{r.hint}</small>
-                </span>
-              </label>
-            </li>
-          );
-        })}
-      </ul>
-    </section>
-  );
-}
-
-// ── Crew jobs (D-001: planned now, resolved at night) ──
-const ROLES: Role[] = ['MGR', 'ENG', 'MED', 'RES'];
-
-export function TaskPlanner({
+export function JobsPanel({
   s,
   onPlan,
 }: {
   s: GameState;
   onPlan: (a: AstronautId, t: string | null) => void;
 }) {
-  const [open, setOpen] = useState<string | null>(null);
+  const free = ROLES.filter((r) => {
+    const a = s.astronauts.find((x) => x.id === r)!;
+    return a.sickBaySols === 0 && a.busyUntilSol < s.sol;
+  });
+  const [active, setActive] = useState<Role | undefined>(
+    free.find((r) => !s.astronauts.find((x) => x.id === r)!.plannedTask) ?? free[0],
+  );
+  const energyCost = s.astronauts.reduce((sum, a) => {
+    const t = a.plannedTask ? CONTENT.tasks[a.plannedTask] : undefined;
+    return (
+      sum +
+      (t
+        ? t.cost.reduce(
+            (x, e) => x + (e.kind === 'stat' && e.stat === 'EN' && e.delta < 0 ? -e.delta : 0),
+            0,
+          )
+        : 0)
+    );
+  }, 0);
+  const energyGain =
+    s.astronauts.filter((a) => a.plannedTask === 'T-REST').length * 3 +
+    s.astronauts.filter((a) => a.plannedTask === 'T-PEP').length * 2;
+  const after = Math.max(0, Math.min(s.crew.ENMAX, s.crew.EN - energyCost + energyGain));
   return (
-    <section class="holo" aria-labelledby="tk-title">
-      <p class="holo-tag">
-        {ui.sol} {s.sol}
-      </p>
-      <h2 id="tk-title" class="holo-title">
-        <Icon name="CREW" size={30} /> {ui.tasksTitle}
+    <section class="holo" aria-labelledby="jobs-title">
+      <p class="holo-tag">{fill(ui.morning, { sol: s.sol })}</p>
+      {morningNotes(s).map((n) => (
+        <p key={n} class="note">
+          <Icon name="EVENT" size={18} /> {n}
+        </p>
+      ))}
+      <h2 id="jobs-title" class="holo-title" tabIndex={-1}>
+        <Icon name="CREW" size={32} /> {ui.jobsTitle}
       </h2>
-      <p class="kid-text">{ui.tasksIntro}</p>
-      <ul class="task-rows">
+      <p class="kid-text small-kid">{ui.pickJobs}</p>
+      <div class="crew-grid">
         {ROLES.map((r) => {
           const a = s.astronauts.find((x) => x.id === r)!;
-          const unavailable = a.sickBaySols > 0 || a.busyUntilSol >= s.sol;
-          const options = engine.availableTasks(s, r);
-          const shown = options.filter((o) => o.allowed || o.taskId === a.plannedTask);
-          const sorted = [...shown.filter((o) => !o.fallback), ...shown.filter((o) => o.fallback)];
-          const isOpen =
-            open === r ||
-            (!a.plannedTask &&
-              open === null &&
-              !unavailable &&
-              r === ROLES.find((x) => !s.astronauts.find((y) => y.id === x)!.plannedTask));
+          const away = a.sickBaySols > 0 || a.busyUntilSol >= s.sol;
           return (
-            <li key={r} class="task-row">
-              <div class="task-who">
-                <Avatar role={r} size={44} dim={unavailable} />
-                <div>
-                  <b>{a.callSign}</b> <span class="muted">· {ui.roleNames[r]}</span>
-                  <div class="small">
-                    {unavailable
-                      ? a.sickBaySols > 0
-                        ? fill(ui.inSickBay, { n: a.sickBaySols })
-                        : ui.busy
-                      : a.plannedTask
-                        ? `✔ ${CONTENT.tasks[a.plannedTask]?.title}`
-                        : ui.noTask}
-                  </div>
-                </div>
-                {!unavailable && (
-                  <button
-                    class="btn btn-small"
-                    aria-expanded={isOpen}
-                    onClick={() => setOpen(isOpen ? 'none' : r)}
-                  >
-                    {isOpen ? ui.close : a.plannedTask ? 'Change' : 'Pick a job'}
-                  </button>
-                )}
-              </div>
-              {!unavailable && isOpen && (
-                <div class="task-options">
-                  {sorted.map((o) => (
-                    <button
-                      key={o.taskId}
-                      class={`task-btn ${a.plannedTask === o.taskId ? 'chosen' : ''}`}
-                      aria-pressed={a.plannedTask === o.taskId}
-                      onClick={() => {
-                        onPlan(r, a.plannedTask === o.taskId ? null : o.taskId);
-                        setOpen(null);
-                      }}
-                    >
-                      <span class="task-title">{o.title}</span>
-                      {o.fallback && <span class="choice-warn">{ui.standIn}</span>}
-                      <ChipRow chips={o.costs} />
-                      <ChipRow chips={o.effects} />
-                    </button>
-                  ))}
+            <div key={r} class={`crew-card ${away ? 'away' : ''} ${active === r ? 'active' : ''}`}>
+              <button
+                class="crew-head"
+                aria-expanded={active === r}
+                onClick={() => setActive(r)}
+                disabled={away}
+              >
+                <Avatar role={r} size={44} dim={away} />
+                <span class="crew-id">
+                  <b>{a.callSign}</b>
+                  <span class="small muted">{ui.roleNames[r]}</span>
+                </span>
+                <span class="crew-pick small">
+                  {a.plannedTask ? (
+                    <>
+                      <Icon name="CHECK" size={16} /> {ui.jobNames[a.plannedTask] ?? a.plannedTask}
+                    </>
+                  ) : away ? (
+                    ''
+                  ) : (
+                    ui.noTask
+                  )}
+                </span>
+              </button>
+              {away ? (
+                <p class="muted">
+                  {a.sickBaySols > 0 ? fill(ui.inSickBay, { n: a.sickBaySols }) : ui.busy}
+                </p>
+              ) : (
+                <div class="job-grid" role="group" aria-label={`${a.callSign}: ${ui.jobsTitle}`}>
+                  {engine.availableTasks(s, r).map((o) => {
+                    const chosen = a.plannedTask === o.taskId;
+                    const gain = o.effects.find((c) => c.tone === 'effect');
+                    return (
+                      <button
+                        key={o.taskId}
+                        class={`job ${chosen ? 'chosen' : ''}`}
+                        aria-pressed={chosen}
+                        disabled={!o.allowed && !chosen}
+                        onClick={() => {
+                          onPlan(r, chosen ? null : o.taskId);
+                          if (!chosen)
+                            setActive(
+                              free.find(
+                                (x) =>
+                                  x !== r && !s.astronauts.find((y) => y.id === x)!.plannedTask,
+                              ) ?? r,
+                            );
+                        }}
+                      >
+                        <span class="job-name">
+                          <Icon name={JOB_ICON[o.taskId] ?? 'RULE'} size={20} />{' '}
+                          {ui.jobNames[o.taskId] ?? o.title}
+                        </span>
+                        <ChipRow
+                          compact
+                          chips={[
+                            ...o.costs.filter((c) => c.amount !== undefined || c.icon === 'DOSE'),
+                            ...(gain ? [gain] : []),
+                          ]}
+                        />
+                        {!o.allowed && o.reason && (
+                          <span class="choice-reason small">{reasonText(o.reason)}</span>
+                        )}
+                      </button>
+                    );
+                  })}
                 </div>
               )}
-            </li>
+            </div>
           );
         })}
-      </ul>
-      <p class="muted">{fill(ui.energyLeft, { n: s.crew.EN })}</p>
+      </div>
+      <p class={`energy-line ${after <= 4 ? 'warn' : ''}`}>
+        <Icon name="EN" /> {fill(ui.energyAfter, { n: after, max: s.crew.ENMAX })}
+        {after <= 4 ? ` · ${ui.energyLow}` : ''}
+      </p>
     </section>
   );
 }
 
-// ── Night: what happened today ──
-const HIDE = new Set(['log.solStart', 'log.nightDone', 'log.newGame']);
-export function TodayLog({ s }: { s: GameState }) {
-  const lines = engine.nightLog(s).filter((e) => !HIDE.has(e.key));
-  if (!lines.length) return null;
-  return (
-    <ul class="log">
-      {lines.map((e, i) => (
-        <li key={i} class={`log-${e.kind}`}>
-          {logLine(e)}
-        </li>
-      ))}
-    </ul>
-  );
-}
+// ── night report ──
+const SHOW = new Set([
+  'log.harvest',
+  'log.stormDose',
+  'log.backgroundDose',
+  'log.spBanked',
+  'log.toSickBay',
+  'log.backFromSickBay',
+  'log.broken',
+  'log.fixed',
+  'log.lsUnpowered',
+  'log.powerShort',
+  'log.hungry',
+  'log.thirsty',
+  'log.batteryPop',
+  'log.indoorOnly',
+  'log.cropUntended',
+  'log.o2makerBroken',
+  'log.cantFix',
+  'log.sepFollows',
+  'log.planted',
+  'log.waterWallGone',
+  'log.treated',
+  'log.taskFailed',
+]);
+const ICON_FOR: Record<string, UiIcon> = {
+  harvest: 'SPROUT',
+  dose: 'DOSE',
+  power: 'PWR',
+  upkeep: 'FOOD',
+  warning: 'EVENT',
+  info: 'CHECK',
+  task: 'CREW',
+  event: 'EVENT',
+};
 
-export function NightLog({ s }: { s: GameState }) {
+export function NightReport({ s }: { s: GameState }) {
+  const today = engine.nightLog(s);
+  const lines = today.filter(
+    (e: LogEntry) => SHOW.has(e.key) && !(e.key === 'log.spBanked' && e.params?.['sp'] === 0),
+  );
+  const jobsDone = today.filter((e) => e.key === 'log.taskDone').length;
+  const choice = [...s.choices]
+    .reverse()
+    .find((c) => c.sol === s.sol && !c.actionId.endsWith('.wait'));
+  const lesson = choice
+    ? CONTENT.events[choice.eventId]?.actions.find((a) => a.id === choice.actionId)?.lesson
+    : undefined;
   return (
     <section class="holo" aria-labelledby="nl-title">
       <p class="holo-tag">
         {ui.sol} {s.sol}
       </p>
-      <h2 id="nl-title" class="holo-title">
-        <Icon name="TIME" size={30} /> {ui.nightTitle}
+      <h2 id="nl-title" class="holo-title" tabIndex={-1}>
+        <Icon name="TIME" size={32} /> {ui.nightReport}
       </h2>
-      <TodayLog s={s} />
+      <ul class="log" aria-live="polite">
+        {choice && (
+          <li class="log-choice">
+            <Icon name="CHECK" />{' '}
+            {fill(copy.log['log.choice']!, { id: actionTitle(choice.actionId) })}
+          </li>
+        )}
+        {jobsDone > 0 && (
+          <li class="log-task">
+            <Icon name="CREW" /> {fill(ui.jobsDone, { n: jobsDone })}
+          </li>
+        )}
+        {lines.slice(0, 5).map((e, i) => (
+          <li key={i} class={`log-${e.kind}`}>
+            <Icon name={ICON_FOR[e.kind] ?? 'RULE'} /> {logLine(e)}
+          </li>
+        ))}
+        {!choice && lines.length === 0 && jobsDone === 0 && <li>{ui.allQuiet}</li>}
+      </ul>
+      {lesson && (
+        <p class="lesson">
+          <Icon name="SP" color="var(--star)" /> <b>{ui.youLearned}:</b> {lesson}
+        </p>
+      )}
     </section>
   );
 }

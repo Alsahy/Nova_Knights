@@ -71,6 +71,7 @@ export function Briefing(props: {
           </div>
           <div class="briefing-text">
             <p>{fill(ui.briefingText, { sols, goal })}</p>
+            <p>{ui.briefingText2}</p>
             {props.mission === 'M3' && <p class="warn-text">{ui.briefingDose}</p>}
             <p class="muted small">
               {ui.missionCode}: <b class="num">{props.seed}</b>

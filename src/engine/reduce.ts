@@ -99,7 +99,10 @@ export function newGame(content: Content, opts: NewGameOptions): GameState {
     modifiers: [],
     scheduled: [],
     queue: [],
-    setupQueue: opts.tier === 'commander' ? ['FD-04', 'FD-01', 'MG-04'] : ['FD-04', 'FD-01'], // spec §8.3
+    setupQueue: [
+      ...mission.setup,
+      ...(opts.tier === 'commander' && mission.events.includes('MG-04') ? ['MG-04'] : []),
+    ], // spec §8.3 + D-018
     deck: [],
     played: [],
     cooldowns: {},

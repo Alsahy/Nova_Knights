@@ -2,7 +2,8 @@
  * Content checks (PLAN Phase 3 task 8). Pure: used by scripts/check-content.ts and tests/content.
  * Errors fail the build; warnings are listed in PROGRESS.
  */
-import { CONTENT, MVP_EVENTS, UNPARSED } from './index';
+import { CONTENT, MVP_EVENTS } from './index';
+import { buildContentData, UNPARSED } from './build';
 import { M3_TIMELINE } from './missions';
 import { SOURCES } from './sources';
 import { STORIES } from './stories';
@@ -69,6 +70,7 @@ function triggers(effects: Effect[]): string[] {
 }
 
 export function checkContent(): Report {
+  buildContentData(); // fills UNPARSED
   const errors: string[] = [];
   const warnings: string[] = [];
   const mvp = new Set<string>(MVP_EVENTS);

@@ -1,9 +1,10 @@
 /** Per-device settings in localStorage, wrapped in try/catch (the game still works if storage is blocked). */
 export interface Settings {
   projector: boolean;
+  reduceMotion: boolean;
 }
 const KEY = 'mba.settings.v1';
-const DEFAULTS: Settings = { projector: false };
+const DEFAULTS: Settings = { projector: false, reduceMotion: false };
 
 export function loadSettings(): Settings {
   try {
@@ -24,4 +25,5 @@ export function saveSettings(s: Settings): void {
 
 export function applySettings(s: Settings): void {
   document.documentElement.classList.toggle('projector', s.projector);
+  document.documentElement.classList.toggle('reduce-motion', s.reduceMotion);
 }

@@ -38,12 +38,30 @@ export function visibleTasks(s: GameState, content: Content): TaskDef[] {
   });
 }
 
+/** D-019: the role's job slots (≤ 4); 'A|B' resolves to the first allowed alternative. */
+export function jobsFor(s: GameState, content: Content, id: AstronautId): string[] {
+  const role = astro(s, id).role;
+  const slots = content.missions[s.mission]?.jobs?.[role];
+  if (!slots) return visibleTasks(s, content).map((t) => t.id);
+  return slots.map((slot) => {
+    const alts = slot.split('|').filter((t) => content.tasks[t]);
+    return alts.find((t) => checkTaskBase(s, content, id, t).allowed) ?? alts[alts.length - 1]!;
+  });
+}
+
 export function checkTask(
   s: GameState,
   content: Content,
   id: AstronautId,
   taskId: string,
 ): TaskCheck {
+  const slots = content.missions[s.mission]?.jobs?.[astro(s, id).role];
+  if (slots && !slots.some((slot) => slot.split('|').includes(taskId)))
+    return { allowed: false, fallback: false, reason: 'reason.notTheirJob' };
+  return checkTaskBase(s, content, id, taskId);
+}
+
+function checkTaskBase(s: GameState, content: Content, id: AstronautId, taskId: string): TaskCheck {
   const t = content.tasks[taskId];
   const a = astro(s, id);
   if (!t) return { allowed: false, fallback: false, reason: 'reason.unknown' };

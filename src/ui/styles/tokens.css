@@ -71,3 +71,10 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+:root.reduce-motion *,
+:root.reduce-motion *::before,
+:root.reduce-motion *::after {
+  animation: none !important;
+  transition-duration: 0.01ms !important;
+}

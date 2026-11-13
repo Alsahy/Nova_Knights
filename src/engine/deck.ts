@@ -24,23 +24,27 @@ export function tierOk(ev: EventDef, s: GameState): boolean {
 function missionOk(ev: EventDef, mission: Mission): boolean {
   return ev.missions === 'all' || ev.missions.includes(mission.id);
 }
+export function inScope(mission: Mission, id: string): boolean {
+  return mission.events.includes(id); // D-018
+}
 function allowed(s: GameState, content: Content, mission: Mission, id: string): boolean {
   const ev = content.events[id];
-  return !!ev && tierOk(ev, s) && missionOk(ev, mission);
+  return (
+    !!ev &&
+    inScope(mission, id) &&
+    tierOk(ev, s) &&
+    (missionOk(ev, mission) || mission.missionEvents.includes(id))
+  );
 }
 
 /** Core events of this tier + this mission's 🎯 events, shuffled with the seed (spec §8.3). */
 export function buildDeck(s: GameState, content: Content, mission: Mission): string[] {
   const ids = Object.values(content.events)
-    .filter((ev) => tierOk(ev, s) && ev.id !== 'SW-05') // SW-05 only on quiet sols
+    .filter((ev) => allowed(s, content, mission, ev.id) && ev.id !== 'SW-05') // SW-05 only on quiet sols
     .filter(
       (ev) =>
-        (ev.deck.includes('core') && missionOk(ev, mission)) ||
-        (ev.deck.includes('mission') && mission.missionEvents.includes(ev.id)) ||
-        (ev.deck.includes('mission') &&
-          Array.isArray(ev.missions) &&
-          ev.missions.includes(mission.id) &&
-          !ev.deck.includes('donki')),
+        ev.deck.includes('core') ||
+        (ev.deck.includes('mission') && mission.missionEvents.includes(ev.id)),
     )
     .map((ev) => ev.id);
   return shuffle(s.rng, [...new Set(ids)].sort());
@@ -160,19 +164,32 @@ export function selectEvent(
     // 6. other chains and conditions
     const other = dueQueue.find((q) => q.eventId !== 'SW-02' && !q.eventId.startsWith('LS-'));
     if (other) return fromQueue(other);
-    if (evaPlanned.length && chance(s.rng, EVA_MISHAP_CHANCE)) {
+    if (
+      evaPlanned.length &&
+      allowed(s, content, mission, 'CR-05') &&
+      chance(s.rng, EVA_MISHAP_CHANCE)
+    ) {
       const id = chance(s.rng, 0.5) ? 'CR-05' : 'CR-06'; // D-013
       return { eventId: id, opts: { nameTarget: evaPlanned[int(s.rng, evaPlanned.length)]! } };
     }
-    if (s.counters.evaYesterday > 0 && chance(s.rng, CR04_AFTER_EVA_CHANCE))
+    if (
+      s.counters.evaYesterday > 0 &&
+      allowed(s, content, mission, 'CR-04') &&
+      chance(s.rng, CR04_AFTER_EVA_CHANCE)
+    )
       return { eventId: 'CR-04', opts: {} }; // D-013
-    if (s.counters.labTasks >= COND.RS05_LAB_TASKS && !s.played.includes('RS-05'))
+    if (
+      s.counters.labTasks >= COND.RS05_LAB_TASKS &&
+      allowed(s, content, mission, 'RS-05') &&
+      !s.played.includes('RS-05')
+    )
       return { eventId: 'RS-05', opts: {} };
     for (const id of ['FD-06', 'RS-03', 'CR-07', 'SW-07', 'SW-06']) {
       const c = cond(id);
       if (c) return c;
     }
-    if (s.dust.addedToday) return { eventId: 'PW-02', opts: {} }; // D-004
+    if (s.dust.addedToday && allowed(s, content, mission, 'PW-02'))
+      return { eventId: 'PW-02', opts: {} }; // D-004
     // 7. quiet sol
     if (chance(s.rng, QUIET_SOL_CHANCE[s.tier])) {
       const calm =

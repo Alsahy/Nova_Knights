@@ -19,14 +19,13 @@ import { atSol1, E } from './helpers';
 
 const M1 = CONTENT.missions.M1!;
 const M3 = CONTENT.missions.M3!;
+/** The full rule set (all 60 events) for engine-rule tests; the kid game uses the D-018 scope. */
+const FULL_M1 = { ...M1, events: Object.keys(CONTENT.events) };
 const fresh = (): GameState => JSON.parse(JSON.stringify(atSol1())) as GameState;
 
 describe('setup and the sol loop', () => {
-  it('setup = FD-04 then FD-01, then sol 1 morning', () => {
+  it('setup = FD-01 only (D-018), then sol 1 morning', () => {
     let s = E.newGame({ mission: 'M1', tier: 'cadet', seed: 3 });
-    expect(s.pending?.eventId).toBe('FD-04');
-    s = E.reduce(s, { type: 'CHOOSE', actionId: 'FD-04.a' });
-    expect(s.supplies.FOOD).toBe(55);
     expect(s.pending?.eventId).toBe('FD-01');
     expect(s.pending?.offered).toEqual(['FD-01.a', 'FD-01.c']); // D-014: 8-sol mission → lettuce vs radishes
     s = E.reduce(s, { type: 'CHOOSE', actionId: 'FD-01.a' });
@@ -253,18 +252,18 @@ describe('deck and draw order (spec §8.3, D-004)', () => {
   it('a condition fires, then cools down for 3 sols', () => {
     const s = fresh();
     s.supplies.H2O = 5;
-    const p = selectEvent(s, CONTENT, M1, []);
+    const p = selectEvent(s, CONTENT, FULL_M1, []);
     expect(p?.eventId).toBe('LS-09');
     offerEvent(s, CONTENT, 'LS-09', 'event');
     expect(s.cooldowns['LS-09']).toBe(s.sol + 3);
     s.pending = null;
-    expect(selectEvent(s, CONTENT, M1, [])?.eventId).not.toBe('LS-09');
+    expect(selectEvent(s, CONTENT, FULL_M1, [])?.eventId).not.toBe('LS-09');
   });
   it('MG-02 beats other conditions', () => {
     const s = fresh();
     s.systems.LS = 2;
     s.systems.LAB = 2;
-    expect(selectEvent(s, CONTENT, M1, [])?.eventId).toBe('MG-02');
+    expect(selectEvent(s, CONTENT, FULL_M1, [])?.eventId).toBe('MG-02');
   });
   it('Morning Briefing: RS-04 wins; a bumped FD-01 replants automatically (D-004, P-002)', () => {
     const s = fresh();
@@ -322,5 +321,43 @@ describe('affordability and the stuck rule (D-012)', () => {
     const en = s.crew.EN;
     expect(resolveChoice(s, CONTENT, 'LS-04.a')).toBe(true);
     expect(s.crew.EN).toBe(en - 4);
+  });
+});
+
+describe('kid scope (D-018, D-019)', () => {
+  it('the M1 deck only holds kid-scope events', () => {
+    const s = fresh();
+    for (const id of buildDeck(s, CONTENT, M1)) expect(M1.events).toContain(id);
+  });
+  it('conditions outside the scope never fire', () => {
+    const s = fresh();
+    s.supplies.H2O = 5;
+    s.systems.LS = 2;
+    s.systems.LAB = 2;
+    const p = selectEvent(s, CONTENT, M1, []);
+    expect(p === null || M1.events.includes(p.eventId)).toBe(true);
+  });
+  it('every astronaut sees exactly 4 jobs, all their own (no stand-in)', () => {
+    let s = fresh();
+    s = E.reduce(E.reduce(s, { type: 'CONTINUE' }), { type: 'CONFIRM_POWER' });
+    for (const a of s.astronauts) {
+      const jobs = E.availableTasks(s, a.id);
+      expect(jobs, a.id).toHaveLength(4);
+      expect(
+        jobs.some((j) => j.fallback),
+        a.id,
+      ).toBe(false);
+    }
+    expect(
+      E.reduce(s, { type: 'PLAN_TASK', astronaut: 'MGR', taskId: 'T-LAB' }).astronauts[0]!
+        .plannedTask,
+    ).toBeNull();
+  });
+  it('out-of-scope chains never happen and are not shown (LS-03.b → LS-04)', () => {
+    const s = fresh();
+    offerEvent(s, CONTENT, 'LS-03', 'event');
+    const b = E.shownCards(s).find((c) => c.id === 'LS-03.b')!;
+    expect(b.later.some((ch) => ch.label === 'chip.trigger')).toBe(false);
+    expect(b.risk).toBeUndefined();
   });
 });

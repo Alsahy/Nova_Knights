@@ -1,5 +1,5 @@
 /** Sources [S#] (spec §11) with publisher, NASA-primary flag and the Phase 3 audit result. */
-import spec from './generated/spec.json';
+import spec from './generated/content.json';
 import { AUDIT_DATE, SOURCE_AUDIT, type AuditStatus } from './sourceAudit';
 
 export interface Source {

@@ -133,6 +133,12 @@ export interface Mission {
   name: string;
   site: string;
   goal: { maxDose?: number };
+  /** D-018 kid scope: the ONLY events this mission can show (setup, deck, chains, conditions, briefings). */
+  events: string[];
+  /** Setup events in order (D-018: FD-01 only). */
+  setup: string[];
+  /** D-019: each role's jobs, at most 4 slots; 'A|B' = A if allowed, else B. */
+  jobs: Record<Role, string[]>;
   missionEvents: string[];
   scripted: {
     sol: number;

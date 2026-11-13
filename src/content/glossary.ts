@@ -1,12 +1,12 @@
 /** Word helper (kids guide) + aliases so science words get a tap-to-explain tooltip (spec §1.1 rule 5). */
-import spec from './generated/spec.json';
+import data from './generated/content.json';
 
 export interface Term {
   word: string;
   meaning: string;
 }
 
-export const GLOSSARY: Term[] = spec.guide.glossary;
+export const GLOSSARY: Term[] = data.glossary;
 
 /** Words that appear in card text → the guide entry that explains them. */
 const ALIASES: Record<string, string> = {

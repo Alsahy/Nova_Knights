@@ -5,7 +5,7 @@ import { multiplier } from './effects';
 import { computePower } from './power';
 import { doseBadge, shieldTier, stormDoseFor, type StormMode } from './radiation';
 import { hasFlag } from './state';
-import { checkTask, visibleTasks } from './tasks';
+import { checkTask, jobsFor } from './tasks';
 import type {
   ActionDef,
   AstronautId,
@@ -95,6 +95,7 @@ interface ChipCtx {
   headcount: number;
   severity?: number;
   risk: { p: number } | null;
+  scope: string[]; // D-018: events this mission can show
 }
 
 function chips(effects: Effect[], tone: Chip['tone'], c: ChipCtx, inSols?: number): Chip[] {
@@ -128,6 +129,7 @@ function chips(effects: Effect[], tone: Chip['tone'], c: ChipCtx, inSols?: numbe
         push({ icon: 'RULE', tone, label: `chip.flag.${e.op}.${e.flag.replace(/:/g, '.')}` });
         break;
       case 'trigger':
+        if (!c.scope.includes(e.event)) break; // D-018: never promise an event that can't happen
         push({ icon: 'EVENT', tone, label: 'chip.trigger', params: { id: e.event } });
         break;
       case 'lost':
@@ -136,12 +138,22 @@ function chips(effects: Effect[], tone: Chip['tone'], c: ChipCtx, inSols?: numbe
       case 'evaDose':
         push({ icon: 'DOSE', tone, label: 'chip.evaDose', params: { n: Math.max(1, c.evaCount) } });
         break;
-      case 'chance':
-        c.risk = c.risk ?? { p: e.p };
-        out.push(...chips(e.effects, 'risk', c, inSols));
+      case 'chance': {
+        const inner = chips(e.effects, 'risk', c, inSols);
+        if (inner.length) {
+          c.risk = c.risk ?? { p: e.p };
+          out.push(...inner);
+        }
         break;
+      }
       case 'hook': {
         if (HIDDEN_HOOKS.has(e.hook)) break;
+        if (e.hook === 'evaMishap' && !c.scope.includes('CR-05')) break; // D-018
+        if (
+          e.hook === 'randomRepairEvent' &&
+          !['LS-03', 'LS-05', 'RS-03'].some((x) => c.scope.includes(x))
+        )
+          break;
         if (e.hook === 'storm') {
           const dose = stormDoseFor(c.s, c.severity ?? 2, String(e.args[0]) as StormMode);
           push({
@@ -166,10 +178,14 @@ function chips(effects: Effect[], tone: Chip['tone'], c: ChipCtx, inSols?: numbe
 function laterChips(later: Delayed[], c: ChipCtx): Chip[] {
   const out: Chip[] = [];
   for (const d of later) {
-    if (d.chance !== undefined) c.risk = c.risk ?? { p: d.chance };
-    out.push(
-      ...chips(d.effects, d.chance !== undefined ? 'risk' : 'later', c, d.inSols || undefined),
+    const inner = chips(
+      d.effects,
+      d.chance !== undefined ? 'risk' : 'later',
+      c,
+      d.inSols || undefined,
     );
+    if (d.chance !== undefined && inner.length) c.risk = c.risk ?? { p: d.chance };
+    out.push(...inner);
   }
   return out;
 }
@@ -187,7 +203,13 @@ function whoTokens(a: ActionDef): string[] {
 export function cardView(s: GameState, content: Content, a: ActionDef): CardView {
   const p = s.pending;
   const actors = resolveActors(s, a, p, content);
-  const c: ChipCtx = { s, evaCount: actors.evaCount, headcount: actors.headcount, risk: null };
+  const c: ChipCtx = {
+    s,
+    evaCount: actors.evaCount,
+    headcount: actors.headcount,
+    risk: null,
+    scope: content.missions[s.mission]?.events ?? [],
+  };
   if (p?.severity !== undefined) c.severity = p.severity;
   const costs = chips(a.costNow, 'cost', c);
   const effects = chips(a.effects, 'effect', c);
@@ -251,9 +273,16 @@ export function availableTasks(
   content: Content,
   astronaut: AstronautId,
 ): TaskOption[] {
-  return visibleTasks(s, content).map((t) => {
+  return jobsFor(s, content, astronaut).map((id) => {
+    const t = content.tasks[id]!;
     const chk = checkTask(s, content, astronaut, t.id);
-    const c: ChipCtx = { s, evaCount: t.eva ? 1 : 0, headcount: 1, risk: null };
+    const c: ChipCtx = {
+      s,
+      evaCount: t.eva ? 1 : 0,
+      headcount: 1,
+      risk: null,
+      scope: content.missions[s.mission]?.events ?? [],
+    };
     const res = t.res2x && astronaut === 'RES';
     const effects = chips(t.effects, 'effect', c).map((ch) =>
       res && ch.icon === 'SP' && ch.amount ? { ...ch, amount: ch.amount * 2 } : ch,

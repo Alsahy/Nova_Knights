@@ -59,6 +59,8 @@ export function queueEvent(
   inSols = 1,
   severity?: number,
 ): void {
+  const mission = ctx.content.missions[s.mission];
+  if (mission && !mission.events.includes(eventId)) return; // D-018: out-of-scope chains never happen
   const q = {
     eventId,
     dueSol: s.sol + inSols,

@@ -1,4 +1,6 @@
 import { copy } from '../../content/copy';
+import { fill } from '../../content/format';
+import { M3_TIMELINE } from '../../content/missions';
 import { SOURCES, SPEC_VERSION } from '../../content/sources';
 
 export function DataSources({ back }: { back: () => void }) {
@@ -15,6 +17,12 @@ export function DataSources({ back }: { back: () => void }) {
         <p>{copy.ui.honestyScale}</p>
         <p>{copy.ui.honestyStorm}</p>
         <p class="hint">{copy.ui.honestyGameValue}</p>
+        <p>
+          {fill(copy.ui.honestyDonki, {
+            date: M3_TIMELINE.fetchedAt.slice(0, 10),
+            url: 'https://ccmc.gsfc.nasa.gov/DONKI-API/',
+          })}
+        </p>
       </section>
       <p>{copy.sources.intro}</p>
       <ol class="source-list">

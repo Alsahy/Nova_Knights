@@ -1,7 +1,12 @@
 # Junior Astronaut Mission Trainer: Mars Events & Action Cards
 
-**Version 0.4 (Mars only) · 13 Nov 2026 · NASA Space Apps 2026 (Cairo)**
+**Version 0.5 (Mars only, kid scope) · 13 Nov 2026 · NASA Space Apps 2026 (Cairo)**
 This is the logic sketch for a card game where kids (7–12) run a **Mars outpost** with 4 astronauts and 4 systems. The theme and art will come later. The file lists every event, every choice, what each choice costs, and the real NASA fact behind it.
+
+> **What changed from v0.4** (lead decisions after the first playtest of the UI, 13 Nov 2026)
+> - **D-018 Kid scope.** The playable game uses only **10 easy surprises** a 7–12-year-old can face and win: FD-01, PW-02, PW-03, PW-08, LS-03, LS-05, RS-01, RS-04 (M1 *First Steps*) + SW-01, SW-02 from real May 2024 DONKI data (M3 *Storm from the Sun*). Setup is FD-01 only. Chains to events outside the scope never happen and are not shown on cards. All 60 events stay in this file as the full design (§8.4).
+> - **D-019 Four jobs per astronaut.** Each role has exactly 4 daily jobs, all its own (no stand-in rule in the kid game) (§8.4).
+> - **D-020 Simpler sol.** No separate morning or power-plan screen for kids: the game skips them; PW-08 still appears as a card when power runs short (§2.4, §8.4).
 
 > **What changed from v0.3** (lead decision, 13 Nov 2026)
 > - **D-017 Shared crew stats.** The crew shares **one** set of stats instead of one card per astronaut: 🍽️ FUL, 💧 HYD, 🫁 AIR and ⚡ EN are crew pools (0–20, i.e. 4 astronauts × 5) and ☢️ DOSE is one crew badge (0–10). Roles still decide who can play a card and who is in Sick Bay. Rules in §2.2; targets in §3; SW-07 and CR-07 adjusted. SW-06 and MG-04 (Commander) wait for a rework (P-005).
@@ -184,7 +189,7 @@ These match the real roles in NASA's year-long Mars-habitat test (CHAPEA): Comma
 ### 2.4 One sol (turn)
 A Mars day ("sol") is 24 hours 39 minutes long [S7].
 1. **Morning report** – Sun and space weather (DONKI), dust level (tau) and any new dust stack (added automatically, D-004), messages from Earth. Plus at most **one Morning Briefing card** (D-004): a due timer event (RS-04, CR-01) or FD-01 re-planting, with its normal cards and costs. The briefing doesn't count against the event cap.
-2. **Power plan** – plug systems into today's ⚡ (drag tokens). If need > PWR + BAT, this step shows PW-08's cards (D-003).
+2. **Power plan** – plug systems into today's ⚡ (drag tokens). If need > PWR + BAT, this step shows PW-08's cards (D-003). *Kid game (D-020): no power-plan screen; everything stays plugged in and PW-08 shows as a card only when power is short.*
 3. **Crew tasks** – each astronaut **plans** 1 task from §4, or rests (D-001). Tasks are resolved at night.
 4. **Event** – follow the draw order in §8.3.
 5. **Choose** – pick 1 action card. An event can cancel or change planned tasks (e.g. SW-01.a "LOST: today's EVA tasks").
@@ -1170,6 +1175,18 @@ EACH SOL
   Max 1 event per sol in Cadet; max 2 in Commander (the Morning Briefing is extra).
   🟢/🎯 events are removed after playing (unless marked "repeatable").
 ```
+
+### 8.4 Kid scope (D-018, D-019, D-020)
+The playable game (both missions, Cadet) uses a small set so young players are never overwhelmed:
+
+| Mission | Sols | Goal | Events it can show |
+|---|---|---|---|
+| M1 First Steps | 8 | 6 SP sent | FD-01 (setup + re-plant), PW-02, PW-03, PW-08, LS-03, LS-05, RS-01, RS-04 |
+| M3 Storm from the Sun | 10 | 8 SP sent, badge never red | the M1 set + SW-01 (sol 2, real X3.9 flare 2024-05-10) + SW-02 (sol 6, real particle event 2024-05-13) |
+
+**Jobs (4 per astronaut, all their own):** Manager: Rest · Pep talk · Care for plants · Send data. Engineer: Rest · Maintain life support · Clean solar panels · Pile soil bags. Doctor: Rest · Treat (when someone is in Sick Bay, otherwise Check-up) · Care for plants · Lab experiment. Researcher: Rest · Lab experiment · Rock-study walk · Care for plants.
+
+**Rules:** an event outside the scope never appears, and a card never shows a follow-up that cannot happen. The sol on screen is: Morning news card (if any) → jobs → one surprise → night report.
 
 **Result:** a 10-sol Cadet game shows about **8–12** events. A 20-sol Commander game shows about **15–22**. A 60-event library across 9 missions gives every replay a different story.
 
