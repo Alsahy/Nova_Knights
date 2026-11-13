@@ -1,110 +1,63 @@
 /*
- * Design tokens (lane U). Palette v0, a placeholder until lane P delivers task 0.8.
- * Every text colour is ≥ 4.5:1 on its background, and costs vs effects also differ by sign/icon,
- * never by colour alone (CLAUDE.md §9).
+ * Design tokens: "Mars cockpit" (design canvas "Mars Base · Cockpit", 13 Nov).
+ * Dark glass panels over a Mars view. Text ≥ 4.5:1 on the panel colour; costs vs gains also differ by sign/icon.
+ * Headings/numbers: Orbitron (OFL). Body: Atkinson Hyperlegible (OFL), chosen over Rajdhani for young readers.
  */
 @font-face {
   font-family: 'Atkinson Hyperlegible';
   src: url('/fonts/atkinson-hyperlegible-latin-400-normal.woff2') format('woff2');
   font-weight: 400;
-  font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Atkinson Hyperlegible';
   src: url('/fonts/atkinson-hyperlegible-latin-700-normal.woff2') format('woff2');
   font-weight: 700;
-  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Orbitron';
+  src: url('/fonts/orbitron-latin-700-normal.woff2') format('woff2');
+  font-weight: 700;
   font-display: swap;
 }
 
 :root {
-  color-scheme: light;
-  /* colour */
-  --bg: #fff8f2;
-  --surface: #ffffff;
-  --surface-2: #f6ece3;
-  --text: #1b1b2f; /* 16.9:1 on --bg */
-  --muted: #4a4a5e; /* 8.3:1 */
-  --border: #8a7a6e;
-  --accent: #b5420f; /* Mars: 5.6:1 on --bg, white text on it 5.9:1 */
-  --accent-text: #ffffff;
-  --cost: #b3261e; /* red chips: 6.2:1 */
-  --effect: #1b6e35; /* green chips: 6.0:1 */
-  --later: #1f5fa8; /* ⏳ / info: 6.1:1 */
-  --warn: #7a4f00; /* 7.0:1 */
-  --focus: #1f5fa8;
-  --badge-green: #1b6e35;
-  --badge-yellow: #7a4f00;
-  --badge-red: #b3261e;
+  color-scheme: dark;
+  --bg: #140d0a;
+  --panel: rgba(14, 24, 38, 0.86);
+  --panel-solid: #0f1a2a;
+  --panel-2: rgba(9, 16, 28, 0.85);
+  --line: rgba(92, 180, 228, 0.45);
+  --line-soft: rgba(92, 180, 228, 0.25);
+  --text: #f1f5f9; /* 15.9:1 on panel */
+  --muted: #b9c5d3; /* 9.6:1 */
+  --blue: #5cb4e4; /* oxygen / info */
+  --sky: #9ad3f2;
+  --ice: #cfe9f8;
+  --amber: #e2b046; /* power */
+  --orange: #e39a55;
+  --green: #6cc08b; /* shield / gains */
+  --red: #e07a72; /* costs */
+  --star: #f2cf5b;
+  --green-ink: #082015;
+  --blue-ink: #081220;
 
-  /* type: body ≥ 18 px */
   --font: 'Atkinson Hyperlegible', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --display: 'Orbitron', 'Atkinson Hyperlegible', system-ui, sans-serif;
   --scale: 1;
   --fs-body: calc(1.125rem * var(--scale)); /* 18 px */
-  --fs-small: calc(1rem * var(--scale)); /* 16 px, hints only */
-  --fs-h2: calc(1.375rem * var(--scale));
+  --fs-small: calc(1rem * var(--scale));
+  --fs-h2: calc(1.4rem * var(--scale));
   --fs-h1: calc(2rem * var(--scale));
-  --fs-hero: calc(clamp(2.25rem, 7vw, 3.5rem) * var(--scale));
-  --lh: 1.5;
-
-  /* spacing */
-  --sp-1: 0.25rem;
-  --sp-2: 0.5rem;
-  --sp-3: 0.75rem;
-  --sp-4: 1rem;
-  --sp-5: 1.5rem;
-  --sp-6: 2rem;
+  --fs-hero: calc(clamp(2.1rem, 6.5vw, 3.6rem) * var(--scale));
   --radius: 14px;
-  --tap: 48px; /* minimum tap target */
-  --maxw: 40rem;
-
-  --motion: 200ms;
+  --tap: 48px;
+  --motion: 180ms;
 }
 
-/* Dark theme: follows the device unless set explicitly. */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
-    color-scheme: dark;
-    --bg: #10131f;
-    --surface: #1b2032;
-    --surface-2: #232a40;
-    --text: #f3f1ec;
-    --muted: #c5c3cf;
-    --border: #6c7390;
-    --accent: #ff9a5c;
-    --accent-text: #1b1b2f;
-    --cost: #ff8a80;
-    --effect: #7bd88f;
-    --later: #8ab8ff;
-    --warn: #ffd166;
-    --focus: #8ab8ff;
-    --badge-green: #7bd88f;
-    --badge-yellow: #ffd166;
-    --badge-red: #ff8a80;
-  }
-}
-:root[data-theme='dark'] {
-  color-scheme: dark;
-  --bg: #10131f;
-  --surface: #1b2032;
-  --surface-2: #232a40;
-  --text: #f3f1ec;
-  --muted: #c5c3cf;
-  --border: #6c7390;
-  --accent: #ff9a5c;
-  --accent-text: #1b1b2f;
-  --cost: #ff8a80;
-  --effect: #7bd88f;
-  --later: #8ab8ff;
-  --warn: #ffd166;
-  --focus: #8ab8ff;
-}
-
-/* Projector mode: 1.4× type (body ≈ 25 px ≥ 24 px). */
 :root.projector {
-  --scale: 1.4;
-  --maxw: 60rem;
+  --scale: 1.35;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -114,9 +67,7 @@
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
+    animation: none !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
 }

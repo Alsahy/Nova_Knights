@@ -3,18 +3,23 @@ import { SOURCES, SPEC_VERSION } from '../../content/sources';
 
 export function DataSources({ back }: { back: () => void }) {
   return (
-    <section aria-labelledby="sources-title">
+    <section class="center-screen text-screen" aria-labelledby="sources-title">
       <button class="btn btn-back" onClick={back}>
         ← {copy.back}
       </button>
       <h1 id="sources-title" tabIndex={-1}>
         {copy.sources.title}
       </h1>
+      <section class="glass honesty">
+        <h2>{copy.ui.honestyTitle}</h2>
+        <p>{copy.ui.honestyScale}</p>
+        <p>{copy.ui.honestyStorm}</p>
+        <p class="hint">{copy.ui.honestyGameValue}</p>
+      </section>
       <p>{copy.sources.intro}</p>
-      <p class="hint">{copy.sources.placeholder}</p>
       <ol class="source-list">
         {SOURCES.map((s) => (
-          <li key={s.id} id={s.id}>
+          <li key={s.id} id={`src-${s.id}`}>
             <strong>[{s.id}]</strong> {s.title}
             {s.urls.map((u) => (
               <>

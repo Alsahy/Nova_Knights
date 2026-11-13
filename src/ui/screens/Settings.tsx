@@ -11,7 +11,7 @@ export function SettingsScreen({
   back: () => void;
 }) {
   return (
-    <section aria-labelledby="settings-title">
+    <section class="center-screen text-screen" aria-labelledby="settings-title">
       <button class="btn btn-back" onClick={back}>
         ← {copy.back}
       </button>

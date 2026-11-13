@@ -298,7 +298,7 @@ export function hud(s: GameState, content: Content): Hud {
       id: a.id,
       callSign: a.callSign,
       sickBaySols: a.sickBaySols,
-      busy: a.busyUntilSol >= s.sol,
+      busy: s.sol > 0 && a.busyUntilSol >= s.sol,
       plannedTask: a.plannedTask,
     })),
     crop: s.crop ? { ...s.crop } : null,
