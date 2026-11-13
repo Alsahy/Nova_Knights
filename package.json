@@ -18,7 +18,8 @@
     "spec:extract": "tsx scripts/spec-extract.ts",
     "check:content": "tsx scripts/check-content.ts",
     "donki:fetch": "tsx scripts/fetch-donki.ts",
-    "sim": "tsx scripts/simulate.ts"
+    "sim": "tsx scripts/simulate.ts",
+    "donki:timeline": "tsx scripts/build-donki-timeline.ts"
   },
   "dependencies": {
     "preact": "^11.2.0"

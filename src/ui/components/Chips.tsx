@@ -5,7 +5,9 @@ import { Icon } from './Icon';
 
 export function Chip({ c, risk }: { c: ChipT; risk?: string }) {
   const label = chipLabel(c);
-  const when = c.inSols ? ` · ${fill('in {n} sol' + (c.inSols > 1 ? 's' : ''), { n: c.inSols })}` : '';
+  const when = c.inSols
+    ? ` · ${fill('in {n} sol' + (c.inSols > 1 ? 's' : ''), { n: c.inSols })}`
+    : '';
   return (
     <span class={`chip chip-${c.tone}`}>
       <Icon name={c.icon} size={16} />

@@ -27,7 +27,7 @@ export const EVENT_OVERRIDES: Record<string, EventOverride> = {
   'SW-01': {
     cards: {
       a: { cost: "LOST: today's EVA tasks; @cancelEvaTasks", effect: '', later: '' },
-      b: { cost: 'EVA.EN-1', effect: '@evaRace', later: '' },
+      b: { cost: 'EVA.EN-1', effect: '', later: '@evaRace' },
       c: { cost: 'ENG.EN-1; PWR-1', effect: '+FLAG:shelterReady', later: '' },
     },
   },

@@ -11,7 +11,15 @@ const METERS: [UiIcon, string][] = [
   ['SP', copy.meters.SP],
 ];
 
-export function Title({ go, saved, onContinue }: { go: (s: Screen) => void; saved: GameState | null; onContinue: () => void }) {
+export function Title({
+  go,
+  saved,
+  onContinue,
+}: {
+  go: (s: Screen) => void;
+  saved: GameState | null;
+  onContinue: () => void;
+}) {
   return (
     <section class="center-screen title-screen" aria-labelledby="game-title">
       <p class="eyebrow">{copy.tagline}</p>

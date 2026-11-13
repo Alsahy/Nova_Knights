@@ -6,13 +6,13 @@
 ---
 
 ## Now
-- **Current phase:** Phase 2 ✅ engine core done locally (102 tests green, M1 plays headless). Phase 1 deploy still ⛔ (needs GitHub login). Waiting for `GO PHASE 3/4`.
+- **Current phase:** Phase 3 ✅ (content & real data). Playable UI (Phase 4 work, asked by the lead) is live as a claude.ai preview. GitHub/Pages still ⛔ (login not approved).
 - **Language:** English only (lead, 13 Nov), so no RTL work. Q3 closed
 - **Big change:** D-017 shared crew stats (lead, 13 Nov): one crew card (FUL/HYD/AIR/EN pools 0–20, one DOSE badge). Spec v0.4.
 - **Next gate:** G0, Fri 13 Nov 23:30 (blocking A-items decided ✅, repo exists ⬜ (local only), toolchains work 🟡)
 - **Pre-event coding:** **allowed** (Q4), so Phase 1 can run tonight after `GO PHASE 1`
-- **Repo:** local git only (no remote yet; name assumed `mars-base-adventure`, the Vite base depends on it) · **Live URL:** — (expected `https://<user>.github.io/mars-base-adventure/`) · **Latest tag:** —
-- **Last updated:** 2026-11-13 18:37 by Claude (Phase 2, lane E + content support)
+- **Repo:** local git only (no remote yet; name assumed `mars-base-adventure`) · **Live URL (preview):** https://claude.ai/artifact/GCexFXof8QhJLbVhK9tfio (claude.ai page, shared by link) · GitHub Pages: — · **Latest tag:** —
+- **Last updated:** 2026-11-13 19:07 by Claude (Phase 3 + playable UI)
 
 ## Clock
 | Milestone | Planned (Cairo) | Actual |
@@ -43,8 +43,8 @@
 | 0 Pre-flight & spec freeze | 🟡 | L | Fri 19:00–23:30 | 17:20 | | started early; see task board |
 | 1 Skeleton, contracts, live URL | 🟡 | U | **Fri night** (was Sat 09:00–11:00) | 17:35 | | code ✅ locally; CI + live URL wait for the GitHub push |
 | 2 Engine core | ✅ | E | Sat 11:00–17:00 | Fri 17:55 | Fri 18:37 | local; CI pending the push |
-| 3 Content & real data | ⬜ | S | Sat 11:00–16:00 | | | |
-| 4 Playable M1 | ⬜ | U | Sat 11:00–23:00 | | | |
+| 3 Content & real data | ✅ | S | Sat 11:00–16:00 | Fri 18:50 | Fri 19:07 | 112 tests; check:content ✔ |
+| 4 Playable M1 | 🟡 | U | Sat 11:00–23:00 | Fri 18:40 | | cockpit UI from the lead's design canvas; M1 + M3 play end to end; preview link live. Left: glossary first-use only, projector polish, real-phone test |
 | 5 M3 + balance | ⬜ | E | Sun 07:00–12:00 | | | |
 | 6 Playtest, polish, freeze | ⬜ | L | Sun 12:00–16:00 | | | |
 | 7 Submission package | ⬜ | P | Sun 10:00–20:00 | | | |
@@ -57,6 +57,14 @@
 | 1.2 | Contract v1: `types.ts`, `rng.ts` (+ tests), `config.ts`, `index.ts` stubs (+ `fixture.ts`) | E | Claude (lead session) | ✅ | main (local) | logged under Contract changes |
 | 1.3 | `spec-extract.ts` v0 → `spec.json` (60 events, 61 sources) + `tests/content/extract.test.ts` | S | Claude (lead session) | ✅ | main (local) | also stubs: `check-content.ts` (v0 real checks), `fetch-donki.ts`, `simulate.ts` |
 | 1.4 | Merge, CI green, live URL in Now | L | lead | ⛔ | — | **blocked on GitHub login**: two device-code logins expired unapproved. `gh` 2.104 is downloaded (scratchpad); run the login, then the agent creates the repo + pushes |
+| 3.1 | `fetch-donki.ts` + May 2024 snapshot (6 types, 778 records) in `data/donki/` | S | Claude (lead session) | ✅ | main (local) | `{fetchedAt, source, data}`, ≤ 60 days, 3 retries |
+| 3.2 | `build-donki-timeline.ts` → `src/content/donki/m3-may2024.json`; M3 uses it | S | Claude (lead session) | ✅ | main (local) | sol 2 FLR X3.9 (05-10) · sol 4 ENLIL 30726/1 → Mars 05-13 · sol 7 SEP 05-13; labels per spec §5 + "Replay, sped up" + "ARCHIVED – fetched on" |
+| 3.3 | Source audit (43 sources of the Must events + honesty table) → `sourceAudit.ts`, `sources.ts` (publisher, NASA-primary, verifiedAt) | S | Claude (lead session) | ✅ | main (local) | 37 ok · 5 problems (P-008) · 3 blocked to scripts |
+| 3.4 | `stories.ts` (60 kids-guide True stories by ID + [S#]) · `glossary.ts` (23 Word-helper words + aliases) · in-game tap-to-explain terms | S | Claude (lead session) | ✅ | main (local) | guide mapped by section + order (N-04 not applied) |
+| 3.5 | Full `check-content` (`src/content/check.ts`) + content/DONKI tests | S | Claude (lead session) | ✅ | main (local) | 0 errors · 115 warnings (107 non-Must prose cells, 8 source flags) |
+| 3.6 | `docs/data-sources.md` v1 | S | Claude (lead session) | ✅ | main (local) | datasets, M3 records, honesty table, audit |
+| 3.7 | Science review of the 37 Must events | S | Claude (lead session) | ✅ | — | see Science review log |
+| 4.x | Playable cockpit UI (design canvas) + preview link | U | Claude (lead session) | 🟡 | main (local) | asked by the lead ahead of Phase 4 |
 | 2.1 | D-017 shared crew stats → spec v0.4 + kids guide | S | Claude (lead session) | ✅ | main (local) | §1.2, §1.3, §2.2 rewritten; SW-07, CR-07 adjusted; P-005 for SW-06/MG-04 |
 | 2.2 | spec-extract: §7 card tables + §4 tasks → spec.json | S | Claude (lead session) | ✅ | main (local) | 60 details, 18 tasks; needed by the engine (pulled forward from Phase 3) |
 | 2.3 | `overrides.ts` (all 37 MVP events + tasks), `missions.ts` (M1 + draft M3), `content/index.ts`, `copy.ts` log/chip/reason text, `format.ts` | S | Claude (lead session) | ✅ | main (local) | 0 MVP prose cells left; 107 non-MVP cells → Phase 3 |
@@ -103,12 +111,14 @@ Write **Approve / Modify (how) / Reject** in the Decision column. Full text: `PL
 | N-06 | SVG icon subset instead of system emoji | UI | 🟢 | **Use the proposed default**; apply in Phase 3/6 (formal approval later) |
 | N-07 | Hide LS-09.c until LS-10; SW-03 warning ≥ 1 sol | Content | 🟢 | **Use the proposed default**; apply in Phase 3/6 (formal approval later) |
 | N-08 | If DONKI has no CORS: daily GitHub Action snapshot for "Today's Sun" (labelled with its date) | Data | ✅ | **Closed, not needed** → D-016 (GET sends `Access-Control-Allow-Origin: *`) |
-| P-001 | **M3's big Mars storm (2024-05-20) has no DONKI SEP record and no ENLIL run with a Mars impact.** DONKI has it only as CME `2024-05-20T05:36:00-CME-001` (far side, O-type, ~1,927 km/s; notification `20240520-AL-001`). Proposed fix: tie M3's SW-02 beat (sol 7) to that CME record + [S6] for the Curiosity measurement. Label: *"NASA DONKI saw this cloud leave the far side of the Sun on 2024-05-20. Curiosity measured the radiation jump on Mars [S6]. Replay, sped up."* | M3 content (Phase 3/5), SW-02 label | ⏳ | |
+| P-001 | ~~Superseded (Phase 3): M3's SW-02 beat uses a real DONKI SEP record (2024-05-13), so no special label is needed; the 20 May surge stays as a fact in SW-02's science text and in data-sources.md~~ **M3's big Mars storm (2024-05-20) has no DONKI SEP record and no ENLIL run with a Mars impact.** DONKI has it only as CME `2024-05-20T05:36:00-CME-001` (far side, O-type, ~1,927 km/s; notification `20240520-AL-001`). Proposed fix: tie M3's SW-02 beat (sol 7) to that CME record + [S6] for the Curiosity measurement. Label: *"NASA DONKI saw this cloud leave the far side of the Sun on 2024-05-20. Curiosity measured the radiation jump on Mars [S6]. Replay, sped up."* | M3 content (Phase 3/5), SW-02 label | ⏳ | |
 | P-002 | **Morning Briefing collisions** (D-004 says "at most one per sol" but not which wins). Proposed: RS-04 > FD-01 > CR-01. A bumped RS-04 moves to the next sol (never bumped on the last sol); a bumped FD-01 auto-replants (as D-004 says); a bumped CR-01 is skipped and logged. `config.ts` default until approved | Engine | ⏳ | |
 | P-003 | **`repair` tag card list** (D-006 adds the tag but not the set). Proposed: LS-01.a, LS-02.a, LS-03.a, LS-05.a, LS-07.a, LS-08.b, PW-09.a, PW-09.b, RS-03.a, RS-03.b, SW-10.a, CM-02.a, T-MAINT-LS, T-MAINT-LAB | Content, engine | ⏳ | |
 | P-005 | **D-017 follow-up: SW-06 and MG-04 assume one badge per astronaut.** SW-06.a "take turns outside" and .b "send the expert" lose their meaning with one crew badge; MG-04 sets the crew's starting DOSE (fine) but its note says "per astronaut". Proposed: SW-06.a "Short trips only: EVA tasks −1 SP, EVA dose chance 50 % → 25 %" · .b "Long trips: EVA tasks +1 SP, badge climbs faster" · .c unchanged; MG-04 wording → "the crew's badge". Commander-only (Should) | Spec SW-06, MG-04 | ⏳ | |
 | P-006 | **Phase 2 engine assumptions** (where the spec is silent; all are named constants in `config.ts` marked ASSUMPTION): (1) T-EXER since the last CR-01 skips that CR-01 ("counts for CR-01") · (2) T-SEND = `PWR-2`, banks all pending SP · (3) FD-06.a rationing lasts 3 sols; FD-06.b extra lights 2 sols · (4) CM-02.c: the antenna problem returns after 2 sols · (5) CR-02.c "random repair event" = LS-03 / LS-05 / RS-03 · (6) T-MAINT-LAB + PARTS-1 fixes a broken lab / backup-tools mode · (7) CR-07.b under D-017 = `PICK.EN-1` + `EN+2` (others cover) · (8) LS-05: the event stops the recycler for today; b/c cover today's drinking · (9) SW-07.a "inside jobs only" = no EVAs for 3 sols · (10) a pool at 0 resets to 4 · (11) role tasks done by another role use the fallback (+1 EN, 50 %) · (12) storms bring EVA crews inside | Engine, content | ⏳ | |
 | P-007 | **Balance: M1 Cadet is too easy.** 300 games: balanced bot 100 % success, random bot 71 % (target: balanced 60–75 %, no strategy > 80 %, spec §1.4). M3 draft: balanced 91 %, random 43 %. Proposed for Phase 5: tune via the simulator (e.g. M1 SP goal, starting EN pool, quiet-sol rate) and report in `docs/balance-report.md` | config.ts, spec §1.3/§8.2 | ⏳ | |
+| P-008 | **Source fixes from the Phase 3 audit** (no swap applied yet): S2 → cite DONKI record WSA-ENLIL/30726/1 (kauai host down) · S6 → NASA JPL original "NASA Watches Mars Light Up During Epic Solar Storm" (same 8,100 µGy / 30 chest X-rays) · S16 → find the JPL page for Opportunity's June 2018 power (468 Wh no longer on the page) · S23 → LS-02 cites S24 until the right Apollo Flight Journal page is found · S25 → replace (link redirects to the APPEL home page) · S26, S42, S55 → check by hand in a browser | Spec §11, sources | ⏳ | |
+| P-009 | **Background picture shows a big round Moon in the Mars sky.** Mars's moons are tiny and lumpy; a judge could call it a science error. It is also AI-generated. Proposed: replace it with a credited real panorama (Curiosity/Perseverance, images.nasa.gov) in Phase 6, or crop the moon out; keep "AI-generated illustration" in the credits until then | UI, credits | ⏳ | |
 | P-004 | **Spec §5 field notes from the real snapshot:** add ENLIL `impactList[].isMinorImpact`; `impactList` can be `null` (35/128 runs); FLR `linkedEvents` can be `null` (129/181); "no impact to Earth" = `estimatedShockArrivalTime == null` (plus `isEarthGB`, `isEarthMinorImpact`); CME speed type letters S/C/O/R/ER; `notifications.messageType` values FLR, CME, SEP, GST, Report, IPS, MPC, RBE. Also fix the §0 note: old `api.nasa.gov/DONKI` now returns **404 JSON**, not HTML. Add "CORS ✔ (GET)" to §5 | Spec §5 text, parser | ⏳ | |
 
 ## Decisions log (approved)
@@ -172,6 +182,7 @@ Write **Approve / Modify (how) / Reject** in the Decision column. Full text: `PL
 ## Contract changes (`src/engine/types.ts` / public API)
 | Version | Time | Change | Why | Who must adapt |
 |---|---|---|---|---|
+| v2.1 | 2026-11-13 19:00 | `DonkiRef` gains optional `sourceUrl` and `fetchedAt` (shown as "ARCHIVED – fetched on …") | Phase 3 honesty labels | U shows them on DONKI cards (done) |
 | v2 | 2026-11-13 18:30 | **Real engine.** `import { createEngine } from 'src/engine'` + `CONTENT` from `src/content` → `engine.newGame({mission, tier, seed})`, `engine.reduce(s, cmd)`, `shownCards`, `availableTasks(s, id)`, `hud`, `powerBudget`, `nightLog`, `debrief`, `peek`; plus `doseBadge`, `shieldTier`, `riskWords`, `CALL_SIGNS`. State v2: shared `crew` card (D-017), astronauts keep only role state; `queue`, `scheduled`, `modifiers`, `timers`. `Effect` gains `power`, `sp`, `evaDose`, `chance`; hooks take arg arrays. `Chip` = {icon, tone, amount?, label? (copy key 'chip.*' or spec text), params?, inSols?}; `CardView.who` = tokens. Commands unchanged except END_MISSION removed (MG-02.a does it). Fixture removed | D-017 + Phase 2 | **U**: render chips via `src/content/format.ts` (`chipText`, `formatLog`, `reasonText`); show `who` tokens as call-signs. **S**: overrides use the clean notation in `src/engine/notation.ts` |
 | v1 | 2026-11-13 17:50 | First contract. `src/engine/types.ts` (GameState, Astronaut, Command, EventDef, ActionDef, TaskDef, Effect, Delayed, ScheduledEffect, Modifier, Mission, Pending, DonkiRef, CardView, Chip, TaskOption, PowerBudget, LogEntry, ChoiceRecord, Ending, Debrief) + `index.ts` API: `newGame(opts)`, `reduce(state, cmd)`, `selectMeters`, `selectCards`, `selectTaskOptions`, `selectPowerBudget`, `selectLog`, `shieldTier`, `badgeColour`, `riskWords`. `newGame`/`reduce`/`selectCards`/`selectTaskOptions` are **stubs** over `fixture.ts` (the stub `reduce` only walks the phase loop). Commands: CHOOSE, CONTINUE, SET_POWER, CONFIRM_POWER, PLAN_TASK, CONFIRM_TASKS, END_MISSION. Log entries carry a `copy.ts` key + params, not text | Phase 1 | U builds screens on the selectors; S emits `EventDef`/`ActionDef` in Phase 3; E replaces the stubs in Phase 2 (keep the signatures) |
 
@@ -184,7 +195,15 @@ Write **Approve / Modify (how) / Reject** in the Decision column. Full text: `PL
 ## Science review log
 | Event / screen | Reviewer | ✔ / ✖ | Note |
 |---|---|---|---|
-| — | | | |
+| SW-01, SW-04, SW-05, SW-07, PW-01, PW-02, PW-03, PW-07, PW-08, LS-01, LS-05, LS-07, LS-09, FD-01, FD-04, FD-05, FD-06, CR-01, CR-03, CR-04, CR-05, CR-06, RS-01, RS-04, RS-05, RS-06, CM-02, MG-02, MG-03 | Claude (audit 13 Nov) | ✔ | every figure found on its source page (see `sourceAudit.ts`) |
+| SW-02 | Claude | ✔ | 8,100 µGy / 30 chest X-rays confirmed on the NASA JPL original; current S6 link is a re-post (P-008) |
+| SW-03 | Claude | ✔ | S2 host down; the M3 ENLIL record shows the same Mars-arrival prediction (P-008) |
+| LS-02 | Claude | ✖ (link) | story is right (S24 confirms); S23 link broken (P-008) |
+| LS-03, LS-04 | Claude | ✖ (link) | S25 now redirects; S26 blocked to scripts. Facts not yet re-confirmed (P-008) |
+| CR-02, CR-07 | Claude | ? | S42 blocked to scripts; check by hand |
+| RS-03 | Claude | ? | S55 blocked to scripts; check by hand |
+| RS-04 / CM-02 | Claude | ✔ | 3–21 min [S54] + up to 22 min [S44] (N-05 wording note) |
+| Honesty table | Claude | ✔ | S8, S9, S13, S15, S17, S20, S21, S27, S33, S34 confirmed; S16 problem (P-008) |
 
 ## Bugs
 | ID | Severity (P0/P1/P2) | Where | Description | Owner | Status |
@@ -207,10 +226,27 @@ Write **Approve / Modify (how) / Reject** in the Decision column. Full text: `PL
 | 0 Pre-flight | 4.5 | 0.5 | −4.0 | agent-run; repo/Pages still open |
 | 1 Skeleton | 2.0 | 0.5 | −1.5 | local only until the push |
 | 2 Engine core | 6.0 | 0.7 | −5.3 | incl. D-017 + the content needed to play |
+| 3 Content & data | 5.0 | 0.5 | −4.5 | + playable UI (0.3 h) |
 
 ---
 
 ## Handoff (latest only; older ones move into the Session log)
+```
+HANDOFF 2026-11-13 19:07 Cairo · from Claude (lead session) · Phase 3 ✅ · Phase 4 🟡 (UI playable) · Phase 1 deploy ⛔
+Repo: — (local git, main) · Live (preview): https://claude.ai/artifact/GCexFXof8QhJLbVhK9tfio · Last commit: `git log -1`
+State: M1 and M3 Cadet play end to end in the browser (cockpit design from the lead's canvas). M3 replays 3 real DONKI
+       May 2024 records with honest labels. Every Must event has a kid True story + [S#]; glossary tooltips; sources audited.
+       112 tests, typecheck, build, check:content (0 errors) all green. JS 73 KB gz.
+Next: (1) Human: approve a GitHub login (or create the repo + push yourself), then Pages → GitHub Actions; the agent can push
+      (2) Phase 4 finish: real-phone + projector test, keyboard pass, first-use-only glossary, Commander hidden
+      (3) Phase 5: balance (P-007: M1 too easy), more bots, docs/balance-report.md
+Blocked on: GitHub login; lead decisions P-002…P-009
+Watch out: to refresh the preview link: `BASE=./ npx vite build --outDir <scratch>/site`, update the entry page's asset names, republish.
+           Background image has a Moon in the Mars sky (P-009). Non-Must events still have 107 prose cells (warnings only).
+Read first: CLAUDE.md → PROGRESS.md → PLAN.md §6 Phase 4 / 5
+```
+
+### Previous handoff (Phase 2)
 ```
 HANDOFF 2026-11-13 18:37 Cairo · from Claude (lead session, lane E + S support) · Phase 2 ✅ (local), Phase 1 deploy ⛔
 Repo: — (local git, branch main) · Live: — · Branch: main · Last commit: see `git log -1`
@@ -269,6 +305,7 @@ Read first: CLAUDE.md → PROGRESS.md → PLAN.md §6 Phase 1
 ## Session log (newest on top)
 | When (Cairo) | Lane / agent | What changed | Files |
 |---|---|---|---|
+| 2026-11-13 18:40–19:07 | Claude (lead session) | Playable cockpit UI from the lead's design canvas + claude.ai preview link; Phase 3: DONKI snapshot, M3 real timeline, source audit, stories, glossary, full check-content, data-sources.md, science review; P-008, P-009; P-001 superseded | `src/ui/**`, `src/content/**`, `scripts/**`, `data/donki/**`, `docs/data-sources.md`, `tests/**`, `public/**`, `PROGRESS.md` |
 | 2026-11-13 17:55–18:37 | Claude (lead session, E + S) | D-017 shared stats → spec v0.4 + kids guide; spec-extract §7/§4; overrides for 37 MVP events; engine core (18 modules, contract v2); sim + bots; 102 tests; P-005…P-007. GitHub device login tried twice (expired) | `events-and-actions.md`, `mars-adventure-kids-guide.md`, `scripts/**`, `src/engine/**`, `src/content/**`, `src/sim/**`, `tests/**`, `PROGRESS.md` |
 | 2026-11-13 17:35–18:00 | Claude (lead session, U+E+S) | Phase 1: scaffold, workflows, title/sources/settings screens, tokens, font, icons; contract v1 (types, rng + tests, config, index stubs, fixture); spec-extract v0 + spec.json + extract tests; script stubs; README. Q3 → English only | `package.json`, `vite.config.ts`, `vitest.config.ts`, `tsconfig.json`, `index.html`, `src/**`, `scripts/**`, `tests/**`, `public/**`, `.github/workflows/**`, `README.md`, `PROGRESS.md` |
 | 2026-11-13 17:20–17:50 | Claude (lead session, L+S) | Phase 0: DONKI curl check → Data notes; lead approved A-01…A-15 (N = defaults, N-08 closed); applied D-001…D-016 → spec v0.3 + kids guide; raised P-001…P-004, Q6; local git init + MIT LICENSE + .gitignore + first commit | `events-and-actions.md`, `mars-adventure-kids-guide.md`, `PROGRESS.md`, `LICENSE`, `.gitignore` |

@@ -65,12 +65,81 @@ export interface SpecTask {
   lesson: string;
 }
 
+export interface GuideStory {
+  id: string; // event id, mapped by guide section + order (N-04 not applied: no ID comments)
+  title: string; // the guide's kid title
+  happens: string;
+  trueStory: string;
+}
+export interface GuideJson {
+  stories: GuideStory[];
+  glossary: { word: string; meaning: string }[];
+}
+
+/** Kids-guide sections → spec event prefixes, in the guide's order. */
+const GUIDE_SECTIONS: [RegExp, string][] = [
+  [/Surprises from the Sun/, 'SW'],
+  [/Power surprises/, 'PW'],
+  [/Air & water surprises/, 'LS'],
+  [/Food surprises/, 'FD'],
+  [/Crew surprises/, 'CR'],
+  [/Science surprises/, 'RS'],
+  [/Talking to Earth/, 'CM'],
+  [/Big decisions/, 'MG'],
+];
+
+export function parseGuide(md: string): GuideJson {
+  const stories: GuideStory[] = [];
+  let prefix: string | null = null;
+  let n = 0;
+  let cur: Partial<GuideStory> | null = null;
+  const flush = (): void => {
+    if (cur?.id && cur.trueStory) stories.push(cur as GuideStory);
+    cur = null;
+  };
+  for (const raw of md.split('\n')) {
+    const line = raw.trim();
+    if (line.startsWith('### ') || line.startsWith('## ')) {
+      flush();
+      const sec = GUIDE_SECTIONS.find(([re]) => re.test(line));
+      prefix = sec ? sec[1] : null;
+      n = 0;
+      continue;
+    }
+    if (!prefix) continue;
+    const head = /^\*\*(.+?)\*\*(.*)$/.exec(line);
+    if (head && !line.startsWith('**You can')) {
+      flush();
+      n += 1;
+      const title = head[1]!.replace(/^[^\p{L}]+/u, '').trim();
+      cur = { id: `${prefix}-${String(n).padStart(2, '0')}`, title, happens: '' };
+      continue;
+    }
+    if (!cur) continue;
+    if (line.startsWith('🌍 **True story:**'))
+      cur.trueStory = line.replace('🌍 **True story:**', '').trim();
+    else if (line && !line.startsWith('**You can') && !cur.happens) cur.happens = line;
+  }
+  flush();
+  const glossary: { word: string; meaning: string }[] = [];
+  const g = md.indexOf('## 📖 Word helper');
+  if (g >= 0) {
+    for (const line of md.slice(g).split('\n').slice(1)) {
+      if (line.startsWith('## ')) break;
+      const m = /^\|\s*\*\*(.+?)\*\*\s*\|\s*(.+?)\s*\|$/.exec(line.trim());
+      if (m) glossary.push({ word: m[1]!, meaning: m[2]! });
+    }
+  }
+  return { stories, glossary };
+}
+
 export interface SpecJson {
   specVersion: string;
   events: SpecEventIndex[];
   details: Record<string, SpecEventDetail>;
   tasks: SpecTask[];
   sources: SpecSource[];
+  guide: GuideJson;
 }
 
 const DECK_EMOJI: [string, DeckType][] = [
@@ -234,7 +303,7 @@ export function parseTasks(md: string): SpecTask[] {
   return out;
 }
 
-export function parseSpec(md: string): SpecJson {
+export function parseSpec(md: string, guideMd = ''): SpecJson {
   const v = /\*\*Version (\d+\.\d+)/.exec(md);
   return {
     specVersion: v?.[1] ?? 'unknown',
@@ -242,6 +311,7 @@ export function parseSpec(md: string): SpecJson {
     details: parseEventDetails(md),
     tasks: parseTasks(md),
     sources: parseSources(md),
+    guide: parseGuide(guideMd),
   };
 }
 
@@ -252,6 +322,7 @@ export function citedSourceIds(md: string): string[] {
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export const SPEC_PATH = resolve(ROOT, 'events-and-actions.md');
+export const GUIDE_PATH = resolve(ROOT, 'mars-adventure-kids-guide.md');
 export const OUT_PATH = resolve(ROOT, 'src/content/generated/spec.json');
 
 export function render(spec: SpecJson): string {
@@ -259,11 +330,11 @@ export function render(spec: SpecJson): string {
 }
 
 function main(): void {
-  const spec = parseSpec(readFileSync(SPEC_PATH, 'utf8'));
+  const spec = parseSpec(readFileSync(SPEC_PATH, 'utf8'), readFileSync(GUIDE_PATH, 'utf8'));
   mkdirSync(dirname(OUT_PATH), { recursive: true });
   writeFileSync(OUT_PATH, render(spec));
   console.log(
-    `spec v${spec.specVersion}: ${spec.events.length} events, ${Object.keys(spec.details).length} details, ${spec.tasks.length} tasks, ${spec.sources.length} sources`,
+    `spec v${spec.specVersion}: ${spec.events.length} events, ${Object.keys(spec.details).length} details, ${spec.tasks.length} tasks, ${spec.sources.length} sources, ${spec.guide.stories.length} stories, ${spec.guide.glossary.length} glossary words`,
   );
 }
 

@@ -62,7 +62,9 @@ small {
   background: var(--panel);
   border: 1.5px solid var(--line);
   border-radius: var(--radius);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.45), inset 0 0 12px rgba(92, 180, 228, 0.1);
+  box-shadow:
+    0 4px 15px rgba(0, 0, 0, 0.45),
+    inset 0 0 12px rgba(92, 180, 228, 0.1);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
@@ -78,7 +80,13 @@ small {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background-image: linear-gradient(180deg, rgba(10, 15, 25, 0.55) 0%, rgba(15, 10, 8, 0.35) 55%, rgba(10, 12, 18, 0.75) 100%),
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(10, 15, 25, 0.55) 0%,
+      rgba(15, 10, 8, 0.35) 55%,
+      rgba(10, 12, 18, 0.75) 100%
+    ),
     url('/img/cockpit-mars.webp');
   background-size: cover;
   background-position: center bottom;
@@ -86,7 +94,9 @@ small {
 }
 @media (max-width: 700px) {
   .mars-bg {
-    background-image: linear-gradient(180deg, rgba(10, 15, 25, 0.65), rgba(10, 12, 18, 0.85)), url('/img/cockpit-mars-640.webp');
+    background-image:
+      linear-gradient(180deg, rgba(10, 15, 25, 0.65), rgba(10, 12, 18, 0.85)),
+      url('/img/cockpit-mars-640.webp');
   }
 }
 
@@ -106,7 +116,9 @@ small {
   font: inherit;
   font-weight: 700;
   cursor: pointer;
-  transition: transform var(--motion) ease, box-shadow var(--motion) ease;
+  transition:
+    transform var(--motion) ease,
+    box-shadow var(--motion) ease;
 }
 .btn:hover:not(:disabled) {
   transform: translateY(-2px);
@@ -224,7 +236,9 @@ small {
   color: var(--text);
   font: inherit;
   cursor: pointer;
-  transition: transform var(--motion) ease, border-color var(--motion) ease;
+  transition:
+    transform var(--motion) ease,
+    border-color var(--motion) ease;
 }
 .mission-card:hover {
   transform: translateY(-4px);
@@ -385,7 +399,9 @@ small {
   align-items: center;
   gap: 10px;
   padding: 8px 12px;
-  transition: border-color var(--motion) ease, box-shadow var(--motion) ease;
+  transition:
+    border-color var(--motion) ease,
+    box-shadow var(--motion) ease;
 }
 .meter.hl-up {
   border-color: var(--green);
@@ -576,7 +592,9 @@ small {
   background: rgba(10, 18, 32, 0.9);
   border: 2px solid var(--blue);
   border-radius: 20px;
-  box-shadow: 0 0 30px rgba(92, 180, 228, 0.22), inset 0 0 22px rgba(92, 180, 228, 0.08);
+  box-shadow:
+    0 0 30px rgba(92, 180, 228, 0.22),
+    inset 0 0 22px rgba(92, 180, 228, 0.08);
   padding: 20px;
 }
 .holo-tag {
@@ -629,16 +647,24 @@ small {
   font: inherit;
   cursor: pointer;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
-  transition: transform var(--motion) ease, box-shadow var(--motion) ease, border-color var(--motion) ease, opacity var(--motion);
+  transition:
+    transform var(--motion) ease,
+    box-shadow var(--motion) ease,
+    border-color var(--motion) ease,
+    opacity var(--motion);
 }
 .choice:hover:not(:disabled) {
   transform: translateY(-6px);
   border-color: var(--ice);
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.55), 0 0 18px rgba(92, 180, 228, 0.35);
+  box-shadow:
+    0 10px 26px rgba(0, 0, 0, 0.55),
+    0 0 18px rgba(92, 180, 228, 0.35);
 }
 .choice.chosen {
   border-color: var(--green);
-  box-shadow: 0 0 0 3px rgba(108, 192, 139, 0.35), 0 6px 18px rgba(0, 0, 0, 0.5);
+  box-shadow:
+    0 0 0 3px rgba(108, 192, 139, 0.35),
+    0 6px 18px rgba(0, 0, 0, 0.5);
 }
 .choice.dimmed {
   opacity: 0.55;
@@ -1082,4 +1108,53 @@ small {
   .holo-title {
     font-size: 1.35rem;
   }
+}
+
+/* glossary + true story */
+.story {
+  background: rgba(92, 180, 228, 0.1);
+  border: 1px solid var(--line-soft);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.term-wrap {
+  position: relative;
+  display: inline;
+}
+.term {
+  font: inherit;
+  color: var(--ice);
+  background: none;
+  border: none;
+  padding: 0;
+  text-decoration: underline dotted 2px;
+  text-underline-offset: 4px;
+  cursor: help;
+}
+.term-pop {
+  position: absolute;
+  left: 0;
+  top: 1.6em;
+  z-index: 4;
+  width: max-content;
+  max-width: min(18rem, 80vw);
+  background: var(--panel-solid);
+  border: 1.5px solid var(--blue);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: var(--fs-small);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+}
+.glossary {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px 16px;
+}
+.glossary dt {
+  font-weight: 700;
+  color: var(--ice);
+}
+.glossary dd {
+  margin: 0;
+  color: var(--muted);
 }

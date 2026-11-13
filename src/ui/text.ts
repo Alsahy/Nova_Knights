@@ -12,7 +12,10 @@ export function eventTitle(id: string): string {
 }
 export function actionTitle(id: string): string {
   const ev = CONTENT.events[id.slice(0, 5)];
-  return ev?.actions.find((a) => a.id === id)?.title ?? (id.endsWith('.wait') ? copy.chip['chip.cantFixToday']! : id);
+  return (
+    ev?.actions.find((a) => a.id === id)?.title ??
+    (id.endsWith('.wait') ? copy.chip['chip.cantFixToday']! : id)
+  );
 }
 export function taskTitle(id: string): string {
   return CONTENT.tasks[id]?.title ?? id;
@@ -34,7 +37,11 @@ export function kidText(s: GameState, text: string): string {
 export function logLine(e: LogEntry): string {
   const params = { ...(e.params ?? {}) };
   const id = params['id'];
-  if (typeof id === 'string') params['id'] = /^[A-Z]{2}-\d{2}\.[a-z]+$/.test(id) || id.endsWith('.wait') ? actionTitle(id) : eventTitle(id);
+  if (typeof id === 'string')
+    params['id'] =
+      /^[A-Z]{2}-\d{2}\.[a-z]+$/.test(id) || id.endsWith('.wait')
+        ? actionTitle(id)
+        : eventTitle(id);
   if (typeof params['task'] === 'string') params['task'] = taskTitle(params['task']);
   if (typeof params['source'] === 'string') {
     const src = params['source'];
@@ -44,9 +51,27 @@ export function logLine(e: LogEntry): string {
 }
 
 const STAT_NAME: Record<string, string> = {
-  LS: copy.ui.lifeSupport, SH: copy.ui.shield, PWR: copy.ui.power, BAT: copy.ui.battery, LAB: 'Lab', SP: copy.ui.stars,
-  DOSE: copy.ui.badge, FOOD: 'Food packs', H2O: 'Water', O2T: 'Oxygen tanks', PARTS: 'Spare parts', MEDKIT: 'Med kits',
-  FUL: 'Crew food', HYD: 'Crew water', AIR: 'Crew air', EN: 'Crew energy', TIME: '', RISK: '', LOST: '', EVENT: '', RULE: '',
+  LS: copy.ui.lifeSupport,
+  SH: copy.ui.shield,
+  PWR: copy.ui.power,
+  BAT: copy.ui.battery,
+  LAB: 'Lab',
+  SP: copy.ui.stars,
+  DOSE: copy.ui.badge,
+  FOOD: 'Food packs',
+  H2O: 'Water',
+  O2T: 'Oxygen tanks',
+  PARTS: 'Spare parts',
+  MEDKIT: 'Med kits',
+  FUL: 'Crew food',
+  HYD: 'Crew water',
+  AIR: 'Crew air',
+  EN: 'Crew energy',
+  TIME: '',
+  RISK: '',
+  LOST: '',
+  EVENT: '',
+  RULE: '',
 };
 
 /** Words for a chip (amount shown separately). */
@@ -54,9 +79,12 @@ export function chipLabel(c: Chip): string {
   if (c.label) {
     if (c.label.startsWith('chip.flag.')) {
       const flag = c.label.split('.').slice(3).join(' ');
-      return c.label.includes('.clear.') && flag.startsWith('broken') ? `fixes ${flag.replace('broken ', '')}` : flagWords(flag);
+      return c.label.includes('.clear.') && flag.startsWith('broken')
+        ? `fixes ${flag.replace('broken ', '')}`
+        : flagWords(flag);
     }
-    if (c.label.startsWith('chip.trigger')) return fill(copy.chip['chip.trigger']!, { id: eventTitle(String(c.params?.['id'] ?? '')) });
+    if (c.label.startsWith('chip.trigger'))
+      return fill(copy.chip['chip.trigger']!, { id: eventTitle(String(c.params?.['id'] ?? '')) });
     if (c.label.startsWith('chip.')) {
       const params = { ...(c.params ?? {}) };
       return fill(copy.chip[c.label] ?? c.label, params);

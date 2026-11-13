@@ -60,7 +60,15 @@ export function Hud({ h, preview }: { h: HudT; preview: Preview }) {
         <span class="accent">{ui.sol}</span> {Math.max(h.sol, 0)} / {h.lastSol}
       </div>
       <div class="hud-meters">
-        <Meter icon="LS" label={ui.lifeSupport} value={h.core.LS} max={10} color="var(--blue)" k="LS" preview={preview} />
+        <Meter
+          icon="LS"
+          label={ui.lifeSupport}
+          value={h.core.LS}
+          max={10}
+          color="var(--blue)"
+          k="LS"
+          preview={preview}
+        />
         <Meter
           icon="PWR"
           label={ui.battery}
@@ -99,7 +107,9 @@ export function Hud({ h, preview }: { h: HudT; preview: Preview }) {
 const ROLES: Role[] = ['MGR', 'ENG', 'MED', 'RES'];
 
 export function CrewPanel({ h, preview }: { h: HudT; preview: Preview }) {
-  const badgeWord = { green: ui.badgeGreen, yellow: ui.badgeYellow, red: ui.badgeRed }[h.crew.badge];
+  const badgeWord = { green: ui.badgeGreen, yellow: ui.badgeYellow, red: ui.badgeRed }[
+    h.crew.badge
+  ];
   return (
     <aside class="panel glass crew-panel" aria-label={ui.crew}>
       <h2 class="panel-title">{ui.crew}</h2>
@@ -129,10 +139,42 @@ export function CrewPanel({ h, preview }: { h: HudT; preview: Preview }) {
       </ul>
       <h3 class="panel-sub">{ui.wholeCrew}</h3>
       <div class="crew-bars">
-        <Meter icon="EN" label={ui.energy} value={h.crew.EN} max={h.crew.ENMAX} color="var(--amber)" k="EN" preview={preview} />
-        <Meter icon="FUL" label={ui.food} value={h.crew.FUL} max={20} color="var(--orange)" k="FUL" preview={preview} />
-        <Meter icon="HYD" label={ui.water} value={h.crew.HYD} max={20} color="var(--blue)" k="HYD" preview={preview} />
-        <Meter icon="AIR" label={ui.air} value={h.crew.AIR} max={20} color="var(--sky)" k="AIR" preview={preview} />
+        <Meter
+          icon="EN"
+          label={ui.energy}
+          value={h.crew.EN}
+          max={h.crew.ENMAX}
+          color="var(--amber)"
+          k="EN"
+          preview={preview}
+        />
+        <Meter
+          icon="FUL"
+          label={ui.food}
+          value={h.crew.FUL}
+          max={20}
+          color="var(--orange)"
+          k="FUL"
+          preview={preview}
+        />
+        <Meter
+          icon="HYD"
+          label={ui.water}
+          value={h.crew.HYD}
+          max={20}
+          color="var(--blue)"
+          k="HYD"
+          preview={preview}
+        />
+        <Meter
+          icon="AIR"
+          label={ui.air}
+          value={h.crew.AIR}
+          max={20}
+          color="var(--sky)"
+          k="AIR"
+          preview={preview}
+        />
       </div>
       <div class={`badge badge-${h.crew.badge} ${preview['DOSE'] ? 'hl-down' : ''}`}>
         <Icon name="DOSE" size={18} />
@@ -162,13 +204,20 @@ export function CrewPanel({ h, preview }: { h: HudT; preview: Preview }) {
 
 export function MissionBoard({ s, h }: { s: GameState; h: HudT }) {
   const items: { icon: UiIcon; text: string; warn?: boolean }[] = [];
-  if (h.crop) items.push({ icon: 'SPROUT', text: fill(ui.cropGrowing, { crop: h.crop.kind, n: Math.max(0, h.crop.readySol - h.sol) }) });
+  if (h.crop)
+    items.push({
+      icon: 'SPROUT',
+      text: fill(ui.cropGrowing, { crop: h.crop.kind, n: Math.max(0, h.crop.readySol - h.sol) }),
+    });
   else if (h.sol > 0) items.push({ icon: 'SPROUT', text: ui.cropNone, warn: true });
-  if (h.dustStacks > 0) items.push({ icon: 'SUN', text: fill(ui.dustLayers, { n: h.dustStacks }), warn: true });
+  if (h.dustStacks > 0)
+    items.push({ icon: 'SUN', text: fill(ui.dustLayers, { n: h.dustStacks }), warn: true });
   const nextSend = Math.min(Math.ceil((Math.max(h.sol, 1) + 0.5) / 4) * 4, h.lastSol);
-  if (h.sol < h.lastSol) items.push({ icon: 'ANTENNA', text: fill(ui.nextSend, { sol: nextSend }) });
+  if (h.sol < h.lastSol)
+    items.push({ icon: 'ANTENNA', text: fill(ui.nextSend, { sol: nextSend }) });
   for (const f of h.flags) {
-    if (f.startsWith('broken:')) items.push({ icon: 'PARTS', text: fill(ui.brokenThing, { what: f.slice(7) }), warn: true });
+    if (f.startsWith('broken:'))
+      items.push({ icon: 'PARTS', text: fill(ui.brokenThing, { what: f.slice(7) }), warn: true });
     if (f === 'shelterReady') items.push({ icon: 'SH', text: ui.shelterReady });
   }
   if (h.crew.indoorOnly) items.push({ icon: 'DOSE', text: ui.indoorOnly, warn: true });

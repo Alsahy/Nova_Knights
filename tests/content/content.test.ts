@@ -46,3 +46,47 @@ describe('content build', () => {
       expect(CONTENT.events[id]!.actions.filter((a) => a.cadet).length, id).toBe(2);
   });
 });
+
+import { checkContent } from '../../src/content/check';
+import { STORIES } from '../../src/content/stories';
+import { GLOSSARY, markTerms } from '../../src/content/glossary';
+import { SOURCES } from '../../src/content/sources';
+import { M3_TIMELINE } from '../../src/content/missions';
+
+describe('Phase 3 content checks', () => {
+  it('check-content has no errors', () => {
+    expect(checkContent().errors).toEqual([]);
+  });
+  it('every event has a kid True story from the guide, with sources', () => {
+    for (const id of Object.keys(CONTENT.events)) {
+      expect(STORIES[id], id).toBeDefined();
+      expect(STORIES[id]!.sources.length, id).toBeGreaterThan(0);
+    }
+  });
+  it('the glossary has the guide words and marks terms in kid text', () => {
+    expect(GLOSSARY.length).toBeGreaterThanOrEqual(20);
+    const parts = markTerms('A bright solar flare! The CME reaches Mars in 2 sols.');
+    expect(
+      parts.filter((p) => typeof p !== 'string').map((p) => (p as { word: string }).word),
+    ).toEqual(['Solar flare', 'Sun cloud (CME)', 'Sol']);
+  });
+  it('every source used by a Must event was audited', () => {
+    const must = new Set(MVP_EVENTS.flatMap((id) => CONTENT.events[id]!.realScience.sources));
+    for (const s of SOURCES.filter((x) => must.has(x.id)))
+      expect(s.audit, s.id).not.toBe('not-audited');
+  });
+  it('M3 beats are real DONKI records with real dates and honest labels (D-009)', () => {
+    expect(M3_TIMELINE.beats.map((b) => [b.sol, b.eventId])).toEqual([
+      [2, 'SW-01'],
+      [4, 'SW-03'],
+      [7, 'SW-02'],
+    ]);
+    for (const b of M3_TIMELINE.beats) {
+      expect(b.recordId).toMatch(/FLR|SEP|ENLIL/);
+      expect(b.realDate).toMatch(/^2024-05-\d\d$/);
+      expect(b.sourceUrl).toMatch(/^https:\/\/ccmc\.gsfc\.nasa\.gov\/DONKI\//);
+    }
+    expect(M3_TIMELINE.beats[0]!.label).toContain('seen from Earth');
+    expect(M3_TIMELINE.beats[1]!.label).toContain("NASA's model predicted");
+  });
+});

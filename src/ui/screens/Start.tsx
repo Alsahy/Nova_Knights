@@ -10,7 +10,13 @@ const MISSIONS: { id: MissionId; name: string; desc: string }[] = [
   { id: 'M3', name: ui.missionM3, desc: ui.missionM3Desc },
 ];
 
-export function MissionSelect({ onPick, back }: { onPick: (m: MissionId) => void; back: () => void }) {
+export function MissionSelect({
+  onPick,
+  back,
+}: {
+  onPick: (m: MissionId) => void;
+  back: () => void;
+}) {
   return (
     <section class="center-screen" aria-labelledby="ms-title">
       <button class="btn btn-ghost" onClick={back}>
@@ -42,7 +48,13 @@ export function MissionSelect({ onPick, back }: { onPick: (m: MissionId) => void
   );
 }
 
-export function Briefing(props: { mission: MissionId; seed: number; onStart: () => void; back?: () => void; inGame?: boolean }) {
+export function Briefing(props: {
+  mission: MissionId;
+  seed: number;
+  onStart: () => void;
+  back?: () => void;
+  inGame?: boolean;
+}) {
   const sols = MISSION_LENGTH[props.mission].cadet ?? 8;
   const goal = MISSION_SP_GOAL[props.mission].cadet ?? 6;
   return (

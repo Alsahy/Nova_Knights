@@ -4596,5 +4596,463 @@
         "https://abc17news.com/?p=659714"
       ]
     }
-  ]
+  ],
+  "guide": {
+    "stories": [
+      {
+        "id": "SW-01",
+        "title": "Flash on the Sun!",
+        "happens": "The Sun makes a super-bright flash. Tiny, super-fast bits might follow.",
+        "trueStory": "Flares come in sizes A, B, C, M and X. Each one is 10 times stronger than the one before!"
+      },
+      {
+        "id": "SW-02",
+        "title": "Radiation Storm!",
+        "happens": "Invisible bits from the Sun are here! They can fill up your radiation badges.",
+        "trueStory": "In May 2024, the Curiosity rover on Mars measured its biggest radiation jump in 12 years. That's like getting 30 X-rays!"
+      },
+      {
+        "id": "SW-03",
+        "title": "Storm Cloud Coming",
+        "happens": "The Sun threw a giant cloud into space. It reaches Mars in a few sols!",
+        "trueStory": "NASA computers can predict when these clouds will reach Mars."
+      },
+      {
+        "id": "SW-04",
+        "title": "The Storm Cloud Hits",
+        "happens": "The cloud is here! Radios crackle and the shields get tested.",
+        "trueStory": "In May 2024, many of these clouds hit Earth and made the biggest space storm in 20 years."
+      },
+      {
+        "id": "SW-05",
+        "title": "Quiet Sun Day",
+        "happens": "The Sun is calm. A great day to go outside!",
+        "trueStory": "Even on calm days, tiny space rays keep coming. On Mars you get about a third of what you'd get flying through space."
+      },
+      {
+        "id": "SW-06",
+        "title": "Rays Add Up",
+        "happens": "Radiation badges fill up a little every sol. Who goes outside next?",
+        "trueStory": "NASA has a lifetime limit for how much radiation an astronaut can get."
+      },
+      {
+        "id": "SW-07",
+        "title": "Badge Turning Red",
+        "happens": "The crew's radiation badge is almost full!",
+        "trueStory": "Real astronauts wear radiation badges, just like in the game."
+      },
+      {
+        "id": "SW-08",
+        "title": "Earth Is Safe, Mars Is Not",
+        "happens": "Earth says \"no problem\"… but the Sun's cloud is heading for Mars!",
+        "trueStory": "Sometimes NASA's model says a cloud will miss Earth but hit Mars. Earth and Mars are in different places!"
+      },
+      {
+        "id": "SW-09",
+        "title": "Message from Space-Weather Forecasters",
+        "happens": "Real forecasters sent a message about the Sun.",
+        "trueStory": "NASA has a real team that watches the Sun for trips to the Moon and Mars."
+      },
+      {
+        "id": "SW-10",
+        "title": "Radiation Sensor Broken",
+        "happens": "You can't see storms coming!",
+        "trueStory": "NASA's Orion spaceship has radiation sensors that tell astronauts when to hide."
+      },
+      {
+        "id": "PW-01",
+        "title": "Hot Machine!",
+        "happens": "The battery box is getting too hot!",
+        "trueStory": "Spaceships use cooling pipes full of liquid to carry heat away."
+      },
+      {
+        "id": "PW-02",
+        "title": "Dusty Solar Panels",
+        "happens": "Dust covers the solar panels. Less power every sol!",
+        "trueStory": "The Spirit rover's panels got so dusty that only a quarter of the sunlight got through."
+      },
+      {
+        "id": "PW-03",
+        "title": "Lucky Wind!",
+        "happens": "A whirlwind blew the dust off your panels. Extra power!",
+        "trueStory": "In 2009, a Martian wind cleaned the Spirit rover's panels and gave it more power."
+      },
+      {
+        "id": "PW-04",
+        "title": "Dust Storm Coming",
+        "happens": "Satellites see a dust storm. Soon the Sun will be hard to see.",
+        "trueStory": "The Opportunity rover needed a fairly clear sky to recharge its batteries."
+      },
+      {
+        "id": "PW-05",
+        "title": "Planet-Wide Dust Storm",
+        "happens": "Dust covers ALL of Mars. Day looks like night!",
+        "trueStory": "In 2018, a giant dust storm cut Opportunity's power by 97%. It never woke up again."
+      },
+      {
+        "id": "PW-06",
+        "title": "Power Fading Slowly",
+        "happens": "Dust keeps piling up, and there's a little less power each sol.",
+        "trueStory": "Dust slowly covered the InSight lander's solar panels, and its mission ended in 2022."
+      },
+      {
+        "id": "PW-07",
+        "title": "Freezing Night",
+        "happens": "Tonight is super cold!",
+        "trueStory": "A NASA lander measured −89 °C on a Mars night!"
+      },
+      {
+        "id": "PW-08",
+        "title": "Not Enough Power!",
+        "happens": "You need more power than you have. Something must be unplugged!",
+        "trueStory": "Mars gets less than half the sunlight Earth gets."
+      },
+      {
+        "id": "PW-09",
+        "title": "Cut Cable",
+        "happens": "A power cable got cut. Half your power is gone!",
+        "trueStory": "The biggest marsquake ever measured shook the ground for hours."
+      },
+      {
+        "id": "PW-10",
+        "title": "Pick Your Power Plant",
+        "happens": "How will your base get its power?",
+        "trueStory": "NASA is designing a small reactor that could power a base for 10 years."
+      },
+      {
+        "id": "LS-01",
+        "title": "Stuffy Air",
+        "happens": "The air feels stuffy and people get headaches. Too much breathed-out air (CO₂)!",
+        "trueStory": "Each astronaut breathes out about 1 kg of CO₂ every day!"
+      },
+      {
+        "id": "LS-02",
+        "title": "Square Filter, Round Hole",
+        "happens": "The spare filters are the wrong shape!",
+        "trueStory": "On Apollo 13, astronauts built an adapter from bags, tape and a book cover, and it saved them!"
+      },
+      {
+        "id": "LS-03",
+        "title": "Oxygen Maker Stopped",
+        "happens": "The machine that makes air from water stopped!",
+        "trueStory": "Each person needs about 0.8 kg of oxygen every day."
+      },
+      {
+        "id": "LS-04",
+        "title": "Smoke!",
+        "happens": "The smoke alarm is beeping! The oxygen candle is sparking.",
+        "trueStory": "In 1997, an oxygen candle caught fire on the Mir space station. The crew put it out and everyone was OK."
+      },
+      {
+        "id": "LS-05",
+        "title": "Water Recycler Clogged",
+        "happens": "The machine that cleans water is clogged!",
+        "trueStory": "The space station turns sweat, breath and even pee back into clean drinking water!"
+      },
+      {
+        "id": "LS-06",
+        "title": "Water-Saving Gadget",
+        "happens": "You can install a gadget that saves even more water.",
+        "trueStory": "A new gadget helped the space station recycle 98% of its water."
+      },
+      {
+        "id": "LS-07",
+        "title": "Tiny Leak",
+        "happens": "Hissss! Air is slowly leaking out.",
+        "trueStory": "Tiny space rocks can punch little holes in spaceships."
+      },
+      {
+        "id": "LS-08",
+        "title": "Cooling Leak",
+        "happens": "The cooling liquid is leaking. The base will slowly get too hot inside!",
+        "trueStory": "In 2022, a tiny hole let all the cooling liquid leak out of a Soyuz spaceship in about 18 hours."
+      },
+      {
+        "id": "LS-09",
+        "title": "Air or Water?",
+        "happens": "You make air by splitting water, but water is running low!",
+        "trueStory": "Space stations really do make their oxygen by splitting water."
+      },
+      {
+        "id": "LS-10",
+        "title": "Ice Found!",
+        "happens": "There's ice under the dust! It can become water, and even air.",
+        "trueStory": "In 2008, NASA's Phoenix lander found ice on Mars!"
+      },
+      {
+        "id": "LS-11",
+        "title": "Make Air from Mars Air",
+        "happens": "Mars air is mostly CO₂. A machine can pull oxygen out of it!",
+        "trueStory": "The MOXIE machine on Mars made oxygen. In total, about what a small dog breathes in 10 hours!"
+      },
+      {
+        "id": "FD-01",
+        "title": "What Should We Plant?",
+        "happens": "Pick seeds for your greenhouse!",
+        "trueStory": "Astronauts grew lettuce in space, from seed to salad in 33 days!"
+      },
+      {
+        "id": "FD-02",
+        "title": "Flowers Need Help",
+        "happens": "There are no bees on Mars! Pepper flowers need help to make peppers.",
+        "trueStory": "Astronauts helped space peppers by hand and with fans."
+      },
+      {
+        "id": "FD-03",
+        "title": "Old Food Losing Vitamins",
+        "happens": "Packed food slowly loses its vitamins. The crew feels tired.",
+        "trueStory": "After about a year, packed space food has lost most of its vitamin C."
+      },
+      {
+        "id": "FD-04",
+        "title": "Pack the Cargo",
+        "happens": "Before you go, pick ONE extra crate!",
+        "trueStory": "Rockets can only leave for Mars about every 26 months, so you live with what you bring!"
+      },
+      {
+        "id": "FD-05",
+        "title": "Taco Night!",
+        "happens": "The peppers are ripe!",
+        "trueStory": "In 2021, astronauts made tacos with peppers they grew in space!"
+      },
+      {
+        "id": "FD-06",
+        "title": "Food Running Low",
+        "happens": "Only a few days of food left!",
+        "trueStory": "An astronaut needs about 3,000 calories a day."
+      },
+      {
+        "id": "FD-07",
+        "title": "Plants in Mars Soil?",
+        "happens": "There's free soil outside, but is it safe?",
+        "trueStory": "Mars soil has a salt called perchlorate that's bad for people."
+      },
+      {
+        "id": "CR-01",
+        "title": "Exercise or Experiment?",
+        "happens": "Muscles and bones get weaker in low gravity.",
+        "trueStory": "On the space station, astronauts exercise about 2 hours every day to keep their bones strong."
+      },
+      {
+        "id": "CR-02",
+        "title": "Can't Sleep",
+        "happens": "An astronaut can't fall asleep.",
+        "trueStory": "Astronauts are given 8.5 hours to sleep, but usually sleep only about 6."
+      },
+      {
+        "id": "CR-03",
+        "title": "Missing Home",
+        "happens": "An astronaut misses their family.",
+        "trueStory": "NASA's practice Mars crew had to wait up to 22 minutes for their messages to reach Earth."
+      },
+      {
+        "id": "CR-04",
+        "title": "Dust Sneezes",
+        "happens": "Dust came inside on the spacesuits. Achoo!",
+        "trueStory": "On the Moon, astronaut Harrison Schmitt got \"Moon hay fever\" from dust!"
+      },
+      {
+        "id": "CR-05",
+        "title": "Water in the Helmet!",
+        "happens": "Water is floating inside an astronaut's helmet during a spacewalk!",
+        "trueStory": "In 2013, this really happened to astronaut Luca Parmitano. NASA brought him back inside safely."
+      },
+      {
+        "id": "CR-06",
+        "title": "Slip on a Rock",
+        "happens": "An astronaut slipped outside and hurt their ankle.",
+        "trueStory": "Mars gravity is only about a third of Earth's, so walking feels very different."
+      },
+      {
+        "id": "CR-07",
+        "title": "Too Tired to Work",
+        "happens": "The crew is almost out of energy!",
+        "trueStory": "Tired astronauts find their work harder, just like tired kids!"
+      },
+      {
+        "id": "CR-08",
+        "title": "Blurry Vision",
+        "happens": "An astronaut's eyes are a bit blurry.",
+        "trueStory": "In low gravity, body fluids float up toward the head, and that can change astronauts' eyes."
+      },
+      {
+        "id": "RS-01",
+        "title": "Shiny Rock Far Away",
+        "happens": "Cameras see an amazing rock… but it's far away!",
+        "trueStory": "Spacewalks usually last about 6 and a half hours, because suits only carry so much air."
+      },
+      {
+        "id": "RS-02",
+        "title": "Marsquake!",
+        "happens": "Rumble! The ground is shaking.",
+        "trueStory": "NASA's InSight lander felt 1,319 marsquakes!"
+      },
+      {
+        "id": "RS-03",
+        "title": "Lab Machine Broken",
+        "happens": "The lab's main machine stopped working.",
+        "trueStory": "Machines on the space station break sometimes, and astronauts fix them."
+      },
+      {
+        "id": "RS-04",
+        "title": "Send Your Data Home",
+        "happens": "The antenna is ready! Your science stars only count once they reach Earth.",
+        "trueStory": "A message from Mars takes 3 to 22 minutes to reach Earth."
+      },
+      {
+        "id": "RS-05",
+        "title": "Experiment Results!",
+        "happens": "Your space experiment is finished!",
+        "trueStory": "Mice that flew to the space station lost muscle and bone in 33 days. Scientists study this to protect astronauts."
+      },
+      {
+        "id": "RS-06",
+        "title": "Earth Wants More Science",
+        "happens": "Mission Control asks for an extra experiment.",
+        "trueStory": "NASA's practice Mars crew had to juggle science, repairs, exercise and gardening."
+      },
+      {
+        "id": "RS-07",
+        "title": "Space Rock Hits Mars!",
+        "happens": "BOOM, far away! A space rock made a brand-new crater.",
+        "trueStory": "InSight felt space rocks hit Mars. The biggest ones made craters about 150 meters across, wider than a football field is long!"
+      },
+      {
+        "id": "CM-01",
+        "title": "The Sun Is Between Us",
+        "happens": "Mars is going behind the Sun. No talking to Earth for a while!",
+        "trueStory": "About every 2 years, NASA stops sending commands to Mars for about 2 weeks because the Sun is in the way."
+      },
+      {
+        "id": "CM-02",
+        "title": "Antenna Off Target",
+        "happens": "The antenna isn't pointing at Earth anymore!",
+        "trueStory": "Messages only reach Earth if the antenna points the right way."
+      },
+      {
+        "id": "CM-03",
+        "title": "Garbled Message",
+        "happens": "Mission Control's message came through scrambled!",
+        "trueStory": "Big X-class flares can scramble radio signals."
+      },
+      {
+        "id": "MG-01",
+        "title": "Choose Your Base",
+        "happens": "Where will you build?",
+        "trueStory": "Real NASA rovers and landers have explored all three places!"
+      },
+      {
+        "id": "MG-02",
+        "title": "Go Home Early?",
+        "happens": "Things are going badly. Keep going or go home safely?",
+        "trueStory": "When Apollo 13 had a big problem, the crew skipped the Moon landing and got home safely. That was brave!"
+      },
+      {
+        "id": "MG-03",
+        "title": "Crew Disagreement",
+        "happens": "The Engineer wants to fix the panels. The Researcher wants to explore. There's only power for one!",
+        "trueStory": "NASA's practice Mars crew had to share limited supplies and work it out together."
+      },
+      {
+        "id": "MG-04",
+        "title": "The Long Trip",
+        "happens": "Before landing, you fly through space for months. How will you travel?",
+        "trueStory": "The trip to Mars gives more radiation than living on Mars does!"
+      }
+    ],
+    "glossary": [
+      {
+        "word": "Sol",
+        "meaning": "One day on Mars (24 hours 39 minutes)"
+      },
+      {
+        "word": "Rover",
+        "meaning": "A robot car that drives on Mars"
+      },
+      {
+        "word": "Lander",
+        "meaning": "A robot that lands and stays in one place"
+      },
+      {
+        "word": "Radiation",
+        "meaning": "Invisible energy rays from space. A little is OK; too much is bad for your body"
+      },
+      {
+        "word": "Radiation badge",
+        "meaning": "A small card that measures how much radiation you got"
+      },
+      {
+        "word": "Shield",
+        "meaning": "Walls that block radiation"
+      },
+      {
+        "word": "Solar flare",
+        "meaning": "A super-bright flash on the Sun"
+      },
+      {
+        "word": "Sun cloud (CME)",
+        "meaning": "A giant cloud the Sun throws into space"
+      },
+      {
+        "word": "Dust storm",
+        "meaning": "A storm of dust that blocks sunlight"
+      },
+      {
+        "word": "CO₂",
+        "meaning": "The air you breathe out. Too much makes you feel sick"
+      },
+      {
+        "word": "Oxygen",
+        "meaning": "The air you need to breathe in"
+      },
+      {
+        "word": "Splitting water",
+        "meaning": "Using electricity to turn water into oxygen and hydrogen"
+      },
+      {
+        "word": "Recycler",
+        "meaning": "A machine that cleans used water so you can drink it again"
+      },
+      {
+        "word": "Perchlorate",
+        "meaning": "A salt in Mars soil that's bad for people"
+      },
+      {
+        "word": "Marsquake",
+        "meaning": "An earthquake on Mars!"
+      },
+      {
+        "word": "Crater",
+        "meaning": "A round hole made when a space rock hits the ground"
+      },
+      {
+        "word": "Spacewalk",
+        "meaning": "Going outside in a spacesuit"
+      },
+      {
+        "word": "Sick Bay",
+        "meaning": "The base's little hospital"
+      },
+      {
+        "word": "Mission Control",
+        "meaning": "The team on Earth who helps astronauts"
+      },
+      {
+        "word": "Signal delay",
+        "meaning": "The wait while a message travels between Mars and Earth"
+      },
+      {
+        "word": "MOXIE",
+        "meaning": "A real machine that made oxygen on Mars"
+      },
+      {
+        "word": "Pollinate",
+        "meaning": "Helping flowers make fruit (bees usually do it!)"
+      },
+      {
+        "word": "Science stars ⭐",
+        "meaning": "Points you earn for doing science: your mission goal!"
+      }
+    ]
+  }
 }

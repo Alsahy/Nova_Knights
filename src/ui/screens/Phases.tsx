@@ -8,6 +8,9 @@ import { Avatar } from '../components/Avatar';
 import { ChipRow } from '../components/Chips';
 import { Icon, systemIcon } from '../components/Icon';
 import { engine } from '../engine';
+import { STORIES } from '../../content/stories';
+import { sourceById } from '../../content/sources';
+import { GlossaryText } from '../components/Glossary';
 import { callSign, fill, kidText, logLine, ui } from '../text';
 
 // ── Event / briefing / setup / shortage cards ──
@@ -17,14 +20,24 @@ function whoText(s: GameState, c: CardView): string {
     if (t === 'NAME') return s.pending?.nameTarget ? callSign(s, s.pending.nameTarget) : ui.anyone;
     if (t === 'PICK') return ui.anyone;
     if (t === 'EVA') return ui.evaCrew;
-    if (t.includes('|')) return t.split('|').map((r) => callSign(s, r as AstronautId)).join(' / ');
+    if (t.includes('|'))
+      return t
+        .split('|')
+        .map((r) => callSign(s, r as AstronautId))
+        .join(' / ');
     return callSign(s, t as AstronautId);
   });
   const who = parts.length ? parts.join(' + ') : ui.anyone;
   return fill(ui.doesIt, { who: who.charAt(0).toUpperCase() + who.slice(1) });
 }
 
-export function ChoiceCard(props: { s: GameState; c: CardView; selected: boolean; dimmed: boolean; onPick: () => void }) {
+export function ChoiceCard(props: {
+  s: GameState;
+  c: CardView;
+  selected: boolean;
+  dimmed: boolean;
+  onPick: () => void;
+}) {
   const { s, c } = props;
   const ev = s.pending ? CONTENT.events[s.pending.eventId] : undefined;
   const risk = c.risk ? (s.tier === 'cadet' ? c.risk.words : `${c.risk.pct}%`) : undefined;
@@ -55,13 +68,24 @@ export function ChoiceCard(props: { s: GameState; c: CardView; selected: boolean
   );
 }
 
-export function EventPanel(props: { s: GameState; selected: string | null; onSelect: (id: string | null) => void }) {
+export function EventPanel(props: {
+  s: GameState;
+  selected: string | null;
+  onSelect: (id: string | null) => void;
+}) {
   const { s } = props;
   const p = s.pending!;
   const ev = CONTENT.events[p.eventId]!;
   const cards = engine.shownCards(s);
+  const story = STORIES[ev.id];
   const tag =
-    p.slot === 'setup' ? ui.beforeLanding : p.slot === 'briefing' ? ui.missionBriefing : p.slot === 'shortage' ? ui.powerTitle : `${ui.sol} ${s.sol}`;
+    p.slot === 'setup'
+      ? ui.beforeLanding
+      : p.slot === 'briefing'
+        ? ui.missionBriefing
+        : p.slot === 'shortage'
+          ? ui.powerTitle
+          : `${ui.sol} ${s.sol}`;
   return (
     <section class="holo" aria-labelledby="ev-title">
       <p class="holo-tag">
@@ -72,10 +96,22 @@ export function EventPanel(props: { s: GameState; selected: string | null; onSel
       </h2>
       {p.donki && (
         <p class="donki-label">
-          <b>{fill(ui.realEvent, { date: p.donki.date })}</b> · {ui.replay}. {p.donki.type !== 'WSAEnlilSimulations' && ui.seenFromEarth}
+          <b>{fill(ui.realEvent, { date: p.donki.date })}</b> · {ui.replay}
+          {p.donki.fetchedAt
+            ? ` · ${fill(ui.archived, { date: p.donki.fetchedAt.slice(0, 10) })}`
+            : ''}
+          <br />
+          {p.donki.label}{' '}
+          {p.donki.sourceUrl && (
+            <a href={p.donki.sourceUrl} target="_blank" rel="noopener noreferrer">
+              {ui.seeRecord}
+            </a>
+          )}
         </p>
       )}
-      <p class="kid-text">{kidText(s, ev.kidText)}</p>
+      <p class="kid-text">
+        <GlossaryText text={kidText(s, ev.kidText)} />
+      </p>
       <div class={`choices n${cards.length}`} role="group" aria-label={ui.pickACard}>
         {cards.map((c) => (
           <ChoiceCard
@@ -88,12 +124,33 @@ export function EventPanel(props: { s: GameState; selected: string | null; onSel
           />
         ))}
       </div>
+      {story && (
+        <p class="story">
+          <b>{ui.trueStoryKid}:</b> {story.trueStory}{' '}
+          {story.sources.map((id) => (
+            <a
+              key={id}
+              href={sourceById(id)?.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="src-link"
+            >
+              [{id}]
+            </a>
+          ))}
+        </p>
+      )}
       <details class="true-story">
         <summary>{ui.trueStory}</summary>
         <p>
           {ev.realScience.text.split(/(\[S\d+b?\])/).map((part, i) =>
             /^\[S\d+b?\]$/.test(part) ? (
-              <a key={i} href={`#src-${part.slice(1, -1)}`} data-src={part.slice(1, -1)}>
+              <a
+                key={i}
+                href={sourceById(part.slice(1, -1))?.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {part}
               </a>
             ) : (
@@ -112,7 +169,9 @@ export function MorningReport({ s }: { s: GameState }) {
   const mission = CONTENT.missions[s.mission]!;
   return (
     <section class="holo" aria-labelledby="mr-title">
-      <p class="holo-tag">{ui.sol} {s.sol}</p>
+      <p class="holo-tag">
+        {ui.sol} {s.sol}
+      </p>
       <h2 id="mr-title" class="holo-title">
         <Icon name="SUN" size={30} /> {fill(ui.morning, { sol: s.sol })}
       </h2>
@@ -122,10 +181,16 @@ export function MorningReport({ s }: { s: GameState }) {
         </li>
         <li>
           <Icon name="PWR" />{' '}
-          {fill(ui.morningPower, { solar: b.solar, reactor: b.reactor, supply: b.supply, ...(b.bonus ? { bonus: b.bonus } : {}) })}
+          {fill(ui.morningPower, {
+            solar: b.solar,
+            reactor: b.reactor,
+            supply: b.supply,
+            ...(b.bonus ? { bonus: b.bonus } : {}),
+          })}
         </li>
         <li>
-          <Icon name="BAT" /> {fill(ui.morningBattery, { bat: s.systems.BAT, max: s.systems.BATMAX })}
+          <Icon name="BAT" />{' '}
+          {fill(ui.morningBattery, { bat: s.systems.BAT, max: s.systems.BATMAX })}
         </li>
         {s.dust.stacks > 0 && (
           <li class="warn">
@@ -133,7 +198,8 @@ export function MorningReport({ s }: { s: GameState }) {
           </li>
         )}
         <li>
-          <Icon name="SP" /> {fill(ui.morningStars, { banked: s.sp.banked, pending: s.sp.pending, goal: s.sp.goal })}
+          <Icon name="SP" />{' '}
+          {fill(ui.morningStars, { banked: s.sp.banked, pending: s.sp.pending, goal: s.sp.goal })}
         </li>
       </ul>
       <TodayLog s={s} />
@@ -142,17 +208,37 @@ export function MorningReport({ s }: { s: GameState }) {
 }
 
 // ── Power plan (D-002, D-003) ──
-export function PowerPlan({ s, onToggle }: { s: GameState; onToggle: (k: PoweredSystem, on: boolean) => void }) {
+export function PowerPlan({
+  s,
+  onToggle,
+}: {
+  s: GameState;
+  onToggle: (k: PoweredSystem, on: boolean) => void;
+}) {
   const b = engine.powerBudget(s);
   const net = b.supply - b.totalNeed - b.spent;
-  const rows: { k: PoweredSystem; label: string; hint: string; need: number; disabled?: boolean }[] = [
+  const rows: {
+    k: PoweredSystem;
+    label: string;
+    hint: string;
+    need: number;
+    disabled?: boolean;
+  }[] = [
     { k: 'LS', label: ui.sysLS, hint: ui.sysLSHint, need: 2 },
     { k: 'recycler', label: ui.sysRecycler, hint: ui.sysRecyclerHint, need: 1 },
-    { k: 'greenhouse', label: ui.sysGreenhouse, hint: ui.sysGreenhouseHint, need: 1, disabled: !s.crop },
+    {
+      k: 'greenhouse',
+      label: ui.sysGreenhouse,
+      hint: ui.sysGreenhouseHint,
+      need: 1,
+      disabled: !s.crop,
+    },
   ];
   return (
     <section class="holo" aria-labelledby="pw-title">
-      <p class="holo-tag">{ui.sol} {s.sol}</p>
+      <p class="holo-tag">
+        {ui.sol} {s.sol}
+      </p>
       <h2 id="pw-title" class="holo-title">
         <Icon name="PWR" size={30} /> {ui.powerTitle}
       </h2>
@@ -169,7 +255,11 @@ export function PowerPlan({ s, onToggle }: { s: GameState; onToggle: (k: Powered
         </div>
       </div>
       <p class={`power-result ${b.shortfall > 0 ? 'bad' : net >= 0 ? 'good' : 'meh'}`}>
-        {b.shortfall > 0 ? fill(ui.short, { n: b.shortfall }) : net >= 0 ? fill(ui.leftover, { n: net }) : fill(ui.fromBattery, { n: -net })}
+        {b.shortfall > 0
+          ? fill(ui.short, { n: b.shortfall })
+          : net >= 0
+            ? fill(ui.leftover, { n: net })
+            : fill(ui.fromBattery, { n: -net })}
       </p>
       <ul class="toggles">
         {rows.map((r) => {
@@ -203,11 +293,19 @@ export function PowerPlan({ s, onToggle }: { s: GameState; onToggle: (k: Powered
 // ── Crew jobs (D-001: planned now, resolved at night) ──
 const ROLES: Role[] = ['MGR', 'ENG', 'MED', 'RES'];
 
-export function TaskPlanner({ s, onPlan }: { s: GameState; onPlan: (a: AstronautId, t: string | null) => void }) {
+export function TaskPlanner({
+  s,
+  onPlan,
+}: {
+  s: GameState;
+  onPlan: (a: AstronautId, t: string | null) => void;
+}) {
   const [open, setOpen] = useState<string | null>(null);
   return (
     <section class="holo" aria-labelledby="tk-title">
-      <p class="holo-tag">{ui.sol} {s.sol}</p>
+      <p class="holo-tag">
+        {ui.sol} {s.sol}
+      </p>
       <h2 id="tk-title" class="holo-title">
         <Icon name="CREW" size={30} /> {ui.tasksTitle}
       </h2>
@@ -219,7 +317,12 @@ export function TaskPlanner({ s, onPlan }: { s: GameState; onPlan: (a: Astronaut
           const options = engine.availableTasks(s, r);
           const shown = options.filter((o) => o.allowed || o.taskId === a.plannedTask);
           const sorted = [...shown.filter((o) => !o.fallback), ...shown.filter((o) => o.fallback)];
-          const isOpen = open === r || (!a.plannedTask && open === null && !unavailable && r === ROLES.find((x) => !s.astronauts.find((y) => y.id === x)!.plannedTask));
+          const isOpen =
+            open === r ||
+            (!a.plannedTask &&
+              open === null &&
+              !unavailable &&
+              r === ROLES.find((x) => !s.astronauts.find((y) => y.id === x)!.plannedTask));
           return (
             <li key={r} class="task-row">
               <div class="task-who">
@@ -237,7 +340,11 @@ export function TaskPlanner({ s, onPlan }: { s: GameState; onPlan: (a: Astronaut
                   </div>
                 </div>
                 {!unavailable && (
-                  <button class="btn btn-small" aria-expanded={isOpen} onClick={() => setOpen(isOpen ? 'none' : r)}>
+                  <button
+                    class="btn btn-small"
+                    aria-expanded={isOpen}
+                    onClick={() => setOpen(isOpen ? 'none' : r)}
+                  >
                     {isOpen ? ui.close : a.plannedTask ? 'Change' : 'Pick a job'}
                   </button>
                 )}
@@ -290,7 +397,9 @@ export function TodayLog({ s }: { s: GameState }) {
 export function NightLog({ s }: { s: GameState }) {
   return (
     <section class="holo" aria-labelledby="nl-title">
-      <p class="holo-tag">{ui.sol} {s.sol}</p>
+      <p class="holo-tag">
+        {ui.sol} {s.sol}
+      </p>
       <h2 id="nl-title" class="holo-title">
         <Icon name="TIME" size={30} /> {ui.nightTitle}
       </h2>

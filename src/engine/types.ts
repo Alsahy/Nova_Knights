@@ -223,8 +223,10 @@ export interface Pending {
 export interface DonkiRef {
   type: string;
   id: string;
-  date: string;
-  label: string;
+  date: string; // real date of the record (D-009)
+  label: string; // honesty label text (spec §5)
+  sourceUrl?: string; // DONKI page of the record
+  fetchedAt?: string; // snapshot date: shown as "ARCHIVED – fetched on <date>"
 }
 
 export interface QueuedEvent {

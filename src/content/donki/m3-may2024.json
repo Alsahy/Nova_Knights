@@ -1,0 +1,39 @@
+{
+  "mission": "M3",
+  "window": "2024-05-01 to 2024-05-31",
+  "fetchedAt": "2026-11-13T16:55:44.914Z",
+  "note": "Compressed replay (D-009): real records, real dates, sped up to fit 10 sols.",
+  "beats": [
+    {
+      "sol": 2,
+      "eventId": "SW-01",
+      "S": 3,
+      "realDate": "2024-05-10",
+      "recordType": "FLR",
+      "recordId": "2024-05-10T06:27:00-FLR-001",
+      "label": "Real event: X3.9 flare on 2024-05-10 (NASA DONKI). It was seen from Earth; in this game we imagine it also reached your base.",
+      "sourceUrl": "https://ccmc.gsfc.nasa.gov/DONKI/view/FLR/30666/-1"
+    },
+    {
+      "sol": 4,
+      "eventId": "SW-03",
+      "S": 3,
+      "warningSols": 2,
+      "realDate": "2024-05-11",
+      "recordType": "WSAEnlilSimulations",
+      "recordId": "WSA-ENLIL/30726/1",
+      "label": "NASA's model predicted this cloud would reach Mars on 2024-05-13. (CME speed about 1263 km/s.)",
+      "sourceUrl": "https://ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/30726/-1"
+    },
+    {
+      "sol": 7,
+      "eventId": "SW-02",
+      "S": 2,
+      "realDate": "2024-05-13",
+      "recordType": "SEP",
+      "recordId": "2024-05-13T14:00:00-SEP-001",
+      "label": "Real event: a solar particle storm on 2024-05-13 (NASA DONKI, after an M6.6 flare). It was measured near Earth; in this game we imagine it also reached your base.",
+      "sourceUrl": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30817/-1"
+    }
+  ]
+}

@@ -7,7 +7,23 @@ import { engine, saveGame } from '../engine';
 import { ui } from '../text';
 import { EventPanel, MorningReport, NightLog, PowerPlan, TaskPlanner } from './Phases';
 
-const PREVIEW_KEYS = new Set(['LS', 'SH', 'BAT', 'LAB', 'SP', 'DOSE', 'FOOD', 'H2O', 'O2T', 'PARTS', 'MEDKIT', 'FUL', 'HYD', 'AIR', 'EN']);
+const PREVIEW_KEYS = new Set([
+  'LS',
+  'SH',
+  'BAT',
+  'LAB',
+  'SP',
+  'DOSE',
+  'FOOD',
+  'H2O',
+  'O2T',
+  'PARTS',
+  'MEDKIT',
+  'FUL',
+  'HYD',
+  'AIR',
+  'EN',
+]);
 
 /** "Choice → the stats it changes light up" (design canvas). Costs + effects only (not later/maybe). */
 function previewOf(c: CardView | undefined): Preview {
@@ -51,15 +67,31 @@ export function Game(props: {
   let action: { label: string; cmd: Command | null; go?: boolean };
   if (s.pending) {
     center = <EventPanel s={s} selected={selected} onSelect={setSelected} />;
-    action = { label: selected ? ui.choose : ui.pickACard, cmd: selected ? { type: 'CHOOSE', actionId: selected } : null, go: !!selected };
+    action = {
+      label: selected ? ui.choose : ui.pickACard,
+      cmd: selected ? { type: 'CHOOSE', actionId: selected } : null,
+      go: !!selected,
+    };
   } else if (s.phase === 'morning') {
     center = <MorningReport s={s} />;
     action = { label: ui.toPower, cmd: { type: 'CONTINUE' }, go: true };
   } else if (s.phase === 'power') {
-    center = <PowerPlan s={s} onToggle={(k: PoweredSystem, on: boolean) => dispatch({ type: 'SET_POWER', system: k, on })} />;
+    center = (
+      <PowerPlan
+        s={s}
+        onToggle={(k: PoweredSystem, on: boolean) => dispatch({ type: 'SET_POWER', system: k, on })}
+      />
+    );
     action = { label: ui.toTasks, cmd: { type: 'CONFIRM_POWER' }, go: true };
   } else if (s.phase === 'tasks') {
-    center = <TaskPlanner s={s} onPlan={(a: AstronautId, t: string | null) => dispatch({ type: 'PLAN_TASK', astronaut: a, taskId: t })} />;
+    center = (
+      <TaskPlanner
+        s={s}
+        onPlan={(a: AstronautId, t: string | null) =>
+          dispatch({ type: 'PLAN_TASK', astronaut: a, taskId: t })
+        }
+      />
+    );
     action = { label: ui.toEvent, cmd: { type: 'CONFIRM_TASKS' }, go: true };
   } else {
     center = <NightLog s={s} />;
@@ -76,7 +108,11 @@ export function Game(props: {
         <button class="btn" onClick={props.onHelp}>
           <Icon name="HELP" /> <span class="hide-sm">{ui.howToPlay}</span>
         </button>
-        <button class={`btn btn-main ${action.go ? 'btn-go' : ''}`} disabled={!action.cmd} onClick={() => action.cmd && dispatch(action.cmd)}>
+        <button
+          class={`btn btn-main ${action.go ? 'btn-go' : ''}`}
+          disabled={!action.cmd}
+          onClick={() => action.cmd && dispatch(action.cmd)}
+        >
           {action.label} <Icon name="ARROW" />
         </button>
         <button class="btn" onClick={props.onBriefing}>

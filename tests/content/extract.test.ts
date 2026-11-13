@@ -1,9 +1,16 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { citedSourceIds, OUT_PATH, parseSpec, render, SPEC_PATH } from '../../scripts/spec-extract';
+import {
+  citedSourceIds,
+  GUIDE_PATH,
+  OUT_PATH,
+  parseSpec,
+  render,
+  SPEC_PATH,
+} from '../../scripts/spec-extract';
 
 const md = readFileSync(SPEC_PATH, 'utf8');
-const spec = parseSpec(md);
+const spec = parseSpec(md, readFileSync(GUIDE_PATH, 'utf8'));
 
 describe('spec-extract v0', () => {
   it('finds exactly 60 events with unique IDs', () => {
@@ -54,4 +61,16 @@ describe('spec-extract v0', () => {
   it('generated spec.json is up to date (run `npm run spec:extract`)', () => {
     expect(readFileSync(OUT_PATH, 'utf8')).toBe(render(spec));
   });
+
+  it('maps the kids guide: 60 stories in spec order, glossary words', () => {
+    expect(spec.guide.stories.map((x) => x.id)).toEqual(
+      spec.events.map((e) => e.id).sort((a, b) => order(a) - order(b)),
+    );
+    expect(spec.guide.glossary.length).toBeGreaterThanOrEqual(20);
+  });
 });
+
+const PREFIX = ['SW', 'PW', 'LS', 'FD', 'CR', 'RS', 'CM', 'MG'];
+function order(id: string): number {
+  return PREFIX.indexOf(id.slice(0, 2)) * 100 + Number(id.slice(3));
+}

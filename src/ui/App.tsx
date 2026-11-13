@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'preact/hooks';
 import { copy } from '../content/copy';
+import { GLOSSARY } from '../content/glossary';
 import type { GameState, MissionId } from '../engine/types';
 import { engine, loadGame, newSeed, saveGame } from './engine';
 import { DataSources } from './screens/DataSources';
@@ -10,14 +11,18 @@ import { Briefing, MissionSelect } from './screens/Start';
 import { Title } from './screens/Title';
 import { applySettings, loadSettings, saveSettings, type Settings } from './settings';
 
-export type Screen = 'title' | 'sources' | 'settings' | 'missions' | 'briefing' | 'game' | 'debrief';
+export type Screen =
+  'title' | 'sources' | 'settings' | 'missions' | 'briefing' | 'game' | 'debrief';
 
 export function App() {
   const [screen, setScreen] = useState<Screen>('title');
   const [settings, setSettings] = useState<Settings>(loadSettings);
   const [game, setGame] = useState<GameState | null>(null);
   const [saved, setSaved] = useState<GameState | null>(loadGame);
-  const [setup, setSetup] = useState<{ mission: MissionId; seed: number }>({ mission: 'M1', seed: newSeed() });
+  const [setup, setSetup] = useState<{ mission: MissionId; seed: number }>({
+    mission: 'M1',
+    seed: newSeed(),
+  });
   const [modal, setModal] = useState<'help' | 'briefing' | null>(null);
   const [back, setBack] = useState<Screen>('title');
 
@@ -67,7 +72,12 @@ export function App() {
         />
       )}
       {screen === 'briefing' && (
-        <Briefing mission={setup.mission} seed={setup.seed} onStart={() => start(setup.mission, setup.seed)} back={() => setScreen('missions')} />
+        <Briefing
+          mission={setup.mission}
+          seed={setup.seed}
+          onStart={() => start(setup.mission, setup.seed)}
+          back={() => setScreen('missions')}
+        />
       )}
       {screen === 'game' && game && (
         <Game
@@ -94,11 +104,25 @@ export function App() {
           onSources={() => go('sources')}
         />
       )}
-      {screen === 'sources' && <DataSources back={() => setScreen(back === 'sources' ? 'title' : back)} />}
-      {screen === 'settings' && <SettingsScreen settings={settings} onChange={setSettings} back={() => setScreen('title')} />}
+      {screen === 'sources' && (
+        <DataSources back={() => setScreen(back === 'sources' ? 'title' : back)} />
+      )}
+      {screen === 'settings' && (
+        <SettingsScreen
+          settings={settings}
+          onChange={setSettings}
+          back={() => setScreen('title')}
+        />
+      )}
       {modal && (
         <div class="modal-backdrop" onClick={() => setModal(null)}>
-          <div class="modal glass" role="dialog" aria-modal="true" aria-label={modal === 'help' ? copy.ui.howToPlay : copy.ui.missionBriefing} onClick={(e) => e.stopPropagation()}>
+          <div
+            class="modal glass"
+            role="dialog"
+            aria-modal="true"
+            aria-label={modal === 'help' ? copy.ui.howToPlay : copy.ui.missionBriefing}
+            onClick={(e) => e.stopPropagation()}
+          >
             {modal === 'help' ? (
               <>
                 <h2>{copy.ui.howToPlay}</h2>
@@ -107,12 +131,28 @@ export function App() {
                     <li key={t}>{t}</li>
                   ))}
                 </ol>
+                <h3>{copy.ui.wordHelper}</h3>
+                <dl class="glossary">
+                  {GLOSSARY.map((t) => (
+                    <div key={t.word}>
+                      <dt>{t.word}</dt>
+                      <dd>{t.meaning}</dd>
+                    </div>
+                  ))}
+                </dl>
                 <button class="btn btn-go" onClick={() => setModal(null)} autoFocus>
                   {copy.ui.close}
                 </button>
               </>
             ) : (
-              game && <Briefing mission={game.mission} seed={game.seed} onStart={() => setModal(null)} inGame />
+              game && (
+                <Briefing
+                  mission={game.mission}
+                  seed={game.seed}
+                  onStart={() => setModal(null)}
+                  inGame
+                />
+              )
             )}
           </div>
         </div>

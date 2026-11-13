@@ -47,7 +47,8 @@ export const copy = {
     missionM1: 'First Steps',
     missionM1Desc: 'Learn the basics: power, air, food and science. The Sun stays calm.',
     missionM3: 'Storm from the Sun',
-    missionM3Desc: 'Real solar storms from May 2024 (NASA DONKI). Keep the radiation badge out of the red!',
+    missionM3Desc:
+      'Real solar storms from May 2024 (NASA DONKI). Keep the radiation badge out of the red!',
     sols: '{n} sols',
     goalStars: 'Goal: send {n} science stars to Earth',
     goalDose: 'and keep the badge out of the red',
@@ -80,8 +81,17 @@ export const copy = {
     badgeYellow: 'medium',
     badgeRed: 'high',
     supplies: 'Supplies',
-    supplyNames: { FOOD: 'Food packs', H2O: 'Water', O2T: 'Oxygen tanks', PARTS: 'Spare parts', MEDKIT: 'Med kits' } as Record<string, string>,
-    roleNames: { MGR: 'Manager', ENG: 'Engineer', MED: 'Doctor', RES: 'Researcher' } as Record<string, string>,
+    supplyNames: {
+      FOOD: 'Food packs',
+      H2O: 'Water',
+      O2T: 'Oxygen tanks',
+      PARTS: 'Spare parts',
+      MEDKIT: 'Med kits',
+    } as Record<string, string>,
+    roleNames: { MGR: 'Manager', ENG: 'Engineer', MED: 'Doctor', RES: 'Researcher' } as Record<
+      string,
+      string
+    >,
     inSickBay: 'In Sick Bay ({n})',
     busy: 'Resting',
     noTask: 'No job yet',
@@ -126,7 +136,8 @@ export const copy = {
     off: 'OFF',
     toTasks: 'Power is set',
     tasksTitle: 'Plan the day: crew jobs',
-    tasksIntro: 'Pick one job for each astronaut. Jobs happen tonight. A surprise may change plans!',
+    tasksIntro:
+      'Pick one job for each astronaut. Jobs happen tonight. A surprise may change plans!',
     specialist: 'Their special job',
     standIn: 'Not their job: +1 energy, 1 in 2 chance',
     energyLeft: 'Crew energy left after jobs: {n}',
@@ -141,13 +152,17 @@ export const copy = {
     evaCrew: 'the crew outside',
     lesson: 'Lesson',
     trueStory: 'Real science (for grown-ups)',
+    trueStoryKid: 'True story',
+    wordHelper: 'Word helper',
     chosen: 'Chosen',
     risk: 'Maybe',
     nightTitle: 'What happened today',
     nextSol: 'Next sol',
     seeDebrief: 'See how it went',
     realEvent: 'Real NASA data · {date}',
-    replay: 'ARCHIVED replay, sped up',
+    replay: 'Replay, sped up',
+    archived: 'ARCHIVED – fetched on {date}',
+    seeRecord: 'See the NASA record',
     seenFromEarth: 'Seen from Earth. In this game we imagine it also reached your base.',
     // debrief
     success: 'Mission Success!',
@@ -156,7 +171,8 @@ export const copy = {
     debriefBig: 'Your 3 biggest choices',
     debriefCaused: 'What it changed',
     debriefNasa: 'What real NASA does',
-    debriefStats: 'Stars sent: {banked} / {goal} · Radiation badge: {dose} ({badge}) · Sols: {sols}',
+    debriefStats:
+      'Stars sent: {banked} / {goal} · Radiation badge: {dose} ({badge}) · Sols: {sols}',
     playAgain: 'Play the same mission code again',
     newMission: 'New mission',
     howTo: [
@@ -167,7 +183,8 @@ export const copy = {
       'If things go badly, Mission Control brings everyone home safely. Read the debrief to learn why!',
     ],
     honestyTitle: 'How this game uses real data',
-    honestyScale: 'Slow things (radiation adding up, plants growing) happen 15× faster in the game, so you can see them in a short mission. The ratios stay real.',
+    honestyScale:
+      'Slow things (radiation adding up, plants growing) happen 15× faster in the game, so you can see them in a short mission. The ratios stay real.',
     honestyStorm:
       'Storms are made bigger in the game so shields matter. The real May 2024 storm at Mars was about 8 mGy, like 30 chest X-rays [S6]. The game’s worst storm (+4) is close to NASA’s 250 mSv single-event limit [S9].',
     honestyGameValue: 'Numbers on cards are game values, not real measurements.',

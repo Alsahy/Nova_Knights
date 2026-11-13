@@ -1,5 +1,6 @@
 /** Ending + debrief (spec §1.1 rule 10): what happened → which choice caused it → what real NASA does. */
 import { copy } from '../../content/copy';
+import { sourceById } from '../../content/sources';
 import { formatLog } from '../../content/format';
 import { doseBadge } from '../../engine';
 import type { GameState } from '../../engine/types';
@@ -8,15 +9,46 @@ import { engine } from '../engine';
 import { fill, signed, ui } from '../text';
 
 const KEY_NAMES: Record<string, string> = {
-  LS: ui.lifeSupport, SH: ui.shield, BAT: ui.battery, LAB: 'Lab', SP: ui.stars, SPbanked: 'stars sent', DOSE: ui.badge,
-  FOOD: 'food packs', H2O: 'water', O2T: 'oxygen tanks', PARTS: 'spare parts', MEDKIT: 'med kits',
-  EN: 'crew energy', FUL: 'crew food', HYD: 'crew water', AIR: 'crew air', ENMAX: 'max energy', PWR: 'power',
+  LS: ui.lifeSupport,
+  SH: ui.shield,
+  BAT: ui.battery,
+  LAB: 'Lab',
+  SP: ui.stars,
+  SPbanked: 'stars sent',
+  DOSE: ui.badge,
+  FOOD: 'food packs',
+  H2O: 'water',
+  O2T: 'oxygen tanks',
+  PARTS: 'spare parts',
+  MEDKIT: 'med kits',
+  EN: 'crew energy',
+  FUL: 'crew food',
+  HYD: 'crew water',
+  AIR: 'crew air',
+  ENMAX: 'max energy',
+  PWR: 'power',
 };
 
-export function Debrief({ s, onAgain, onNew, onSources }: { s: GameState; onAgain: () => void; onNew: () => void; onSources: () => void }) {
+export function Debrief({
+  s,
+  onAgain,
+  onNew,
+}: {
+  s: GameState;
+  onAgain: () => void;
+  onNew: () => void;
+  onSources?: () => void;
+}) {
   const d = engine.debrief(s)!;
-  const title = d.ending.kind === 'success' ? ui.success : d.ending.kind === 'safe-return' ? ui.safeReturn : ui.broughtHome;
-  const badge = { green: ui.badgeGreen, yellow: ui.badgeYellow, red: ui.badgeRed }[doseBadge(d.stats.dose)];
+  const title =
+    d.ending.kind === 'success'
+      ? ui.success
+      : d.ending.kind === 'safe-return'
+        ? ui.safeReturn
+        : ui.broughtHome;
+  const badge = { green: ui.badgeGreen, yellow: ui.badgeYellow, red: ui.badgeRed }[
+    doseBadge(d.stats.dose)
+  ];
   return (
     <section class="center-screen" aria-labelledby="db-title">
       <div class={`debrief glass end-${d.ending.kind}`}>
@@ -24,9 +56,17 @@ export function Debrief({ s, onAgain, onNew, onSources }: { s: GameState; onAgai
         <h1 id="db-title" tabIndex={-1} class="screen-title">
           <Icon name={d.ending.kind === 'success' ? 'SP' : 'COMPASS'} size={34} /> {title}
         </h1>
-        <p class="kid-text">{formatLog({ sol: d.ending.sol, kind: 'ending', key: d.ending.reason })}</p>
+        <p class="kid-text">
+          {formatLog({ sol: d.ending.sol, kind: 'ending', key: d.ending.reason })}
+        </p>
         <p class="muted">
-          {fill(ui.debriefStats, { banked: d.stats.spBanked, goal: d.stats.spGoal, dose: d.stats.dose, badge, sols: d.stats.sols })}
+          {fill(ui.debriefStats, {
+            banked: d.stats.spBanked,
+            goal: d.stats.spGoal,
+            dose: d.stats.dose,
+            badge,
+            sols: d.stats.sols,
+          })}
         </p>
         <h2>{ui.debriefBig}</h2>
         <ol class="big-choices">
@@ -50,7 +90,12 @@ export function Debrief({ s, onAgain, onNew, onSources }: { s: GameState; onAgai
               <p class="small">
                 <b>{ui.debriefNasa}:</b> {t.nasa.replace(/\s*\[S\d+b?\]/g, '')}{' '}
                 {t.sources.map((sId) => (
-                  <a key={sId} href={`#src-${sId}`} onClick={onSources}>
+                  <a
+                    key={sId}
+                    href={sourceById(sId)?.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     [{sId}]
                   </a>
                 ))}
