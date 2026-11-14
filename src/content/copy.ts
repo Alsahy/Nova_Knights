@@ -929,6 +929,14 @@ export const copy = {
     real: 'In real life',
     credit: 'Picture: {credit}, published {date}. ARCHIVED copy, not live.',
   },
+  board: {
+    radiation: 'Radiation',
+    starsSent: 'stars sent',
+    radGained: 'radiation taken',
+    days: 'Your mission, day by day',
+    day: 'Day {n}',
+    quiet: 'A quiet day.',
+  },
   reward: {
     badgeStars: '+{n} stars from new badges',
     title: 'Your reward',

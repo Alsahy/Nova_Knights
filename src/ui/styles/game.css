@@ -3270,3 +3270,210 @@
   color: #8ee6ac;
   animation: pop 0.7s ease 4;
 }
+
+/* ── end-of-mission dashboard (D-068) ── */
+.board {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 14px 0;
+}
+.rings {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(84px, 1fr));
+  gap: 10px 6px;
+}
+.ring {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+}
+.ring-dial {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  display: grid;
+  place-items: center;
+}
+.ring-dial > svg:first-child {
+  position: absolute;
+  inset: 0;
+}
+.ring-track,
+.ring-fill {
+  fill: none;
+  stroke-width: 7;
+}
+.ring-track {
+  stroke: rgba(255, 255, 255, 0.14);
+}
+.ring-fill {
+  stroke: var(--c);
+  stroke-linecap: round;
+  animation: ring-in 900ms ease-out both;
+}
+@keyframes ring-in {
+  from {
+    stroke-dasharray: 0 164;
+  }
+}
+.ring.bad .ring-track {
+  stroke: rgba(224, 122, 114, 0.45);
+  stroke-dasharray: 4 4;
+}
+.ring-flag {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--red);
+  color: #1b0706;
+  font-size: 1rem;
+  line-height: 24px;
+}
+.ring > b {
+  font-size: 1.25rem;
+}
+.ring-label {
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+.daychart {
+  padding: 10px 12px 12px;
+}
+.daychart-key {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin: 0 0 6px;
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+.daychart-key i {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  vertical-align: -2px;
+}
+.key-star,
+.daycol-up i {
+  background: var(--star);
+}
+.key-dose,
+.daycol-down i {
+  background: repeating-linear-gradient(45deg, var(--red) 0 5px, #b9534c 5px 10px);
+}
+.daychart-cols {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.daycol {
+  flex: 1 0 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 2px;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+.daycol:hover,
+.daycol:focus-visible {
+  background: rgba(255, 255, 255, 0.1);
+}
+.daycol.on {
+  border-color: var(--sky);
+  background: rgba(154, 211, 242, 0.14);
+}
+.daycol-icon {
+  height: 24px;
+}
+.daycol-up,
+.daycol-down {
+  width: 60%;
+  display: flex;
+  justify-content: center;
+}
+.daycol-up {
+  height: 84px;
+  align-items: flex-end;
+}
+.daycol-down {
+  height: 48px;
+  align-items: flex-start;
+}
+.daycol-up i,
+.daycol-down i {
+  width: 100%;
+  min-height: 22px;
+  display: flex;
+  justify-content: center;
+  font-style: normal;
+  transform-origin: bottom;
+  animation: bar-in 700ms ease-out both;
+}
+.daycol-up i {
+  border-radius: 6px 6px 0 0;
+  align-items: flex-start;
+}
+.daycol-down i {
+  border-radius: 0 0 6px 6px;
+  align-items: flex-end;
+  transform-origin: top;
+}
+@keyframes bar-in {
+  from {
+    transform: scaleY(0);
+  }
+}
+.daycol-up b,
+.daycol-down b {
+  font-size: 0.95rem;
+  color: #1b1405;
+}
+.daycol-down b {
+  color: #fff;
+  text-shadow:
+    0 0 3px #000,
+    0 0 3px #000;
+}
+.daycol-sol {
+  width: 100%;
+  border-block: 2px solid var(--line-soft);
+  font-weight: 700;
+}
+.daycol-flags {
+  min-height: 18px;
+  display: flex;
+  gap: 2px;
+}
+.daydetail {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line-soft);
+  min-height: 3.2em;
+}
+.daydetail p {
+  margin: 2px 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ring-fill,
+  .daycol-up i,
+  .daycol-down i {
+    animation: none;
+  }
+}
