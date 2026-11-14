@@ -3,7 +3,8 @@ import { MISSION_LENGTH, MISSION_SP_GOAL } from '../../engine/config';
 import type { MissionId } from '../../engine/types';
 import { Avatar } from '../components/Avatar';
 import { Icon } from '../components/Icon';
-import { InfoTip } from './Phases';
+import { InfoTip } from '../components/InfoTip';
+import { copy } from '../../content/copy';
 import { fill, ui } from '../text';
 
 export function Briefing(props: {
@@ -12,6 +13,7 @@ export function Briefing(props: {
   onStart: () => void;
   back?: () => void;
   inGame?: boolean;
+  timer?: number;
 }) {
   const sols = MISSION_LENGTH[props.mission].cadet ?? 8;
   const goal = MISSION_SP_GOAL[props.mission].cadet ?? 6;
@@ -28,12 +30,19 @@ export function Briefing(props: {
             <Avatar role="MGR" size={110} />
           </div>
           <div class="briefing-text">
-            <p>
-              {fill(ui.briefingText, { sols, goal })}{' '}
-              <InfoTip label={ui.realData}>
-                {ui.solIs} {ui.stormReplay}
-              </InfoTip>
-            </p>
+            {props.mission === 'M9' ? (
+              <>
+                <p>{copy.mode.briefing}</p>
+                <p class="warn-text">{fill(copy.mode.briefing2, { from: props.timer || 8 })}</p>
+              </>
+            ) : (
+              <p>
+                {fill(ui.briefingText, { sols, goal })}{' '}
+                <InfoTip label={ui.realData}>
+                  {ui.solIs} {ui.stormReplay}
+                </InfoTip>
+              </p>
+            )}
             {props.mission === 'M3' && <p class="warn-text">{ui.briefingDose}</p>}
             <p class="muted small">
               {ui.missionCode}: <b class="num">{props.seed}</b>

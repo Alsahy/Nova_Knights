@@ -1,5 +1,5 @@
 /** How a mission ends (spec §2.5, D-005, D-010, MG-02). Night step 9. */
-import { END, MG02_LOW_SYSTEM, MG02_SICKBAY_COUNT } from './config';
+import { BADGE, END, MG02_LOW_SYSTEM, MG02_SICKBAY_COUNT } from './config';
 import { log } from './state';
 import type { Ending, GameState, Mission } from './types';
 
@@ -20,7 +20,16 @@ export function checkEndings(s: GameState, mission: Mission): void {
   if (s.ending) return;
   s.counters.lsZeroSols = s.systems.LS === 0 ? s.counters.lsZeroSols + 1 : 0;
   let e: Ending | null = null;
-  if (s.counters.lsZeroSols >= END.lsZeroSols)
+  // D-060: Survival ends the moment food, water or oxygen is gone, or the radiation badge turns red
+  if (mission.endless && s.supplies.FOOD <= 0)
+    e = { kind: 'brought-home', sol: s.sol, reason: 'end.noFood' };
+  else if (mission.endless && s.supplies.H2O <= 0)
+    e = { kind: 'brought-home', sol: s.sol, reason: 'end.noWater' };
+  else if (mission.endless && s.systems.LS <= 0)
+    e = { kind: 'brought-home', sol: s.sol, reason: 'end.lsZero' };
+  else if (mission.endless && s.crew.DOSE >= BADGE.redFrom)
+    e = { kind: 'brought-home', sol: s.sol, reason: 'end.highDose' };
+  else if (s.counters.lsZeroSols >= END.lsZeroSols)
     e = { kind: 'brought-home', sol: s.sol, reason: 'end.lsZero' };
   else if (s.astronauts.filter((a) => a.sickBaySols > 0).length >= END.sickBayCount)
     e = { kind: 'brought-home', sol: s.sol, reason: 'end.sickBay' };

@@ -82,8 +82,8 @@ describe('Phase 3 content checks', () => {
   it('M3 beats are real DONKI records with real dates and honest labels (D-009)', () => {
     expect(M3_TIMELINE.beats.map((b) => [b.sol, b.eventId])).toEqual([
       [2, 'SW-01'],
-      [4, 'SW-03'],
-      [8, 'SW-02'],
+      [3, 'SW-03'], // D-043: 7 sols, so the cloud is seen on sol 3 (hits on sol 5)
+      [6, 'SW-02'],
     ]);
     for (const b of M3_TIMELINE.beats) {
       expect(b.recordId).toMatch(/FLR|SEP|ENLIL/);

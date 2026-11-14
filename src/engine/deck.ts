@@ -202,6 +202,11 @@ export function selectEvent(
       return null;
     }
     // 8. deck
+    if (s.deck.length === 0 && mission.endless) {
+      // D-050: Survival never runs out of trouble; storms come back in the reshuffled deck
+      const extra = mission.endless.extra.filter((id) => allowed(s, content, mission, id));
+      s.deck = shuffle(s.rng, [...buildDeck(s, content, mission), ...extra]);
+    }
     const top = s.deck.shift();
     if (!top) return null;
     let id = top;
@@ -210,6 +215,13 @@ export function selectEvent(
     if (NAME_EVENTS.has(id)) {
       const n = randomName(s);
       if (n) opts.nameTarget = n;
+    }
+    const real = mission.endless?.real?.[id];
+    if (real) {
+      // D-065: Survival storms replay the same real DONKI records as the Casual mission
+      opts.severity = real.severity;
+      if (real.warningSols !== undefined) opts.warningSols = real.warningSols;
+      opts.donki = real.donki;
     }
     return { eventId: id, opts };
   };

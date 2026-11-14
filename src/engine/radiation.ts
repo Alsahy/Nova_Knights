@@ -7,9 +7,11 @@ import {
   EVA_DOSE_CHANCE,
   SHELTER_BONUS,
   SHIELD_TIER_DIVISOR,
+  CHECKUP_DOSE_CUT,
+  STORM_SHIELD_WEAR,
 } from './config';
 import { chance } from './rng';
-import { changeStat, clearFlag, hasFlag, log } from './state';
+import { changeStat, changeSystem, clearFlag, hasFlag, log } from './state';
 import type { BadgeColour, GameState } from './types';
 
 /** D-007: tier = floor(SH / 3). */
@@ -36,12 +38,23 @@ export function stormDoseFor(s: GameState, S: number, mode: StormMode): number {
   return Math.max(0, dose);
 }
 
+/** D-052: after a health check the next radiation hit is 1 weaker (then the effect is used up). */
+function checkupCut(s: GameState): number {
+  if (!hasFlag(s, 'medChecked')) return 0;
+  clearFlag(s, 'medChecked');
+  return CHECKUP_DOSE_CUT;
+}
+
 export function applyStorm(s: GameState, S: number, mode: StormMode): number {
-  const dose = stormDoseFor(s, S, mode);
+  const dose = Math.max(0, stormDoseFor(s, S, mode) - checkupCut(s));
   if (hasFlag(s, 'shelterReady')) clearFlag(s, 'shelterReady');
   if (hasFlag(s, 'prepared')) clearFlag(s, 'prepared');
   const real = changeStat(s, 'DOSE', dose);
   log(s, 'dose', 'log.stormDose', { dose: real, S, mode });
+  if (s.systems.SH > 0) {
+    changeSystem(s, 'SH', -STORM_SHIELD_WEAR); // D-051: the storm uses up some of the shield
+    log(s, 'warning', 'log.shieldWorn');
+  }
   return real;
 }
 

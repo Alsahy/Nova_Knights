@@ -96,6 +96,9 @@ function checkTaskBase(s: GameState, content: Content, id: AstronautId, taskId: 
       const r = hookBlocked(s, e.hook, e.args);
       if (r) return { allowed: false, fallback, reason: r };
     }
+  // D-059: with an empty battery, nothing that runs on electricity can be done
+  if (s.systems.BAT === 0 && t.cost.some((e) => e.kind === 'power' && e.delta < 0))
+    return { allowed: false, fallback, reason: 'reason.noPower' };
   // Resources: shared EN / AIR pools must cover every planned task (D-017).
   const plannedEN = others.reduce((sum, x) => {
     const ot = content.tasks[x.plannedTask!];

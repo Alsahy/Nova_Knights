@@ -82,8 +82,9 @@ export function chipLabel(c: Chip): string {
   if (c.label) {
     if (c.label.startsWith('chip.flag.')) {
       const flag = c.label.split('.').slice(3).join(' ');
+      const thing = flag.replace('broken ', '');
       return c.label.includes('.clear.') && flag.startsWith('broken')
-        ? `fixes ${flag.replace('broken ', '')}`
+        ? `fixes the ${copy.ui.thingNames[thing] ?? thing}`
         : flagWords(flag);
     }
     if (c.label.startsWith('chip.trigger'))

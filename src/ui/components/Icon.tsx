@@ -19,9 +19,43 @@ export type UiIcon =
   | 'BRIEF'
   | 'DATA'
   | 'GEAR'
-  | 'PLAY';
+  | 'PLAY'
+  | 'CRANK'
+  | 'KEYS'
+  | 'BAG'
+  | 'LATCH'
+  | 'HOSE'
+  | 'SWITCH'
+  | 'WIPER'
+  | 'TILT'
+  | 'DIAL'
+  | 'COUCH'
+  | 'WRENCH'
+  | 'CAN'
+  | 'TORCH'
+  | 'AXE'
+  | 'KNIFE'
+  | 'LAMP'
+  | 'CLOCK'
+  | 'MOON'
+  | 'VACUUM'
+  | 'FAN'
+  | 'KEYPAD'
+  | 'ROCK'
+  | 'JET'
+  | 'ROBOT'
+  | 'PLUG'
+  | 'HAND'
+  | 'SHOVEL'
+  | 'WIRES'
+  | 'SOUND'
+  | 'MUTE'
+  | 'SHOP'
+  | 'MEDAL'
+  | 'PACK'
+  | 'BED';
 
-const P: Record<UiIcon, string> = {
+export const ICON_PATHS: Record<UiIcon, string> = {
   LS: 'M12 3v7m0 0c-2 0-6 2-6 7 0 2 1 3 2.5 3S11 18 11 16v-6m1 0c2 0 6 2 6 7 0 2-1 3-2.5 3S13 18 13 16v-6',
   SH: 'M12 3 20 6v6c0 5-3.5 8-8 9.2C7.5 20 4 17 4 12V6z',
   PWR: 'M13 2 4.5 13.5H11l-1 8.5 8.5-11.5H12z',
@@ -59,6 +93,42 @@ const P: Record<UiIcon, string> = {
   DATA: 'M4 19V5M4 19h16M8 15v-4M12 15V8M16 15v-6',
   GEAR: 'M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 1 0 0-7M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1',
   PLAY: 'M7 4.5v15l12-7.5z',
+  CRANK: 'M12 12m-7 0a7 7 0 1 0 14 0 7 7 0 1 0-14 0M12 12l5-5M16 5.5l3 3',
+  KEYS: 'M3 7h18v10H3zM7 11h.01M11 11h.01M15 11h.01M8 14h8',
+  BAG: 'M7 8h10l2 12H5zM9 8V5h6v3M12 12s2.5 2.5 2.5 4a2.5 2.5 0 0 1-5 0c0-1.5 2.5-4 2.5-4z',
+  LATCH: 'M3 9h14v6H3zM17 12h4M7 9V6M7 18v-3M11 12h.01',
+  HOSE: 'M4 19c0-7 5-4 5-10a3 3 0 0 1 6 0v2M13 11h4l3-2v6l-3-2M21 18v.01M18 19v.01M20 21v.01',
+  SWITCH: 'M8 3h8v18H8zM12 7v6M12 17h.01',
+  WIPER: 'M5 20 14 7M10 4l8 5-2 3-8-5zM16 16h4M14 19.5h4',
+  TILT: 'M3 16 21 8M4 21h16M12 12v9',
+  DIAL: 'M12 12m-8 0a8 8 0 1 0 16 0 8 8 0 1 0-16 0M12 12l3-5M12 2v2',
+  COUCH: 'M5 11V8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v3M3 11h18v6H3zM5 17v2M19 17v2',
+  WRENCH: 'M14.5 6a4 4 0 0 0-5 5L3 17.5 6.5 21l6.5-6.5a4 4 0 0 0 5-5l-2.5 2.5-2-2z',
+  CAN: 'M7 6h10v14H7zM9 6V3h6v3M7 11h10M7 15h10',
+  TORCH:
+    'M4 20 13 11M11 9l4 4M15 7l2 2M18.5 2.5c1 2 2.5 2.5 2.5 4.5a2.5 2.5 0 0 1-5 0c0-1.5 1.5-2.500 2.5-4.5z',
+  AXE: 'M5 21 15 7M13 4c3-1 6 1 7 5l-5 2-4-4z',
+  KNIFE: 'M4 20l5-5M9 15 20 4c1 4-1 9-7 13z',
+  LAMP: 'M8 3h8l3 8H5zM12 11v7M8 21h8',
+  CLOCK: 'M12 13m-7 0a7 7 0 1 0 14 0 7 7 0 1 0-14 0M12 9v4l3 2M5 5 3 7M19 5l2 2',
+  MOON: 'M20 14A8 8 0 1 1 10 4a6.5 6.5 0 0 0 10 10z',
+  VACUUM: 'M6 21V8a4 4 0 0 1 8 0v2M4 21h6M14 10h6v5h-6zM17 15v6',
+  FAN: 'M12 12m-1.5 0a1.5 1.5 0 1 0 3 0 1.5 1.5 0 1 0-3 0M12 10.5C12 6 9 4 7 6s1 5 5 4.500M13.5 12c4.5 0 6.5-3 4.5-5s-5 1-4.5 5M12 13.5c0 4.5 3 6.5 5 4.5s-1-5-5-4.500M10.5 12C6 12 4 15 6 17s5-1 4.500-5',
+  KEYPAD:
+    'M6 3h12v18H6zM9 7h6M9.5 11h.01M12 11h.01M14.5 11h.01M9.5 14h.01M12 14h.01M14.5 14h.01M9.5 17h.01M12 17h.01M14.5 17h.01',
+  ROCK: 'M4 18 7 9l6-4 6 5 2 8zM7 9l5 4 7-3M12 13v5',
+  JET: 'M8 4h8v10H8zM10 14l-1 6M14 14l1 6M8 7H5v5h3M16 7h3v5h-3',
+  ROBOT: 'M6 8h12v9H6zM12 8V4M9.500 12h.01M14.5 12h.01M4 20h4M16 20h4M8 17v3M16 17v3',
+  PLUG: 'M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0zM12 17v4',
+  HAND: 'M8 13V6a1.5 1.5 0 0 1 3 0v5V4.500a1.5 1.5 0 0 1 3 0V11V6a1.5 1.5 0 0 1 3 0v8a7 7 0 0 1-7 7c-3 0-4-2-6-6l-1-2.500a1.5 1.5 0 0 1 2.600-1.400z',
+  SHOVEL: 'M5 3l4 4M7 5l9 9M13 13l5 1 2 4-3 3-4-2z',
+  WIRES: 'M4 6h4c4 0 4 12 8 12h4M4 18h4c4 0 4-12 8-12h4',
+  SOUND: 'M4 9v6h4l5 4V5L8 9zM16.5 8.500a5 5 0 0 1 0 7M19 6a8.500 8.500 0 0 1 0 12',
+  MUTE: 'M4 9v6h4l5 4V5L8 9zM17 9.500l5 5M22 9.500l-5 5',
+  SHOP: 'M4 9l2-5h12l2 5M4 9v11h16V9M10 20v-5h4v5M4 9h16',
+  MEDAL: 'M12 15m-5 0a5 5 0 1 0 10 0 5 5 0 1 0-10 0M9 10.500 6 3h4l2 4 2-4h4l-3 7.500',
+  PACK: 'M6 9a6 6 0 0 1 12 0v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2zM9 13h6v4H9zM10 3.500h4',
+  BED: 'M3 18V8M3 14h18v4M21 14v-2a3 3 0 0 0-3-3h-7v5M7 11.500h.01',
 };
 
 export function Icon({
@@ -85,7 +155,7 @@ export function Icon({
       stroke-linejoin="round"
       {...(label ? { role: 'img', 'aria-label': label } : { 'aria-hidden': 'true' })}
     >
-      <path d={P[name]} />
+      <path d={ICON_PATHS[name]} />
     </svg>
   );
 }

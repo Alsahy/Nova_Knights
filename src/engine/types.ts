@@ -143,6 +143,14 @@ export interface Mission {
   eventFirst?: boolean;
   /** D-026: chance of a quiet sol (default spec §1.2); 0 = a challenge every day. */
   quietChance?: number;
+  /** D-050: Survival. The deck is reshuffled when it runs out (with these extra events mixed in). */
+  endless?: {
+    extra: string[];
+    /** D-065: real NASA DONKI records replayed whenever one of these events comes up. */
+    real?: Record<string, { severity: number; warningSols?: number; donki: DonkiRef }>;
+  };
+  /** D-043: discoveries the mission starts with, e.g. 'LS-10' = ice already found, so T-ICE is a job. */
+  unlocks?: string[];
   /** D-026: the greenhouse starts planted with this crop (no planting choice). */
   startCrop?: CropKind;
   missionEvents: string[];

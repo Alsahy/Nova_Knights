@@ -18,15 +18,19 @@ This guide tells you about your crew, your base, the missions you can play, and 
 - 💨 The air is thin and is mostly **carbon dioxide**. You can't breathe it, so you need a spacesuit outside.
 - 🪶 Gravity is weaker. If you weigh 30 kg on Earth, you would weigh only about 11 kg on Mars!
 - 🌪️ Mars has **dust storms**, sometimes big enough to cover the whole planet.
-- 📡 A message to Earth takes **3 to 22 minutes** to arrive. You can't have a live phone call!
+- 📡 A message to Earth takes **4 to 20 minutes** to arrive. You can't have a live phone call!
 
 ---
 
 ## 🎲 Every adventure is different!
 
-Every day on Mars starts with a **surprise**. You have **10 seconds** to pick what to do. Too slow? Your crew picks for you, and not in a good way!
+Every day on Mars starts with an **alarm**: something is wrong in the base! You have **8 seconds** to tap a **tool**. Then win the tool's **mini-game** (spin, tap, rub, trace…). Too slow? Your crew picks for you, and not in a good way!
 
-- 🎲 There are **14 surprises**, shuffled like a deck of cards. Play again and you get a new story! 🎉
+- 🎲 There are **20 surprises**, shuffled like a deck of cards. Play again and you get a new story! 🎉
+- ⭐ The stars you send to Earth go into your **star bank**. **Space badges** pop up while you play and give bonus stars. Spend stars in the **base shop** on spacesuit colours, base lights and a robot dog!
+- 🏆 Two ways to play: **Casual** (7 days, send 20 stars) or **Survival** (how many days can you last? The alarms get faster every day, and your best runs go on the high-score board).
+- 🫁 You breathe **oxygen** every day, and every storm wears your **shield**. Keep refilling the oxygen and piling soil on the roof!
+- 🚨 Watch your bars! When food, water, energy or power gets low, the base flashes red. Look after the garden or the food runs out, and send the Engineer to **dig up ice** when water is low.
 - ☀️ Some surprises come from **the real Sun**! The game replays real solar storms from May 2024, using NASA's space-weather data.
 - 🔗 Some surprises only happen after something else. A flash on the Sun can bring a radiation storm!
 - 🛠️ After the surprise, give each astronaut **one job**. Then night comes and the next day begins.
@@ -89,11 +93,11 @@ Your 4 astronauts are a team, so they **share** one set of bars. When one astron
 
 | Where on Mars | How long | Win by… |
 |---|---|---|
-| Gale Crater (where the Curiosity rover drives) | 10 sols | Sending **14 science stars** to Earth **and** keeping the radiation badge out of the red |
+| Gale Crater (where the Curiosity rover drives) | 7 sols | Sending **20 science stars** to Earth **and** keeping the radiation badge out of the red |
 
 The first day is a **guided tour**: Nova shows you every button. You can replay it any time.
 
-*(The ideas below describe all the surprises we designed. The game uses 14 of them.)*
+*(The ideas below describe all the surprises we designed. The game uses 20 of them.)*
 
 ---
 
@@ -322,12 +326,12 @@ Muscles and bones get weaker in low gravity.
 **😴 Can't Sleep**
 An astronaut can't fall asleep.
 **You can…** let them sleep in · try the doctor's sleep routine · make them work anyway
-🌍 **True story:** Astronauts are given 8.5 hours to sleep, but usually sleep only about 6.
+🌍 **True story:** Astronauts sleep only about 6 hours a night in space. That is less than they need!
 
 **🏠 Missing Home**
 An astronaut misses their family.
 **You can…** send a video home · have a crew game night · keep busy with work
-🌍 **True story:** NASA's practice Mars crew had to wait up to 22 minutes for their messages to reach Earth.
+🌍 **True story:** NASA's practice Mars crew waited up to 44 minutes for an answer from Earth.
 
 **🤧 Dust Sneezes**
 Dust came inside on the spacesuits. Achoo!
@@ -376,7 +380,7 @@ The lab's main machine stopped working.
 **📡 Send Your Data Home**
 The antenna is ready! Your science stars only count once they reach Earth.
 **You can…** send everything · send only the best · wait for next time
-🌍 **True story:** A message from Mars takes 3 to 22 minutes to reach Earth.
+🌍 **True story:** A message from Mars takes 4 to 20 minutes to reach Earth.
 
 **🐭 Experiment Results!**
 Your space experiment is finished!

@@ -6,13 +6,13 @@
 ---
 
 ## Now
-- **Current phase:** Phase 6 🟡 polish done by the agent (rc1 tagged locally); **needs people**: 3 playtests, real phones, GitHub deploy, then the `v1.0` freeze. Harder game (D-030) live on the preview link.
+- **Current phase:** Phase 6 🟡 **live-action game, four feedback rounds applied by the agent (14 Nov)**: rounds 4–6 (D-031…D-049) + round 7 = Casual / Survival modes with a high-score board, oxygen and shield that wear down, useful health check, 26 skills shown once, Nova's voice, separate sound switches, hover tick, title "Nova Knights Adventure" (D-050…D-058, spec v0.11). Not committed yet (lead to review). **Still needs people**: kid playtests, real phones, GitHub deploy, `v1.0` freeze. The claude.ai preview link still shows the OLD card game.
 - **Language:** English only (lead, 13 Nov), so no RTL work. Q3 closed
 - **Big change:** D-017 shared crew stats (lead, 13 Nov): one crew card (FUL/HYD/AIR/EN pools 0–20, one DOSE badge). Spec v0.4.
 - **Next gate:** G0, Fri 13 Nov 23:30 (blocking A-items decided ✅, repo exists ⬜ (local only), toolchains work 🟡)
 - **Pre-event coding:** **allowed** (Q4), so Phase 1 can run tonight after `GO PHASE 1`
 - **Repo:** local git only (no remote yet; name assumed `mars-base-adventure`) · **Live URL (preview):** https://claude.ai/artifact/GCexFXof8QhJLbVhK9tfio (claude.ai page, shared by link) · GitHub Pages: — · **Latest tag:** —
-- **Last updated:** 2026-11-13 20:40 by Claude (lead feedback round 3 + Phase 6)
+- **Last updated:** 2026-11-14 05:00 by Claude (lead feedback round 7)
 
 ## Clock
 | Milestone | Planned (Cairo) | Actual |
@@ -102,6 +102,7 @@
 | 0.7 | DONKI curl check (status, fields, CORS) → Data notes | S | Claude (lead session) | ✅ | — | see Data notes; P-001, P-004 raised |
 | 0.8 | Name, palette, call-signs, storyboard v0, image candidates + credits | P | | ⬜ | — | |
 | 0.9 | *(optional)* paper playtest of 3 M1 sols | all | | ⬜ | — | |
+| 6.9 | **Live-action rebuild** (lead feedback round 4): dollhouse scene, tools + mini-games, moods, sound, rewards, Training room (D-031…D-034) | U + S | Claude (lead session) | ✅ (awaiting lead review + commit) | main (working tree) | spec v0.8; 132 tests; JS 98 KB gz; headless phone + desktop runs clean |
 
 ---
 
@@ -139,9 +140,17 @@ Write **Approve / Modify (how) / Reject** in the Decision column. Full text: `PL
 | P-005 | **D-017 follow-up: SW-06 and MG-04 assume one badge per astronaut.** SW-06.a "take turns outside" and .b "send the expert" lose their meaning with one crew badge; MG-04 sets the crew's starting DOSE (fine) but its note says "per astronaut". Proposed: SW-06.a "Short trips only: EVA tasks −1 SP, EVA dose chance 50 % → 25 %" · .b "Long trips: EVA tasks +1 SP, badge climbs faster" · .c unchanged; MG-04 wording → "the crew's badge". Commander-only (Should) | Spec SW-06, MG-04 | ⏳ | |
 | P-006 | **Phase 2 engine assumptions** (where the spec is silent; all are named constants in `config.ts` marked ASSUMPTION): (1) T-EXER since the last CR-01 skips that CR-01 ("counts for CR-01") · (2) T-SEND = `PWR-2`, banks all pending SP · (3) FD-06.a rationing lasts 3 sols; FD-06.b extra lights 2 sols · (4) CM-02.c: the antenna problem returns after 2 sols · (5) CR-02.c "random repair event" = LS-03 / LS-05 / RS-03 · (6) T-MAINT-LAB + PARTS-1 fixes a broken lab / backup-tools mode · (7) CR-07.b under D-017 = `PICK.EN-1` + `EN+2` (others cover) · (8) LS-05: the event stops the recycler for today; b/c cover today's drinking · (9) SW-07.a "inside jobs only" = no EVAs for 3 sols · (10) a pool at 0 resets to 4 · (11) role tasks done by another role use the fallback (+1 EN, 50 %) · (12) storms bring EVA crews inside | Engine, content | ⏳ | |
 | P-007 | **Balance.** *Update after D-018:* the lead wants a game kids can win, so the spec's 60–75 % target for balanced play may no longer fit; kid-scope sims: M1 random bot 94 %, balanced 100 %; M3 random 63 %, balanced 92 %. Decide the target before Phase 5. *Original:* **M1 Cadet is too easy.** 300 games: balanced bot 100 % success, random bot 71 % (target: balanced 60–75 %, no strategy > 80 %, spec §1.4). M3 draft: balanced 91 %, random 43 %. Proposed for Phase 5: tune via the simulator (e.g. M1 SP goal, starting EN pool, quiet-sol rate) and report in `docs/balance-report.md` | config.ts, spec §1.3/§8.2 | ⏳ | |
-| P-008 | **Source fixes from the Phase 3 audit** (no swap applied yet): S2 → cite DONKI record WSA-ENLIL/30726/1 (kauai host down) · S6 → NASA JPL original "NASA Watches Mars Light Up During Epic Solar Storm" (same 8,100 µGy / 30 chest X-rays) · S16 → find the JPL page for Opportunity's June 2018 power (468 Wh no longer on the page) · S23 → LS-02 cites S24 until the right Apollo Flight Journal page is found · S25 → replace (link redirects to the APPEL home page) · S26, S42, S55 → check by hand in a browser | Spec §11, sources | ⏳ | |
-| P-009 | **Background picture shows a big round Moon in the Mars sky.** Mars's moons are tiny and lumpy; a judge could call it a science error. It is also AI-generated. Proposed: replace it with a credited real panorama (Curiosity/Perseverance, images.nasa.gov) in Phase 6, or crop the moon out; keep "AI-generated illustration" in the credits until then | UI, credits | ⏳ | |
+| P-008 | **Source fixes from the Phase 3 audit.** *D-065 applied S2, S6, S42, S55 (+ S44, S54). Still open: S16, S23, S25, S26, which are not used by the 24 playable events.* Original text: S2 → cite DONKI record WSA-ENLIL/30726/1 (kauai host down) · S6 → NASA JPL original "NASA Watches Mars Light Up During Epic Solar Storm" (same 8,100 µGy / 30 chest X-rays) · S16 → find the JPL page for Opportunity's June 2018 power (468 Wh no longer on the page) · S23 → LS-02 cites S24 until the right Apollo Flight Journal page is found · S25 → replace (link redirects to the APPEL home page) · S26, S42, S55 → check by hand in a browser | Spec §11, sources | ⏳ | |
+| P-009 | ~~Done in D-065: the picture is removed.~~ **Background picture shows a big round Moon in the Mars sky.** Mars's moons are tiny and lumpy; a judge could call it a science error. It is also AI-generated. Proposed: replace it with a credited real panorama (Curiosity/Perseverance, images.nasa.gov) in Phase 6, or crop the moon out; keep "AI-generated illustration" in the credits until then | UI, credits | ⏳ | |
 | P-010 | ~~Superseded by D-030 (the lead asked for a harder game).~~ **Phase 5 tuning (batch for the lead).** 1,000 games per strategy, M3 (the one game): random 59 % · max shield 79 % · max science 8 % · balanced 54 % · best move 52 % (`docs/balance-report.md`). Spec §1.4 targets: none > 80 % ✔ · greed loses ✔ · variety 90 % ✔ · 96/100 different games ✔ · no-free-lunch 30/30 ✔ · balanced 60–75 % ✖ (54 %: the "balanced" bot still walks outside a lot; the winning lesson is *stay safe*, which is the point of M3) · card coverage 15/20 ✖ (never best: FD-01.c radishes, PW-03.a, PW-08.a/b (power is never short), LS-05.b). Experiments (200 games): SP goal 8→12: random 38 %, max shield 77 %, balanced 59 % (science starts to matter but kids lose more) · reactor 2→1: little change. **Recommendation: no number changes now** (the lead wants kids to succeed; random play wins 59 %); accept the two misses with these reasons. Optional later: make power matter (PW-08 never fires) and give PW-03.a / FD-01.c a reason to be picked | config.ts, spec §1.4 | ⏳ | |
+| P-011 | **Which two tools a Cadet sees.** `Game_Mechanics.md` gives every problem 2 active tools and makes "do nothing" the timeout only (e.g. Hot Machine: hose + off switch; Dusty Panels: brush + tilt handle; Water in the Helmet: door code + grab the rock; Shiny Rock: jet pack + robot). The spec's ★ cards differ for PW-01 (a = leave it), PW-02 (b = wait for wind), CR-05 and RS-01. The rebuild keeps the spec's ★ cards (so balance and tests hold) and shows "leave it / wait" as a no-skill tool. Proposed: move the ★ to the doc's pairs for PW-01 (b, c), PW-02 (a, c), CR-05 (a, c), RS-01 (a, c), then re-run the simulator | Content, balance | ⏳ | |
+| P-012 | **Timeout penalty per problem.** `Game_Mechanics.md` lists a special penalty for each ignored problem (battery pops, lab frozen, crew asleep…). The engine keeps D-027 (the crew does the worst affordable card), which already gives PW-01's pop. Proposed: keep D-027 for the hackathon; the special penalties need new numbers and sources | Engine, content | ⏳ | |
+| P-013 | **Arabic.** The four feedback documents are in Arabic; the game is English only (lead, 13 Nov). All strings are in `src/content/copy.ts`, but the 60 events' text comes from the spec and the layout is not RTL-tested. Proposed: stay English for the submission; say so in the pitch | UI, content | ⏳ | |
+| P-014 | **Balance after D-031.** With 20 events (1,000 games each): random 31 % · max shield 51 % · greed 13 % · balanced 82 % · best move 89 % (was 77 % / 82 %). The six added events are milder than the storm set, so careful play wins more often than the §1.4 targets (balanced 60–75 %, nothing over 80 %). The bots also never fail a mini-game; real kids will, and each miss is a worst-card timeout. Proposed: wait for kid playtests before touching numbers; if still too easy, raise the M3 goal from 14 to 16 stars and re-run the simulator | Balance | ⏳ | |
+| P-017 | **Rename everywhere?** D-058 changed the title on screen only. Proposed: the lead decides whether CLAUDE.md, PLAN.md, the guides, the repo name and the submission use "Nova Knights Adventure" too | Docs, submission | ⏳ | |
+| P-015 | **Careful play is still too safe** (Casual after D-051: random 8 % · max shield 9 % · science-only 56 % · balanced 86 % · best move 93 %; earlier D-043 numbers follow). 1,000 games: random 8 % · max shield 14 % · science-only 67 % · balanced 89 % · best move 97 %. A shorter mission also lets the science-only bot win more often, because radiation has less time to add up. The tighter stores hurt careless play, but the balanced and best-move bots still win far above the §1.4 target (60–75 %) because hunger and thirst only cost crew bars, never the mission. The bots also never lose a mini-game. Proposed: decide after kid playtests; if needed, make an empty food or water store end the day's jobs, or raise the goal to 18 | Balance | ⏳ | |
+| P-016 | ~~Done in D-051 (each storm wears the shield by 1).~~ **Shield never goes down.** The lead asked that everything on screen can be used up and won back. Shield only rises (soil wall, cards); nothing wears it. Proposed: a storm night (SW-02 / SW-04) wears the shield by 1, simulated first. Not done in round 6 because it needs a new number | Engine, balance | ⏳ | |
+| P-018 | **Judging self-check (14 Nov), biggest gaps.** (1) OSDR is named in the challenge but none of the 20 playable events cites it (S40, S58 are only on out-of-scope cards). (2) Communication delay, one of the 5 challenge topics, shows in one event (RS-04). (3) Survival storms are not tied to DONKI records. (4) Of the 26 sources the playable events cite, S2 is dead and S6, S42, S55 are news re-posts or non-NASA sites (see P-008). (5) Science-only play wins 57 % of Casual games. (6) No child has played it. Proposed order: fix sources, add one OSDR fact and one comms-delay event to the scope, playtest | Relevance, validity | ⏳ | |
 | P-004 | **Spec §5 field notes from the real snapshot:** add ENLIL `impactList[].isMinorImpact`; `impactList` can be `null` (35/128 runs); FLR `linkedEvents` can be `null` (129/181); "no impact to Earth" = `estimatedShockArrivalTime == null` (plus `isEarthGB`, `isEarthMinorImpact`); CME speed type letters S/C/O/R/ER; `notifications.messageType` values FLR, CME, SEP, GST, Report, IPS, MPC, RBE. Also fix the §0 note: old `api.nasa.gov/DONKI` now returns **404 JSON**, not HTML. Add "CORS ✔ (GET)" to §5 | Spec §5 text, parser | ⏳ | |
 
 ## Decisions log (approved)
@@ -176,6 +185,42 @@ Write **Approve / Modify (how) / Reject** in the Decision column. Full text: `PL
 | D-028 | 2026-11-13 20:15 | **3 big jobs per astronaut** | lead | `KID_JOBS` | P6 commit |
 | D-029 | 2026-11-13 20:15 | **Fewer words**: no title icons; science behind "?"; hover previews on cards and jobs; no night screens (bars flash changes); day-by-day story at the end; Tutorial on title + menu | lead | UI | P6 commit |
 | D-030 | 2026-11-13 20:30 | **Harder balance**: M3 goal 8 → 14 SP (lead: "too easy, give me an option to lose"); balanced bot improved | lead | `config.ts`; spec v0.7; balance report | P6 commit |
+| D-031 | 2026-11-14 01:00 | **Live-action base, 20 events.** The game screen is a cut-away base (surface + 7 rooms); trouble shows in its room and the camera zooms there. Scope = D-026 set + FD-06, CR-02, CR-04, CR-05, RS-03, MG-03 (all 14 problems of the lead's `Game_Mechanics.md` map to spec events). No card numbers changed | lead (`Current_Feedback.md`, `Game_Theater.md`, `Game_Mechanics.md`) | spec v0.8 §8.4; `missions.ts`; `src/ui/game/**`, `screens/Game.tsx`; kids guide; teacher guide; README | not committed |
+| D-032 | 2026-11-14 01:00 | **Tools + mini-games.** Each card = a tool (drag onto the base, or tap); the card takes effect when its mini-game is won; running out of time in the alarm or the mini-game = the D-027 timeout. 16 mini-game types, one per card (`tools.ts`). A mini-game never changes a card's cost or effect. "Do nothing" cards have no mini-game. Settings: Mini-games off (one tap). Training room on the title screen | lead (`Game_Mechanics.md`) | spec v0.8; `src/ui/game/minis.tsx`, `tools.ts`, `screens/Practice.tsx`, `settings.ts` | not committed |
+| D-033 | 2026-11-14 01:00 | **Show, don't tell + sound.** Crew faces/moods from the shared bars and the current alarm; dust, battery, lights, plants and shield shown in the scene; flying numbers, screen shake, red edge in the last 3 s; stars fly to the counter; sound made in code (Web Audio, on/off) | lead (`Current_Feedback.md`, `reward_system_and_visuals.md` §1) | `Scene.tsx`, `Avatar.tsx`, `Hud.tsx`, `sfx.ts`, `game.css` | not committed |
+| D-034 | 2026-11-14 01:00 | **Rewards that last.** Star bank on the device: all stars sent after a win, half (rounded up) otherwise; shop with decorations only (5 suits, 4 light sets, robot dog, flag, party lights); 9 space badges. No account, no personal data | lead (`reward_system_and_visuals.md` §2) | spec v0.8; `src/ui/meta.ts`, `screens/Shop.tsx`, `Debrief.tsx`, `Title.tsx` | not committed |
+| D-035 | 2026-11-14 02:10 | **Resources matter more** (lead: "I don't feel any challenge to balance them"). Cadet start FOOD 40 → 28, H2O 18 → 12, BAT 6 → 5; LS wear every 3 → 2 sols; M3 goal 14 → 16 SP. Red warning pills + screen-edge pulse + warning sound (tummy growl for food) when a bar is in the danger zone; food and water stores now sit in the HUD | lead (feedback round 5) | spec v0.9 §1.3, §2.1, §8.2, §8.4; `config.ts`; `rules.test.ts`; `Game.tsx`, `Hud.tsx`; kids guide; balance report | not committed |
+| D-036 | 2026-11-14 02:10 | **The trouble grabs the eye**: everything but the problem room dims, a ring pulses and a red "!" bounces on the exact spot; the stage edge pulses; the alert names the room | lead | `Scene.tsx`, `tools.ts` (`at`), `game.css` | not committed |
+| D-037 | 2026-11-14 02:10 | **Faster, less repetitive mini-games**: 4 new types (memory lights, tap the sparks, catch in a basket, find the pair) = 20; most tools have a second mini-game picked at random; shorter goals (2 crank turns, 10 taps, 2 s holds); mini-game clock = the alarm clock (10 s, was 12); results show for 1.9 s (was 2.6) | lead | `minis.tsx`, `tools.ts`, `Practice.tsx` | not committed |
+| D-038 | 2026-11-14 02:10 | **Badges during play that pay stars**: 17 badges (2–10 stars each); a corner notification with a bell the moment one is earned; stars go straight to the bank | lead | `meta.ts`, `Game.tsx`, `Shop.tsx`, `Debrief.tsx` | not committed |
+| D-039 | 2026-11-14 02:10 | **Guided first day** (replaces the one-line hint): Nova points at the goal, the 3 bars to keep up, the badge to keep down, the crew bars, then walks through alarm → tool → mini-game → what changed → jobs → start the day → night. No timer until it ends; skippable; "Tutorial" button on the title | lead | `Coach.tsx`, `Game.tsx`, copy | not committed |
+| D-040 | 2026-11-14 02:10 | **One true story at the end**, tied to a choice the player made, a different one each mission (last 12 remembered). It says "you made the same choice as the real crew" only for 6 cards where the event's sourced text supports it; otherwise "real crews faced this too" | lead | `Debrief.tsx`, `copy.endStory`, `live.test.ts` | not committed |
+| D-041 | 2026-11-14 02:10 | **More sounds** (all made in code): Sun roar, wind, Geiger clicks, hiss, drips, frost, zap, cough, sneeze, tummy growl, radio static, footsteps, tool whoosh, warning, badge bell; each alarm repeats its own sound | lead | `sfx.ts`, `Game.tsx` | not committed |
+| D-042 | 2026-11-14 02:10 | **Simple title**: the base fills the screen, one big START, Continue under it, small corner buttons (Tutorial, Settings, NASA data · Training, Shop). Tools are picked with one tap and fly to the trouble (dragging removed) | lead | `Title.tsx`, `App.tsx`, `Game.tsx` | not committed |
+| D-043 | 2026-11-14 03:10 | **7 sols, simpler resources, water you can win back.** M3 Cadet 10 → 7 sols, goal 14 SP; DONKI beats SW-01 sol 2, SW-03 sol 3 (→ SW-04 sol 5), SW-02 sol 6; start FOOD 24, H2O 10. One Food bar + one Water bar on screen (stores; crew hunger/thirst pulse on them); O2T, PARTS, MEDKIT start at 20 and are hidden with crew AIR; supplies menu removed. New 4th Engineer job **Dig up ice** (T-ICE; mission starts with LS-10 unlocked) | lead (feedback round 6: "no way to gain water", "ignore supplies", "only 7 sols", "food packs vs food") | spec v0.10 §1.3, §8.2, §8.4; `config.ts`, `types.ts` (`Mission.unlocks`), `reduce.ts`, `missions.ts`, `build-donki-timeline.ts` + timeline JSON; `Hud.tsx`, `Chips.tsx`; tests; guides | not committed |
+| D-044 | 2026-11-14 03:10 | **Power costs show a battery icon**; the bolt now means crew energy only | lead | `Chips.tsx` | not committed |
+| D-045 | 2026-11-14 03:10 | **Faster alarms**: 8 s default for the alarm and the mini-game (Settings: 5 / 8 / 15 / off; settings key v2) | lead ("5 to 8 seconds") | `settings.ts`, `Settings.tsx`, copy | not committed |
+| D-046 | 2026-11-14 03:10 | **Choices change the theatre**: full-screen moods (ice + snow, flames, radiation, dust, bad air) from the alarm and from what the last card left behind (`AFTER` in `tools.ts`); broken lab / oxygen maker / recycler stay visibly broken; water tubes, food crates and plant count follow the stores; Phobos, shooting star, far dust devil, craters, rover tracks | lead | `Scene.tsx`, `tools.ts`, `Game.tsx`, `game.css` | not committed |
+| D-047 | 2026-11-14 03:10 | **Training room redesign**: one card per problem, big round tools, a "?" on every tool (the problem, what the tool does + its lesson, the real story with sources) and 9 real NASA pictures (2 published in 2026), bundled, credited, labelled ARCHIVED; no people, no logos | lead | `Practice.tsx`, `src/content/nasaImages.ts`, `public/img/nasa/*`, `docs/data-sources.md`, README | not committed |
+| D-048 | 2026-11-14 03:10 | **Background sound, no music**: looping wind with gusts over a low Sun hum, on the title and in the game; follows the Sound setting; stops when the tab is hidden | lead | `sfx.ts`, `App.tsx` | not committed |
+| D-049 | 2026-11-14 03:10 | **Polish**: "?" pop-ups are placed against the window so nothing clips them; title = plain Mars horizon + Nova + START; end story is a pop-up (More details / Close) with a button to reopen it in the report; tutorial texts halved and the bubble parks on the base, never on the choices; 4 new mini-game mechanics (turn the pipes, sort left/right, find the odd one, swap into order) = 24 | lead | `InfoTip.tsx`, `Title.tsx`, `Debrief.tsx`, `Coach.tsx`, `minis.tsx`, copy | not committed |
+| D-050 | 2026-11-14 04:20 | **Survival mode + high scores.** Mode picker after START: Casual (M3) or Survival (M9 Cadet, cap 99 sols, no star goal). Survival: storms in the deck from day one, deck reshuffled when empty, the base ages (1 more oxygen and food lost per night every 6 sols), clock shrinks from 8 s to 4 s on sol 16. Score = 10 × sols + stars; top 10 per mode kept on the device; all stars sent are paid | lead (feedback round 7) | spec v0.11; `config.ts`, `types.ts` (`Mission.endless`), `deck.ts`, `night.ts`, `reduce.ts`, `missions.ts`; `Modes.tsx`, `App.tsx`, `Game.tsx`, `Hud.tsx`, `Debrief.tsx`, `meta.ts` | not committed |
+| D-051 | 2026-11-14 04:20 | **Oxygen, shield, food, water can run out.** LS (shown as Oxygen) wears every sol; each storm wears the shield by 1; FOOD 20, H2O 8; a hungry or thirsty night also costs 2 crew energy each. Answers P-016 | lead ("oxygen and shields don't affect the game", "I couldn't zero water or food") | spec v0.11 §1.3, §2.1; `config.ts`, `radiation.ts`, `crew.ts`; tests | not committed |
+| D-052 | 2026-11-14 04:20 | **Health check gives value**: crew energy +2 and the next radiation hit is 1 weaker (once) | lead ("health check gives no value") | spec v0.11 §4 T-MED; `hooks.ts`, `radiation.ts`, copy chip | not committed |
+| D-053 | 2026-11-14 04:20 | **End screen has a Main menu button** | lead | `Debrief.tsx`, `App.tsx` | not committed |
+| D-054 | 2026-11-14 04:20 | **Three sound switches**: event sounds, background sound, Nova's voice (the HUD button mutes or unmutes the first two together) | lead | `settings.ts`, `Settings.tsx`, `sfx.ts`, `App.tsx` | not committed |
+| D-055 | 2026-11-14 04:20 | **Nova speaks**: the tutorial lines are read by the device's text-to-speech (no audio files; silent where the browser has no voice), her mouth moves while she talks and a gloved hand points at the thing she explains | lead | `sfx.ts` (`speak`), `Coach.tsx`, `Avatar.tsx` | not committed |
+| D-056 | 2026-11-14 04:20 | **Training room never repeats**: 26 skills, each shown exactly once (new mechanics: count, reflex); the tools' real stories + NASA pictures moved to their own list below | lead ("never repeat a training") | `Practice.tsx`, `tools.ts` (`SKILLS`), `minis.tsx` | not committed |
+| D-057 | 2026-11-14 04:20 | **Hover tick** on every button (mouse only); "?" pop-ups open next to the pointer and are drawn at page level | lead | `App.tsx`, `InfoTip.tsx` | not committed |
+| D-058 | 2026-11-14 04:20 | **Game title "Nova Knights Adventure"** in the game, the browser tab and the README headline. Other docs (CLAUDE.md, PLAN.md, teacher guide, repo name) still say Mars Base Adventure | lead | copy, `index.html`, README | not committed |
+| D-059 | 2026-11-14 05:30 | **Empty battery blocks electric work**: jobs and cards with a power cost are unavailable at BAT 0 | lead (feedback round 8) | spec v0.12; `tasks.ts`, `events.ts`, copy; test | not committed |
+| D-060 | 2026-11-14 05:30 | **Survival ends at empty**: FOOD, H2O or oxygen at 0, or a red badge, ends the run at once; Survival starts with FOOD 44, H2O 14 | lead (feedback round 8) | spec v0.12; `endings.ts`, `config.ts`, `reduce.ts`, `Hud.tsx`, copy; test | not committed |
+| D-061 | 2026-11-14 06:10 | **The trade is impossible to miss**: every tool shows COSTS (red), GIVES (green), LATER (yellow) lines; after each choice a scene shows the tool and the same three lines big for 2.4 s | self-check (P-018: kids skip the small chips) | `Game.tsx`, `game.css`, copy | not committed |
+| D-062 | 2026-11-14 06:10 | **Animated intro and endings** (no video files): launch → landing → crew; endings: stars reach Earth (win), the crew flies home (not won / early), Survival. Drawn in code, about 9 s and 6 s, tap or key to skip | lead (feedback round 9) | `Cutscene.tsx`, `App.tsx`, copy | not committed |
+| D-063 | 2026-11-14 06:10 | **24 events in play, goal 18**: adds CR-03 and CM-02 (communication delay) and CR-01 and RS-05 (NASA OSDR [S40]); Casual goal 14 → 18 because they hand out stars. Answers P-018 (1) and (2) | self-check | spec v0.13; `missions.ts`, `tools.ts`, `config.ts`, copy; tests | not committed |
+| D-064 | 2026-11-14 07:00 | **Trade-off holds in the numbers**: Cadet LS starts at 6, LS 0 ends the mission that night, Casual goal 20. Science-only play wins 0 %; balanced play is back inside the §1.4 target. Answers P-015 and P-018 (5) | lead ("fix the weaknesses") | spec v0.14 §1.3, §2.5, §8; `config.ts`; tests; balance report | not committed |
+| D-065 | 2026-11-14 07:00 | **Data and honesty fixes**: S2, S6, S42, S44, S54, S55 swapped for NASA originals, facts aligned (signal delay now "4 to 20 minutes", sleep "about 6 hours"); Survival storms replay the real DONKI records; game-only rules named on the data screen; AI background picture removed (plain CSS dusk); radiation warning from 5; tutorial 11 → 9 steps; the 3 core bars drawn bigger. Answers P-008 (S2, S6, S42, S55), P-009, P-018 (3), (4) | lead ("fix the weaknesses") | spec v0.14 §7, §11; kids guide; teacher guide; `sourceAudit.ts`, `deck.ts`, `types.ts`, `missions.ts`, `Game.tsx`, CSS; `public/img/cockpit-*.webp` deleted | not committed |
+| D-066 | 2026-11-14 07:40 | **More to collect, reasons to come back**: 32 shop decorations (new kinds: dome paint, rover paint; robot cat, helper drone, telescope, rug, plant, poster, trophy; 3 more suits, 2 more light sets); ranks from lifetime stars (0 / 25 / 70 / 150 / 300) shown on the title, in the shop and as "Rank up!" at the end, with 6 rank-locked items; badges Collector (10 items) and Master Decorator (20). Decorations only | lead (feedback round 11) | `meta.ts`, `Shop.tsx`, `Scene.tsx`, `Title.tsx`, `Debrief.tsx`, copy; tests | not committed |
 | D-016 | 2026-11-13 17:40 | N-08 closed: DONKI GET sends `Access-Control-Allow-Origin: *`, so Today's Sun may fetch in the browser. Still say LIVE only when it really is fetched live | N-08 | PROGRESS (spec text via P-004) | P0 first commit |
 
 ## Open questions
@@ -218,6 +263,8 @@ Write **Approve / Modify (how) / Reject** in the Decision column. Full text: `PL
 ## Contract changes (`src/engine/types.ts` / public API)
 | Version | Time | Change | Why | Who must adapt |
 |---|---|---|---|---|
+| v2.3 | 2026-11-14 04:20 | `Mission.endless?: { extra: string[] }` (Survival: reshuffle the deck, add these events, age the base); mission `M9` is now defined for Cadet | D-050 | nobody (optional field) |
+| v2.2 | 2026-11-14 03:10 | `Mission.unlocks?: string[]` (discoveries a mission starts with; `newGame` sets `unlock:<id>` flags) | D-043: T-ICE as a job without playing LS-10 | nobody (optional field) |
 | v2.1 | 2026-11-13 19:00 | `DonkiRef` gains optional `sourceUrl` and `fetchedAt` (shown as "ARCHIVED – fetched on …") | Phase 3 honesty labels | U shows them on DONKI cards (done) |
 | v2 | 2026-11-13 18:30 | **Real engine.** `import { createEngine } from 'src/engine'` + `CONTENT` from `src/content` → `engine.newGame({mission, tier, seed})`, `engine.reduce(s, cmd)`, `shownCards`, `availableTasks(s, id)`, `hud`, `powerBudget`, `nightLog`, `debrief`, `peek`; plus `doseBadge`, `shieldTier`, `riskWords`, `CALL_SIGNS`. State v2: shared `crew` card (D-017), astronauts keep only role state; `queue`, `scheduled`, `modifiers`, `timers`. `Effect` gains `power`, `sp`, `evaDose`, `chance`; hooks take arg arrays. `Chip` = {icon, tone, amount?, label? (copy key 'chip.*' or spec text), params?, inSols?}; `CardView.who` = tokens. Commands unchanged except END_MISSION removed (MG-02.a does it). Fixture removed | D-017 + Phase 2 | **U**: render chips via `src/content/format.ts` (`chipText`, `formatLog`, `reasonText`); show `who` tokens as call-signs. **S**: overrides use the clean notation in `src/engine/notation.ts` |
 | v1 | 2026-11-13 17:50 | First contract. `src/engine/types.ts` (GameState, Astronaut, Command, EventDef, ActionDef, TaskDef, Effect, Delayed, ScheduledEffect, Modifier, Mission, Pending, DonkiRef, CardView, Chip, TaskOption, PowerBudget, LogEntry, ChoiceRecord, Ending, Debrief) + `index.ts` API: `newGame(opts)`, `reduce(state, cmd)`, `selectMeters`, `selectCards`, `selectTaskOptions`, `selectPowerBudget`, `selectLog`, `shieldTier`, `badgeColour`, `riskWords`. `newGame`/`reduce`/`selectCards`/`selectTaskOptions` are **stubs** over `fixture.ts` (the stub `reduce` only walks the phase loop). Commands: CHOOSE, CONTINUE, SET_POWER, CONFIRM_POWER, PLAN_TASK, CONFIRM_TASKS, END_MISSION. Log entries carry a `copy.ts` key + params, not text | Phase 1 | U builds screens on the selectors; S emits `EventDef`/`ActionDef` in Phase 3; E replaces the stubs in Phase 2 (keep the signatures) |
@@ -249,6 +296,7 @@ Write **Approve / Modify (how) / Reject** in the Decision column. Full text: `PL
 | B-001 | P2 | background | AI picture shows a big round Moon in the Mars sky (P-009) | P | open |
 | B-002 | P2 | kids guide | `mars-adventure-kids-guide.md` still describes 9 missions and all 60 surprises; the game now plays the D-018 scope | S | fixed (one game, 14 surprises, timer) |
 | B-003 | P2 | debrief | "Big choices" can include the sol-0 planting choice | U | fixed (D-026: no planting choice) |
+| B-005 | P2 | tests | `50 seeds of M1 Cadet` hit vitest's 5 s limit when the whole suite runs in parallel (more events → slower games) | E | fixed (`testTimeout` 20 s in `vitest.config.ts`) |
 | B-004 | P2 | jobs | after "Rest sol" times out, the jobs screen said "Everyone has a job!" with nobody listed | U | fixed ("Everyone rests today.") |
 
 ## Science pass (Phase 6)
@@ -266,7 +314,8 @@ Write **Approve / Modify (how) / Reject** in the Decision column. Full text: `PL
 ## Demo status
 | What | Where | Works? | Last checked |
 |---|---|---|---|
-| Kid-simplified M1 + M3, title → debrief | https://claude.ai/artifact/GCexFXof8QhJLbVhK9tfio | ✅ (headless 1280/360/1024 projector/throttled) | 13 Nov 19:30 |
+| **Live-action game** (D-031…D-034): title → alarm → mini-game → jobs → night → debrief → shop | local: `BASE=./ npm run build && npx vite preview --base ./` | ✅ headless Chromium: full 10-sol missions at 390×760, 360×640, 1180×700, 1280×720 with 0 console errors; a bot won all 50 mini-games in the Training room | 14 Nov 01:35 |
+| OLD card game (before the rebuild) | https://claude.ai/artifact/GCexFXof8QhJLbVhK9tfio | ✅ (headless 1280/360/1024 projector/throttled) | 13 Nov 19:30 |
 | Title screen + data sources + settings (projector mode) | local `npm run dev` / `npm run preview` → http://localhost:4173/mars-base-adventure/ | ✅ | 13 Nov 17:55 |
 | Live URL | GitHub Pages | ⬜ (needs the repo) | — |
 
@@ -284,6 +333,91 @@ Write **Approve / Modify (how) / Reject** in the Decision column. Full text: `PL
 ---
 
 ## Handoff (latest only; older ones move into the Session log)
+```
+HANDOFF 2026-11-14 05:00 Cairo · from Claude (lead session) · Phase 6 🟡 live-action game, feedback rounds 4–7 · NOT committed · deploy ⛔
+Repo: — (local git, main, last commit 33e61cd; all of this is in the working tree) · Live: — (the claude.ai link is the old game)
+State: Title "Nova Knights Adventure" → START → Casual (7 sols, 14 stars) or Survival (no last day, clock 8 s → 4 s by sol 16,
+       ageing base, score = 10 × sols + stars, high-score board). Guided first day read aloud by Nova. Each sol: alarm with
+       spotlight, sound and screen mood → tap a tool → mini-game (26 mechanics) → jobs → night. Oxygen drops every sol,
+       storms wear the shield, food 20 / water 8 can run out (ice job, garden). Badges pay stars; shop; Training room
+       (26 skills once + real stories with NASA pictures).
+       Casual, 1,000 games: random 8 % · max shield 9 % · science-only 56 % · balanced 86 % · best move 93 % · Survival, 40 runs: random ~14 sols, science-only 8, balanced 16.
+       Round 11: shop 32 items, ranks from lifetime stars, collection badges (D-066). 144 tests, JS 117 KB gz.
+       Round 10: balance inside targets (LS 6, oxygen 0 = home, goal 20), 6 NASA-original sources, real storms in Survival (D-064, D-065).
+       Casual, 1,000 games after D-064: random 2 % · max shield 0 % · science-only 0 % · balanced 74 % · best move 66 % · Survival, 40 runs: random 8 sols, science-only 6, balanced 12 (up to 14).
+       Round 9: animated intro + endings, cost/gives/later lines, 24 events (OSDR + comms delay), Casual goal 18 (D-061…D-063).
+       Round 8: empty battery blocks electric work; Survival ends at empty food/water/oxygen or a red badge (D-059, D-060).
+       Typecheck, 140 tests, build (JS 112 KB gz), check:content green. Headless: tutorial, Casual and Survival runs, 0 errors.
+Next: (1) Lead reviews, then commit: `[P6][all] live-action base, Casual + Survival, tutorial, badges (D-031…D-058)`
+      (2) Kid playtests → docs/playtest-notes.md (is 8 s / 4 s fair? does Nova's voice work on the school's devices?)
+      (3) Decide P-011…P-017; re-run axe + Lighthouse on the new screens
+      (4) GitHub repo + Pages, republish the preview link, tag v1.0
+Blocked on: lead review; playtesters; GitHub login
+Watch out: Nova's voice is the browser's text-to-speech: it differs per device and is silent where none is installed.
+           Settings key `mba.settings.v2`; scores `mba.scores.v1`. Survival rules: `Mission.endless` in `missions.ts` + `night.ts`.
+Read first: CLAUDE.md → PROGRESS.md → PLAN.md §6 Phase 7
+```
+
+### Previous handoff (round 6, 04:00)
+```
+HANDOFF 2026-11-14 04:00 Cairo · from Claude (lead session) · Phase 6 🟡 live-action game, feedback rounds 4–6 · NOT committed · deploy ⛔
+Repo: — (local git, main, last commit 33e61cd; all of this is in the working tree) · Live: — (the claude.ai link is the old game)
+State: 7-sol mission, goal 14 stars. Title = Mars horizon + Nova + START. Guided first day. Each sol: alarm (8 s) with spotlight,
+       its own sound and a full-screen mood → tap a tool → mini-game (24 mechanics) → result → jobs (Engineer can dig ice
+       for water) → night. HUD: stars, air, power, shield, radiation, energy, food, water. Badges pay stars; shop;
+       Training room with "why" cards + 9 NASA pictures; wind-and-Sun background sound; true-story pop-up at the end.
+       1,000 games: random 8 % · max shield 14 % · science-only 67 % · balanced 89 % · best move 97 %
+       Typecheck, 133 tests, build (JS 108 KB gz), check:content green. Headless: tutorial + full missions, phone + desktop, 0 errors.
+Next: (1) Lead reviews, then commit: `[P6][all] live-action base, 7 sols, tutorial, badges, Training room (D-031…D-049)`
+      (2) Kid playtests → docs/playtest-notes.md (8 s enough? tutorial length? which mini-games frustrate?)
+      (3) Decide P-011…P-016; re-run axe + Lighthouse on the new screens
+      (4) GitHub repo + Pages, republish the preview link, tag v1.0
+Blocked on: lead review; playtesters; GitHub login
+Watch out: settings key is now `mba.settings.v2`. Mini-game per card + alternatives + screen moods: `src/ui/game/tools.ts`.
+           NASA pictures: `src/content/nasaImages.ts` (add credit + ID for any new one). `app.css` still holds unused cockpit rules.
+Read first: CLAUDE.md → PROGRESS.md → PLAN.md §6 Phase 7
+```
+
+### Previous handoff (round 5, 03:00)
+```
+HANDOFF 2026-11-14 03:00 Cairo · from Claude (lead session) · Phase 6 🟡 live-action game, feedback rounds 4 + 5 · NOT committed · deploy ⛔
+Repo: — (local git, main, last commit 33e61cd; all of this is in the working tree) · Live: — (the claude.ai link is the old game)
+State: Title = the base + one START. First game = Nova's guided day (what to keep up / down, one full day). Each sol: alarm with
+       spotlight + "!" + its own sound (10 s) → tap a tool, it flies in → mini-game (20 types, most tools have 2) → result →
+       jobs in the base → night. Badges pop with a bell and pay stars; shop; red warnings when bars run low; a true story
+       tied to one of the player's choices at the end. Spec v0.9: FOOD 28, H2O 12, BAT 5, LS wear every 2 sols, goal 16.
+       1,000 games: (superseded by round 6)
+       Typecheck, tests, build (JS 104 KB gz), check:content green. Headless: guided day + full missions, phone + desktop, 0 errors.
+Next: (1) Lead reviews, then commit: `[P6][ui/engine/content] live-action base, tutorial, badges, tighter resources (D-031…D-042)`
+      (2) Kid playtests → docs/playtest-notes.md: is 10 s enough per mini-game? does the tutorial hold a 7-year-old?
+      (3) Decide P-011…P-015; re-run axe + Lighthouse on the new screens
+      (4) GitHub repo + Pages, republish the preview link, tag v1.0
+Blocked on: lead review; playtesters; GitHub login
+Watch out: `copy.play` = live-action strings (the old button label is `copy.playBtn`). Mini-game per card: `tools.ts` (`alt` = the
+           second game). Badges: `meta.ts → BADGE_DEFS`. `app.css` still holds unused cockpit rules.
+Read first: CLAUDE.md → PROGRESS.md → PLAN.md §6 Phase 7
+```
+
+### Previous handoff (round 4, 01:40)
+```
+HANDOFF 2026-11-14 01:40 Cairo · from Claude (lead session) · Phase 6 🟡 live-action rebuild (D-031…D-034) · NOT committed · deploy ⛔
+Repo: — (local git, main, last commit 33e61cd; the rebuild is in the working tree) · Live: — (the claude.ai link is the old game)
+State: The game is now a cut-away Mars base. Each sol: an alarm in one room (10 s) → drag/tap one of 2 tools → win its mini-game
+       (16 types, 60+ cards mapped) → crew cheers, numbers fly → send each astronaut to a job spot → night → next sol.
+       Same engine, same cards, same numbers; scope 20 events. Star bank + shop + 9 badges + Training room. Sound in code.
+       1,000-game balance (20 events): random 31 % · max shield 51 % · greed 13 % · balanced 82 % · best move 89 % (best move is 9 points over the 80 % target → P-014).
+       132 tests, typecheck, build (JS 98 KB gz), check:content green. Headless full missions on phone + desktop: 0 errors.
+Next: (1) Lead reviews, then commit: `[P6][ui/content] live-action base, tools + mini-games, rewards (D-031…D-034)`
+      (2) Kid playtests of the mini-games (are 12 s enough? which ones frustrate?) → docs/playtest-notes.md → tune `tools.ts` params
+      (3) Decide P-011 (★ cards = the doc's 2 active tools), P-012, P-013; re-run axe + Lighthouse on the new screens
+      (4) GitHub repo + Pages, republish the preview link, tag v1.0
+Blocked on: lead review; playtesters; GitHub login
+Watch out: `copy.play` is now the live-action strings (the old button label is `copy.playBtn`). `Phases.tsx`, `Panels.tsx`,
+           `Tutorial.tsx` are gone; `app.css` still holds their unused rules. Mini-game text lives in `copy.mini`/`copy.mech`.
+Read first: CLAUDE.md → PROGRESS.md → PLAN.md §6 Phase 7
+```
+
+### Previous handoff (Phase 6, before the rebuild)
 ```
 HANDOFF 2026-11-13 20:40 Cairo · from Claude (lead session) · Phase 6 🟡 (agent part done, rc1 tagged locally) · deploy ⛔
 Repo: — (local git, main, tag v1.0-rc1) · Live (preview): https://claude.ai/artifact/GCexFXof8QhJLbVhK9tfio
@@ -406,6 +540,14 @@ Read first: CLAUDE.md → PROGRESS.md → PLAN.md §6 Phase 1
 ## Session log (newest on top)
 | When (Cairo) | Lane / agent | What changed | Files |
 |---|---|---|---|
+| 2026-11-14 07:25–07:50 | Claude (lead session, U) | Lead feedback round 11 → D-066 (shop 32 items, ranks, 2 badges); second judging self-check given to the lead in chat | `src/ui/**`, copy, `tests/ui/live.test.ts` |
+| 2026-11-14 06:30–07:10 | Claude (lead session, S + E + U + P) | "Fix the weaknesses" → D-064, D-065: balance inside targets, six NASA-original sources (verified by fetching the pages), real DONKI records in Survival, honesty labels, AI picture removed, earlier radiation warning, shorter tutorial, core bars bigger; spec v0.14; draft project description | `src/**`, `tests/**`, `events-and-actions.md`, guides, `docs/submission/project-description.md`, `docs/balance-report.*` |
+| 2026-11-14 05:50–06:20 | Claude (lead session, U + S + E) | Lead feedback round 9 → D-061…D-063: cost/gives/later lines + decision scene, animated intro and 3 endings, 4 events for OSDR and comms delay, goal 18; spec v0.13 | `src/ui/**`, `src/content/**`, `src/engine/config.ts`, tests, `events-and-actions.md`, guides |
+| 2026-11-14 05:15–05:40 | Claude (lead session, E + S) | Lead feedback round 8 → D-059, D-060; spec v0.12; link check of the 26 sources used in play; judging self-check → P-018 | `src/engine/**`, `src/ui/game/Hud.tsx`, copy, tests, `events-and-actions.md` |
+| 2026-11-14 04:05–05:00 | Claude (lead session, U + E + S) | Lead feedback round 7 → D-050…D-058: Survival mode + scores, oxygen/shield/food/water wear, health check, main-menu button, 26 unique skills, Nova's voice + talking + pointing, 3 sound switches, hover tick, "?" at the pointer, new title; spec v0.11; P-017 | `src/**`, `tests/**`, `events-and-actions.md`, `index.html`, guides, `README.md`, `docs/balance-report.*` |
+| 2026-11-14 03:05–04:00 | Claude (lead session, U + E + S) | Lead feedback round 6 → D-043…D-049: 7 sols + re-timed real storm beats, one food/water bar, ice job, hidden supplies, 8 s alarms, screen moods + state visuals, Training room + 9 NASA pictures, ambient sound, 4 new mechanics, title, story pop-up, "?" fix; spec v0.10; P-016 | `src/**`, `public/img/nasa/*`, `scripts/build-donki-timeline.ts`, `tests/**`, `events-and-actions.md`, guides, `docs/data-sources.md`, `README.md` |
+| 2026-11-14 02:05–03:00 | Claude (lead session, U + E + S) | Lead feedback round 5 → D-035…D-042: guided first day, spotlight, 4 new mini-game types + alternatives + faster, live badges with stars, harder stores/goal + warnings, end story, 15 new sounds, new title; spec v0.9; tests 137; P-015 | `src/ui/**`, `src/engine/config.ts`, `src/content/copy.ts`, `tests/**`, `events-and-actions.md`, guides, `README.md`, `docs/balance-report.*` |
+| 2026-11-14 00:45–01:40 | Claude (lead session, U + S + L) | Lead feedback round 4 (`Current_Feedback.md`, `Game_Mechanics.md`, `Game_Theater.md`, `reward_system_and_visuals.md`) → D-031…D-034: dollhouse scene, tools + 16 mini-game types, moods, sound, floaters, star bank/shop/badges, Training room; old cockpit screens removed; scope 14 → 20 events; spec v0.8; balance report regenerated; 7 new tests; P-011…P-013 | `src/ui/**`, `src/content/copy.ts`, `src/content/missions.ts`, `tests/ui/live.test.ts`, `vitest.config.ts`, `events-and-actions.md`, `mars-adventure-kids-guide.md`, `docs/**`, `README.md` |
 | 2026-11-13 20:06–20:40 | Claude (lead session) | Lead feedback round 3 → D-026…D-030 (14 challenges/day, surprise first + timer, 3 jobs, fewer words + "?" + hover previews + no night screens, goal 14); spec v0.7; kids guide; Phase 6: axe/Lighthouse/throttle checks, science pass, teacher guide, README; balance report (1,000 games); rc1 tag | `src/**`, `tests/**`, `events-and-actions.md`, `mars-adventure-kids-guide.md`, `docs/**`, `README.md`, `PROGRESS.md` |
 | 2026-11-13 19:32–20:05 | Claude (lead session) | Lead feedback round 2 (D-021 one game, D-022 tutorial, D-023 crew right, D-024 jobs in a row); kid critique → D-025; spec v0.6; Phase 5: 5 bots, balance report + charts, tuning experiments → P-010; M3 storm warning/glow/replay text | `src/**`, `scripts/simulate.ts`, `docs/balance-report.*`, `docs/charts/*`, `events-and-actions.md`, `README.md`, `PROGRESS.md` |
 | 2026-11-13 19:08–19:31 | Claude (lead session) | Lead feedback → D-018 kid scope, D-019 4 jobs, D-020 simpler screens; spec v0.5; UI rebuilt (resources left, one astronaut at a time on phones, short texts); settings; build-time content.json; projector/throttle/Lighthouse checks; playtest-notes template | `events-and-actions.md`, `src/**`, `scripts/build-content.ts`, `tests/**`, `docs/**`, `PROGRESS.md` |

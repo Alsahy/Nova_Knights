@@ -12,18 +12,18 @@
   <line x1="690" y1="58" x2="690" y2="284" stroke="#e3e1dc" stroke-width="1"/>
   <text x="690" y="306" font-size="13" fill="#5a5a6e" text-anchor="middle">10</text>
   <text x="238" y="92" font-size="15" fill="#1b1b2f" text-anchor="end">Random</text>
-  <path d="M250 72 h308.84000000000003 a4 4 0 0 1 4 4 v20 a4 4 0 0 1 -4 4 h-308.84000000000003 z" fill="#2a6fb0"/>
-  <text x="570.84" y="91" font-size="15" font-weight="700" fill="#1b1b2f">7.1</text>
+  <path d="M250 72 h230.036 a4 4 0 0 1 4 4 v20 a4 4 0 0 1 -4 4 h-230.036 z" fill="#2a6fb0"/>
+  <text x="492.036" y="91" font-size="15" font-weight="700" fill="#1b1b2f">5.3</text>
   <text x="238" y="136" font-size="15" fill="#1b1b2f" text-anchor="end">Max shield</text>
-  <path d="M250 116 h230.872 a4 4 0 0 1 4 4 v20 a4 4 0 0 1 -4 4 h-230.872 z" fill="#2a6fb0"/>
-  <text x="492.872" y="135" font-size="15" font-weight="700" fill="#1b1b2f">5.3</text>
+  <path d="M250 116 h174.024 a4 4 0 0 1 4 4 v20 a4 4 0 0 1 -4 4 h-174.024 z" fill="#2a6fb0"/>
+  <text x="436.024" y="135" font-size="15" font-weight="700" fill="#1b1b2f">4.0</text>
   <text x="238" y="180" font-size="15" fill="#1b1b2f" text-anchor="end">Max science (never repairs)</text>
-  <path d="M250 160 h371.716 a4 4 0 0 1 4 4 v20 a4 4 0 0 1 -4 4 h-371.716 z" fill="#2a6fb0"/>
-  <text x="633.716" y="179" font-size="15" font-weight="700" fill="#1b1b2f">8.5</text>
+  <path d="M250 160 h200.68800000000002 a4 4 0 0 1 4 4 v20 a4 4 0 0 1 -4 4 h-200.68800000000002 z" fill="#2a6fb0"/>
+  <text x="462.688" y="179" font-size="15" font-weight="700" fill="#1b1b2f">4.7</text>
   <text x="238" y="224" font-size="15" fill="#1b1b2f" text-anchor="end">Balanced</text>
-  <path d="M250 204 h239.67200000000003 a4 4 0 0 1 4 4 v20 a4 4 0 0 1 -4 4 h-239.67200000000003 z" fill="#2a6fb0"/>
-  <text x="501.672" y="223" font-size="15" font-weight="700" fill="#1b1b2f">5.5</text>
+  <path d="M250 204 h171.73600000000002 a4 4 0 0 1 4 4 v20 a4 4 0 0 1 -4 4 h-171.73600000000002 z" fill="#2a6fb0"/>
+  <text x="433.736" y="223" font-size="15" font-weight="700" fill="#1b1b2f">4.0</text>
   <text x="238" y="268" font-size="15" fill="#1b1b2f" text-anchor="end">Best move (lookahead)</text>
-  <path d="M250 248 h232.58800000000002 a4 4 0 0 1 4 4 v20 a4 4 0 0 1 -4 4 h-232.58800000000002 z" fill="#2a6fb0"/>
-  <text x="494.588" y="267" font-size="15" font-weight="700" fill="#1b1b2f">5.4</text>
+  <path d="M250 248 h169.316 a4 4 0 0 1 4 4 v20 a4 4 0 0 1 -4 4 h-169.316 z" fill="#2a6fb0"/>
+  <text x="431.31600000000003" y="267" font-size="15" font-weight="700" fill="#1b1b2f">3.9</text>
 </svg>

@@ -17,6 +17,7 @@ export function DataSources({ back }: { back: () => void }) {
         <p>{copy.ui.honestyScale}</p>
         <p>{copy.ui.honestyStorm}</p>
         <p class="hint">{copy.ui.honestyGameValue}</p>
+        <p class="hint">{copy.ui.honestyRules}</p>
         <p>
           {fill(copy.ui.honestyDonki, {
             date: M3_TIMELINE.fetchedAt.slice(0, 10),

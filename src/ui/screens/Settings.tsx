@@ -46,11 +46,25 @@ export function SettingsScreen(props: {
           <small>{copy.settingsScreen.motionHint}</small>
         </span>
       </label>
+      {(['sound', 'ambient', 'voice', 'skill'] as const).map((k) => (
+        <label class="toggle" key={k}>
+          <input
+            id={`set-${k}`}
+            type="checkbox"
+            checked={settings[k]}
+            onChange={(e) => onChange({ ...settings, [k]: (e.target as HTMLInputElement).checked })}
+          />
+          <span>
+            {copy.settingsScreen[k]}
+            <small>{copy.settingsScreen[`${k}Hint`]}</small>
+          </span>
+        </label>
+      ))}
       <fieldset class="toggle timer-set">
         <legend>{copy.settingsScreen.timer}</legend>
         <small>{copy.settingsScreen.timerHint}</small>
         <div class="seg">
-          {[10, 20, 0].map((n) => (
+          {[5, 8, 15, 0].map((n) => (
             <label key={n} class={`seg-opt ${settings.timer === n ? 'on' : ''}`}>
               <input
                 type="radio"

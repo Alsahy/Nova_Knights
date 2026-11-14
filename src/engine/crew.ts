@@ -12,6 +12,7 @@ import {
   RECYCLER_LOSS_EVERY_SOLS_BRINE,
   SICK_BAY_SOLS,
   SLEEP_EN,
+  HUNGRY_EN_LOSS,
   BROKEN_O2MAKER_LS_PER_NIGHT,
 } from './config';
 import { recyclerRunning } from './power';
@@ -27,6 +28,7 @@ export function upkeep(s: GameState): void {
   s.supplies.FOOD -= eaten;
   if (eaten < want) {
     changeStat(s, 'FUL', -(want - eaten));
+    changeStat(s, 'EN', -HUNGRY_EN_LOSS); // D-051
     log(s, 'upkeep', 'log.hungry', { n: want - eaten });
   }
 
@@ -44,6 +46,7 @@ export function upkeep(s: GameState): void {
     s.supplies.H2O -= drunk;
     if (drunk < CREW_SIZE) {
       changeStat(s, 'HYD', -(CREW_SIZE - drunk));
+      changeStat(s, 'EN', -HUNGRY_EN_LOSS); // D-051
       log(s, 'upkeep', 'log.thirsty', { n: CREW_SIZE - drunk });
     }
   }

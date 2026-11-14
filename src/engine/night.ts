@@ -1,5 +1,10 @@
 /** Night: the fixed order from D-001. */
-import { LAB_WEAR_EVERY_SOLS, LS_WEAR_EVERY_SOLS, WATERWALL_MIN_H2O } from './config';
+import {
+  LAB_WEAR_EVERY_SOLS,
+  LS_WEAR_EVERY_SOLS,
+  SURVIVAL_AGE_EVERY_SOLS,
+  WATERWALL_MIN_H2O,
+} from './config';
 import { sickBayCheck, upkeep } from './crew';
 import { applyEffects, newCtx } from './effects';
 import { checkEndings } from './endings';
@@ -34,6 +39,15 @@ export function runNight(s: GameState, content: Content, mission: Mission): void
     changeSystem(s, 'LS', -1);
     s.timers.lsWearSol = s.sol + LS_WEAR_EVERY_SOLS;
     log(s, 'info', 'log.lsWear');
+  }
+  if (mission.endless) {
+    // D-050: an ageing base. Sols 7–12 cost 1 extra oxygen and food each night, sols 13–18 cost 2, and so on.
+    const age = Math.floor((s.sol - 1) / SURVIVAL_AGE_EVERY_SOLS);
+    if (age > 0) {
+      changeSystem(s, 'LS', -age);
+      s.supplies.FOOD = Math.max(0, s.supplies.FOOD - age);
+      log(s, 'warning', 'log.ageing', { n: age });
+    }
   }
   if (s.sol >= s.timers.labWearSol) {
     changeSystem(s, 'LAB', -1);

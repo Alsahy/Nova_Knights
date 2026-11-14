@@ -11,8 +11,10 @@ export const START: Record<
   { systems: Record<SystemKey, number>; supplies: Record<SupplyKey, number>; startDose: number }
 > = {
   cadet: {
-    systems: { LS: 8, SH: 4, LAB: 8, BAT: 6 },
-    supplies: { FOOD: 40, H2O: 18, O2T: 3, PARTS: 4, MEDKIT: 3 },
+    systems: { LS: 6, SH: 4, LAB: 8, BAT: 5 }, // D-064: LS 8 → 6 (oxygen needs looking after from day 2); D-035: BAT 6 → 5
+    // D-043: a 7-sol game eats 28 food and uses ~9 water, so 24 / 10 only last with the garden and the ice job.
+    // O2T, PARTS and MEDKIT are out of the kid game (never shown, never run out): 20 each.
+    supplies: { FOOD: 20, H2O: 8, O2T: 20, PARTS: 20, MEDKIT: 20 }, // D-051: FOOD 24 → 20, H2O 10 → 8 (they can really run out)
     startDose: 0,
   },
   commander: {
@@ -40,7 +42,13 @@ export const NEED = { LS: 2, recycler: 1, greenhouse: 1, heaterPerEvent: 1 } as 
 export const LS_UNPOWERED_LOSS = 2; // spec §2.1 + D-003
 
 // ── Wear (spec §2.1) ──
-export const LS_WEAR_EVERY_SOLS = 3; // spec §2.1: −1 every 3 sols unless maintained
+export const LS_WEAR_EVERY_SOLS = 1; // D-051 (was 2 in D-035, 3 in spec §2.1): the crew uses up air every sol unless it is maintained
+export const SURVIVAL_START = { FOOD: 44, H2O: 14 } as const; // D-060: Survival ends at an empty store, so it starts with bigger ones
+export const SURVIVAL_AGE_EVERY_SOLS = 6; // D-050: in Survival the base ages: every 6 sols it loses 1 more oxygen and 1 more food each night
+export const STORM_SHIELD_WEAR = 1; // D-051: every storm that hits wears the shield by 1
+export const HUNGRY_EN_LOSS = 2; // D-051: a night without enough food (or water) also costs crew energy
+export const CHECKUP_EN = 2; // D-052: a health check gives the crew energy +2 …
+export const CHECKUP_DOSE_CUT = 1; // … and makes the next radiation hit 1 weaker
 export const LAB_WEAR_EVERY_SOLS = 4; // spec §2.1: −1 every 4 sols
 export const O2_MAKER_H2O_PER_SOL = 1; // spec §2.1 (game-simplified, §2.6)
 export const BROKEN_O2MAKER_LS_PER_NIGHT = 1; // D-012
@@ -156,7 +164,7 @@ export const COND = {
 
 // ── Endings (spec §2.5) ──
 export const END = {
-  lsZeroSols: 2, // LS = 0 for 2 sols in a row
+  lsZeroSols: 1, // D-064 (was 2): the night oxygen hits 0, the crew goes home
   sickBayCount: 3, // 3 astronauts in Sick Bay at once
   unpoweredSols: 2, // battery empty and LS unpowered for 2 sols
 } as const;
@@ -165,24 +173,24 @@ export const END = {
 export const MISSION_LENGTH: Record<MissionId, { cadet?: number; commander?: number }> = {
   M1: { cadet: 8 },
   M2: { cadet: 10, commander: 20 },
-  M3: { cadet: 10, commander: 20 },
+  M3: { cadet: 7, commander: 20 }, // D-043: 10 → 7 sols
   M4: { cadet: 10, commander: 20 },
   M5: { cadet: 10, commander: 20 },
   M6: { cadet: 10, commander: 20 },
   M7: { cadet: 10, commander: 20 },
   M8: { commander: 20 },
-  M9: { cadet: 10, commander: 20 },
+  M9: { cadet: 99, commander: 20 }, // D-050: Survival, as many sols as the crew can last
 };
 export const MISSION_SP_GOAL: Record<MissionId, { cadet?: number; commander?: number }> = {
   M1: { cadet: 6 },
   M2: { cadet: 8, commander: 16 },
-  M3: { cadet: 14, commander: 16 }, // D-030: 8 → 14 so hiding inside costs stars (balance report)
+  M3: { cadet: 20, commander: 16 }, // D-064: 20 stars in 7 sols (18 in D-063) now that careful play is the only way to last
   M4: { cadet: 6, commander: 14 },
   M5: { cadet: 8, commander: 18 },
   M6: { cadet: 6, commander: 14 },
   M7: { cadet: 6, commander: 14 },
   M8: { commander: 16 },
-  M9: { cadet: 8, commander: 18 },
+  M9: { cadet: 0, commander: 18 }, // D-050: Survival has no star goal, only a score
 };
 export const M3_MAX_DOSE = 6; // D-010
 

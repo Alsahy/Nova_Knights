@@ -11,13 +11,14 @@ import {
   RECYCLER_LOSS_EVERY_SOLS,
   START,
   START_CREW,
+  SURVIVAL_START,
 } from './config';
 import { buildDeck, selectBriefing, selectEvent } from './deck';
 import { plantCrop } from './hooks';
 import { offerEvent, resolveChoice } from './events';
 import { runNight } from './night';
 import { computePower } from './power';
-import { chance, createRng } from './rng';
+import { chance, createRng, shuffle } from './rng';
 import { hasFlag, log, setFlag } from './state';
 import { checkTask } from './tasks';
 import type {
@@ -131,8 +132,11 @@ export function newGame(content: Content, opts: NewGameOptions): GameState {
     ending: null,
   };
   setFlag(s, 'reserve'); // FD-06.c: the emergency food box exists at the start
+  for (const u of mission.unlocks ?? []) setFlag(s, `unlock:${u}`); // D-043
   if (mission.startCrop) plantCrop(s, mission.startCrop); // D-026
   s.deck = buildDeck(s, content, mission);
+  if (mission.endless) Object.assign(s.supplies, SURVIVAL_START); // D-060
+  if (mission.endless) s.deck = shuffle(s.rng, [...s.deck, ...mission.endless.extra]); // D-050: storms from day one
   log(s, 'info', 'log.newGame', { mission: opts.mission, tier: opts.tier, seed: s.seed });
   nextSetup(s, content);
   return s;

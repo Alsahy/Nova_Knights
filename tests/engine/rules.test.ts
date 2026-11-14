@@ -16,9 +16,9 @@ import {
 } from '../../src/engine/radiation';
 import { changeStat, evaAllowed, setFlag } from '../../src/engine/state';
 import { checkTask } from '../../src/engine/tasks';
-import type { GameState } from '../../src/engine/types';
+import type { CardView, GameState } from '../../src/engine/types';
 import { atSol1, E } from './helpers';
-import { playGame, randomBot } from '../../src/sim/bots';
+import { balancedBot, makeBot, playGame, randomBot } from '../../src/sim/bots';
 import { stateValue, timeoutId } from '../../src/engine';
 
 const M1 = CONTENT.missions.M1!;
@@ -206,11 +206,12 @@ describe('upkeep and Sick Bay (spec §2.2 + D-017)', () => {
 });
 
 describe('endings (spec §2.5)', () => {
-  it('LS 0 for 2 sols → brought home', () => {
+  it('LS 0 at night → brought home (D-064: one night, was two)', () => {
     const s = fresh();
-    s.systems.LS = 0;
+    s.systems.LS = 1;
     checkEndings(s, M1);
     expect(s.ending).toBeNull();
+    s.systems.LS = 0;
     checkEndings(s, M1);
     expect(s.ending).toMatchObject({ kind: 'brought-home', reason: 'end.lsZero' });
   });
@@ -342,13 +343,13 @@ describe('kid scope (D-018, D-019)', () => {
     const p = selectEvent(s, CONTENT, M1, []);
     expect(p === null || M1.events.includes(p.eventId)).toBe(true);
   });
-  it('every astronaut sees exactly 3 jobs, all their own (D-028, no stand-in)', () => {
+  it('every astronaut sees 3 jobs, the Engineer 4 with the ice dig, all their own (D-028, D-043)', () => {
     let s = fresh();
     s = E.reduce(E.reduce(s, { type: 'CONTINUE' }), { type: 'CONFIRM_POWER' });
     s = E.reduce(s, { type: 'CHOOSE', actionId: E.shownCards(s).find((c) => c.affordable)!.id });
     for (const a of s.astronauts.filter((x) => x.busyUntilSol < s.sol)) {
       const jobs = E.availableTasks(s, a.id);
-      expect(jobs, a.id).toHaveLength(3);
+      expect(jobs, a.id).toHaveLength(a.id === 'ENG' ? 4 : 3);
       expect(
         jobs.some((j) => j.fallback),
         a.id,
@@ -426,7 +427,86 @@ describe('challenge rules (D-026, D-027, D-030)', () => {
     expect(resolveChoice(s, CONTENT, 'SW-02.a')).toBe(true);
     expect(s.astronauts.every((a) => a.busyUntilSol >= s.sol)).toBe(true);
   });
-  it('the M3 science goal is 14 stars (D-030)', () => {
-    expect(E.newGame({ mission: 'M3', tier: 'cadet', seed: 1 }).sp.goal).toBe(14);
+  it('M3 is 7 sols, 20 stars, with lean stores and ice to dig (D-043)', () => {
+    const s = E.newGame({ mission: 'M3', tier: 'cadet', seed: 1 });
+    expect([s.lastSol, s.sp.goal]).toEqual([7, 20]); // D-064
+    expect([s.supplies.FOOD, s.supplies.H2O, s.systems.BAT]).toEqual([20, 8, 5]); // D-051
+    // the one way to get water back: the Engineer digs ice (+6 water tomorrow costs energy, power and a trip outside)
+    const ice = E.availableTasks({ ...s, phase: 'tasks' }, 'ENG').find(
+      (t) => t.taskId === 'T-ICE',
+    )!;
+    expect(ice.allowed).toBe(true);
+    expect(ice.effects.some((c) => c.icon === 'H2O' && (c.amount ?? 0) > 0)).toBe(true);
+  });
+});
+
+describe('round 7 rules (D-050…D-052)', () => {
+  it('Survival has no last day in sight, reshuffles its deck, and still ends', () => {
+    const s0 = E.newGame({ mission: 'M9', tier: 'cadet', seed: 3 });
+    expect(s0.lastSol).toBe(99);
+    const end = playGame(E, s0, balancedBot());
+    expect(end.ending).not.toBeNull();
+    expect(end.sol).toBeGreaterThan(4);
+    // D-060: it ends the moment food, water or oxygen is gone, or the badge turns red
+    expect(['end.noFood', 'end.noWater', 'end.lsZero', 'end.highDose']).toContain(
+      end.ending!.reason,
+    );
+    expect(end.sol).toBeLessThan(99); // …but nobody lasts for ever
+    expect(end.played.some((id) => /^SW-0[123]$/.test(id))).toBe(true); // storms are in the Survival deck
+  });
+  it('a storm wears the shield, and a health check softens the next radiation hit', () => {
+    const base = E.newGame({ mission: 'M3', tier: 'cadet', seed: 1 });
+    const a = JSON.parse(JSON.stringify(base)) as typeof base;
+    const b = JSON.parse(JSON.stringify(base)) as typeof base;
+    b.flags['medChecked'] = 9999;
+    const da = applyStorm(a, 3, 'inside');
+    const db = applyStorm(b, 3, 'inside');
+    expect(a.systems.SH).toBe(base.systems.SH - 1);
+    expect(db).toBe(da - 1);
+    expect(b.flags['medChecked']).toBeUndefined(); // used up
+  });
+  it('life support goes down every sol unless someone looks after it', () => {
+    let s = E.newGame({ mission: 'M3', tier: 'cadet', seed: 5 });
+    const ls0 = s.systems.LS;
+    const lazy = {
+      name: 'lazy', // a crew that never does a job
+      choose: (_st: GameState, cards: CardView[]) =>
+        (cards.find((c) => c.affordable) ?? cards[0]!).id,
+      plan: () => null,
+    };
+    const end = playGame(E, s, lazy);
+    s = end;
+    expect(s.systems.LS).toBeLessThan(ls0); // the cards it picked may have added some back
+  });
+  it('with an empty battery, jobs and tools that use power are blocked (D-059)', () => {
+    let s = E.newGame({ mission: 'M3', tier: 'cadet', seed: 4 });
+    s = E.reduce(E.reduce(s, { type: 'CONTINUE' }), { type: 'CONFIRM_POWER' });
+    s = E.reduce(s, { type: 'CHOOSE', actionId: E.shownCards(s).find((c) => c.affordable)!.id });
+    const lab = (x: GameState) => E.availableTasks(x, 'RES').find((t) => t.taskId === 'T-LAB')!;
+    const rest = (x: GameState) => E.availableTasks(x, 'RES').find((t) => t.taskId === 'T-REST')!;
+    const flat = { ...s, systems: { ...s.systems, BAT: 0 } };
+    expect(lab(flat).allowed).toBe(false);
+    expect(lab(flat).reason).toBe('reason.noPower');
+    expect(rest(flat).allowed).toBe(true); // resting needs no electricity
+  });
+  it('science-only play can no longer win: without upkeep the oxygen runs out (D-064)', () => {
+    let wins = 0;
+    for (let seed = 1; seed <= 12; seed++) {
+      const end = playGame(
+        E,
+        E.newGame({ mission: 'M3', tier: 'cadet', seed }),
+        makeBot('maxScience', seed),
+      );
+      if (end.ending!.kind === 'success') wins += 1;
+    }
+    expect(wins).toBe(0);
+  });
+  it('Survival storms carry real DONKI records (D-065)', () => {
+    const real = CONTENT.missions.M9!.endless!.real!;
+    expect(Object.keys(real).sort()).toEqual(['SW-01', 'SW-02', 'SW-03']);
+    for (const r of Object.values(real)) {
+      expect(r.donki.date).toMatch(/^2024-05-\d\d$/);
+      expect(r.donki.sourceUrl).toMatch(/^https:\/\/ccmc\.gsfc\.nasa\.gov\/DONKI\//);
+    }
   });
 });

@@ -9,228 +9,129 @@
     {
      "bot": "random",
      "games": 1000,
-     "success": 305,
-     "safeReturn": 695,
-     "broughtHome": 0,
+     "success": 19,
+     "safeReturn": 943,
+     "broughtHome": 38,
      "reasons": {
-      "end.highDose": 451,
-      "end.success": 305,
-      "end.lowScience": 244
+      "end.lowScience": 938,
+      "end.lsZero": 38,
+      "end.success": 19,
+      "end.highDose": 5
      },
-     "avgSpBanked": 16.696,
-     "avgDose": 7.11,
-     "avgEvents": 13,
-     "minEvents": 13,
-     "maxEvents": 13,
-     "redBadgeRate": 0.601
+     "avgSpBanked": 11.134,
+     "avgDose": 5.319,
+     "avgEvents": 10.901,
+     "minEvents": 6,
+     "maxEvents": 12,
+     "redBadgeRate": 0.278
     },
     {
      "bot": "maxShield",
      "games": 1000,
-     "success": 696,
-     "safeReturn": 304,
-     "broughtHome": 0,
+     "success": 0,
+     "safeReturn": 930,
+     "broughtHome": 70,
      "reasons": {
-      "end.highDose": 90,
-      "end.success": 696,
-      "end.lowScience": 214
+      "end.lowScience": 930,
+      "end.lsZero": 70
      },
-     "avgSpBanked": 17.046,
-     "avgDose": 5.338,
-     "avgEvents": 13,
-     "minEvents": 13,
-     "maxEvents": 13,
-     "redBadgeRate": 0.115
+     "avgSpBanked": 13.9,
+     "avgDose": 4.046,
+     "avgEvents": 11,
+     "minEvents": 11,
+     "maxEvents": 11,
+     "redBadgeRate": 0
     },
     {
      "bot": "maxScience",
      "games": 1000,
-     "success": 75,
-     "safeReturn": 749,
-     "broughtHome": 176,
+     "success": 0,
+     "safeReturn": 0,
+     "broughtHome": 1000,
      "reasons": {
-      "end.lsZero": 176,
-      "end.highDose": 749,
-      "end.success": 75
+      "end.lsZero": 1000
      },
-     "avgSpBanked": 29.042,
-     "avgDose": 8.539,
-     "avgEvents": 12.69,
-     "minEvents": 10,
-     "maxEvents": 13,
-     "redBadgeRate": 0.882
+     "avgSpBanked": 18.348,
+     "avgDose": 4.652,
+     "avgEvents": 9.376,
+     "minEvents": 6,
+     "maxEvents": 11,
+     "redBadgeRate": 0.127
     },
     {
      "bot": "balanced",
      "games": 1000,
-     "success": 773,
-     "safeReturn": 227,
+     "success": 740,
+     "safeReturn": 260,
      "broughtHome": 0,
      "reasons": {
-      "end.highDose": 227,
-      "end.success": 773
+      "end.success": 740,
+      "end.lowScience": 260
      },
-     "avgSpBanked": 27.829,
-     "avgDose": 5.538,
-     "avgEvents": 13,
-     "minEvents": 13,
-     "maxEvents": 13,
-     "redBadgeRate": 0.227
+     "avgSpBanked": 20.977,
+     "avgDose": 3.994,
+     "avgEvents": 11,
+     "minEvents": 11,
+     "maxEvents": 11,
+     "redBadgeRate": 0
     },
     {
      "bot": "bestMove",
      "games": 1000,
-     "success": 821,
-     "safeReturn": 179,
+     "success": 662,
+     "safeReturn": 338,
      "broughtHome": 0,
      "reasons": {
-      "end.highDose": 179,
-      "end.success": 821
+      "end.success": 662,
+      "end.lowScience": 338
      },
-     "avgSpBanked": 25.605,
-     "avgDose": 5.377,
-     "avgEvents": 13,
-     "minEvents": 13,
-     "maxEvents": 13,
-     "redBadgeRate": 0.179
+     "avgSpBanked": 20.573,
+     "avgDose": 3.939,
+     "avgEvents": 11,
+     "minEvents": 11,
+     "maxEvents": 11,
+     "redBadgeRate": 0
     }
    ],
    "variety": {
-    "deckEvents": 14,
-    "seenEvents": 13,
-    "pct": 93,
-    "uniqueLists": 100,
+    "deckEvents": 24,
+    "seenEvents": 22,
+    "pct": 92,
+    "uniqueLists": 77,
     "games": 100
    },
    "coverage": {
-    "cards": 28,
-    "chosen": 19,
+    "cards": 48,
+    "chosen": 25,
     "missing": [
      "SW-01.b",
      "SW-02.b",
      "SW-03.a",
      "SW-04.b",
+     "SW-05.b",
      "PW-01.b",
      "PW-02.a",
      "PW-02.b",
      "PW-03.a",
-     "LS-05.b"
-    ]
-   },
-   "noFreeLunch": {
-    "cards": 42,
-    "withCost": 42,
-    "missing": []
-   }
-  },
-  {
-   "mission": "M1",
-   "tier": "cadet",
-   "bots": [
-    {
-     "bot": "random",
-     "games": 1000,
-     "success": 995,
-     "safeReturn": 5,
-     "broughtHome": 0,
-     "reasons": {
-      "end.success": 995,
-      "end.lowScience": 5
-     },
-     "avgSpBanked": 15.227,
-     "avgDose": 6.37,
-     "avgEvents": 10,
-     "minEvents": 10,
-     "maxEvents": 10,
-     "redBadgeRate": 0.472
-    },
-    {
-     "bot": "maxShield",
-     "games": 1000,
-     "success": 1000,
-     "safeReturn": 0,
-     "broughtHome": 0,
-     "reasons": {
-      "end.success": 1000
-     },
-     "avgSpBanked": 18.316,
-     "avgDose": 4.953,
-     "avgEvents": 10,
-     "minEvents": 10,
-     "maxEvents": 10,
-     "redBadgeRate": 0.043
-    },
-    {
-     "bot": "maxScience",
-     "games": 1000,
-     "success": 927,
-     "safeReturn": 0,
-     "broughtHome": 73,
-     "reasons": {
-      "end.success": 927,
-      "end.lsZero": 73
-     },
-     "avgSpBanked": 25.54,
-     "avgDose": 9.009,
-     "avgEvents": 10,
-     "minEvents": 10,
-     "maxEvents": 10,
-     "redBadgeRate": 0.937
-    },
-    {
-     "bot": "balanced",
-     "games": 1000,
-     "success": 1000,
-     "safeReturn": 0,
-     "broughtHome": 0,
-     "reasons": {
-      "end.success": 1000
-     },
-     "avgSpBanked": 24.235,
-     "avgDose": 5.712,
-     "avgEvents": 10,
-     "minEvents": 10,
-     "maxEvents": 10,
-     "redBadgeRate": 0.262
-    },
-    {
-     "bot": "bestMove",
-     "games": 1000,
-     "success": 1000,
-     "safeReturn": 0,
-     "broughtHome": 0,
-     "reasons": {
-      "end.success": 1000
-     },
-     "avgSpBanked": 23.424,
-     "avgDose": 5.674,
-     "avgEvents": 10,
-     "minEvents": 10,
-     "maxEvents": 10,
-     "redBadgeRate": 0.259
-    }
-   ],
-   "variety": {
-    "deckEvents": 10,
-    "seenEvents": 10,
-    "pct": 100,
-    "uniqueLists": 100,
-    "games": 100
-   },
-   "coverage": {
-    "cards": 20,
-    "chosen": 15,
-    "missing": [
-     "PW-01.b",
-     "PW-02.a",
-     "PW-03.a",
+     "PW-07.b",
+     "LS-01.b",
      "LS-03.b",
-     "LS-05.b"
+     "LS-05.b",
+     "CR-02.b",
+     "CR-04.b",
+     "CR-05.a",
+     "CR-05.b",
+     "RS-01.b",
+     "MG-03.a",
+     "CR-03.a",
+     "CM-02.a",
+     "CM-02.b",
+     "CR-01.a"
     ]
    },
    "noFreeLunch": {
-    "cards": 30,
-    "withCost": 30,
+    "cards": 72,
+    "withCost": 72,
     "missing": []
    }
   }

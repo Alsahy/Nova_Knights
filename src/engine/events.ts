@@ -126,7 +126,8 @@ export function checkCard(
       if (r) return fail(r);
     }
   }
-  if (pwr > 0 && pwr > computePower(s, content).available) return fail('reason.noPower');
+  if (pwr > 0 && (s.systems.BAT === 0 || pwr > computePower(s, content).available))
+    return fail('reason.noPower'); // D-059: an empty battery blocks every card that uses power
   return c;
 }
 

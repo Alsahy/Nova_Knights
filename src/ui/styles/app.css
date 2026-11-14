@@ -80,24 +80,12 @@ small {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background-image:
-    linear-gradient(
-      180deg,
-      rgba(10, 15, 25, 0.55) 0%,
-      rgba(15, 10, 8, 0.35) 55%,
-      rgba(10, 12, 18, 0.75) 100%
-    ),
-    url('/img/cockpit-mars.webp');
-  background-size: cover;
-  background-position: center bottom;
+  /* D-065: a plain Mars dusk drawn in CSS (the AI-generated cockpit picture with the big Moon is gone, P-009) */
+  background:
+    radial-gradient(ellipse 120% 40% at 50% 108%, #32130c 0 55%, transparent 56%),
+    radial-gradient(ellipse 140% 46% at 30% 112%, #5a2415 0 55%, transparent 56%),
+    linear-gradient(#150a0c 0%, #5f2716 62%, #b9532c 100%);
   background-color: var(--bg);
-}
-@media (max-width: 700px) {
-  .mars-bg {
-    background-image:
-      linear-gradient(180deg, rgba(10, 15, 25, 0.65), rgba(10, 12, 18, 0.85)),
-      url('/img/cockpit-mars-640.webp');
-  }
 }
 
 /* buttons */

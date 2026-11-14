@@ -7,7 +7,7 @@ import {
   CREW_SIZE,
   CROPS,
   LS_WEAR_EVERY_SOLS,
-  POOL_MAX,
+  CHECKUP_EN,
   WATERWALL_MAX_SH,
   WATERWALL_MIN_H2O,
 } from './config';
@@ -320,10 +320,9 @@ export function runHook(s: GameState, hook: string, args: Arg[], ctx: Ctx): void
       }
       return;
     case 'checkup': {
-      const pools: PoolKey[] = ['FUL', 'HYD', 'AIR', 'EN'];
-      const lowest = pools.reduce((lo, k) => (s.crew[k] < s.crew[lo] ? k : lo), 'EN' as PoolKey);
-      if (s.crew[lowest] < POOL_MAX) changeStat(s, lowest, 1);
-      setFlag(s, 'medChecked', 1);
+      // D-052: a check-up is worth doing: energy +2 now, and the next radiation hit is 1 weaker
+      changeStat(s, 'EN', CHECKUP_EN);
+      setFlag(s, 'medChecked');
       return;
     }
     case 'treat': {

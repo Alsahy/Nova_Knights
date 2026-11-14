@@ -1,7 +1,45 @@
 # Junior Astronaut Mission Trainer: Mars Events & Action Cards
 
-**Version 0.7 (Mars only, one kid game, challenge every day) · 13 Nov 2026 · NASA Space Apps 2026 (Cairo)**
+**Version 0.14 (Mars only, Casual + Survival, live-action base) · 14 Nov 2026 · NASA Space Apps 2026 (Cairo)**
 This is the logic sketch for a card game where kids (7–12) run a **Mars outpost** with 4 astronauts and 4 systems. The theme and art will come later. The file lists every event, every choice, what each choice costs, and the real NASA fact behind it.
+
+> **What changed from v0.13** (fixing the self-check's weak points, 14 Nov 2026)
+> - **D-064 Science-only play no longer wins.** Cadet life support (shown as Oxygen) starts at **6** (was 8) and the mission ends **the night it reaches 0** (was two nights at 0). With one point used every sol, a crew that never looks after it goes home early. The Casual goal is **20 SP** (was 18). Simulated (1,000 games each): random 2 % · max shield 0 % · science-only 0 % · balanced 74 % · best move 66 % — inside the §1.4 targets for the first time (balanced 60–75 %, nothing above 80 %, greed loses).
+> - **D-065 Data fixes.** Six sources swapped for NASA originals and the facts aligned with what those pages say: [S2] the DONKI record the game replays; [S6] NASA's own Mars solar-storm article; [S42] NASA OCHMO sleep brief ("about six hours"; the unconfirmed "8.5 hours scheduled" is gone); [S44] NASA's CHAPEA article (378 days, up to 44 minutes for a message and its reply); [S54] NASA ("4 to 20 minutes" one way; the text said 3–22); [S55] NASA's ISS daily report (January 2016 CDRA failure and repair). Survival storms now replay the same three real DONKI records as Casual. The data screen names the three rules that are game rules, not NASA facts. The AI-generated background picture is removed.
+
+> - **D-066 (UI only, added 14 Nov):** the shop grows to 32 decorations (dome and rover paint, more suits and lights, robot cat, helper drone, telescope, rug, plant, poster, trophy), players gain a rank from lifetime stars (Cadet → Pilot → Explorer → Commander → Legend) that unlocks a few items, and two collection badges. None of it changes a rule.
+
+> **What changed from v0.12** (after the judging self-check, 14 Nov 2026)
+> - **D-063 Four more events in play (24), goal 18.** To cover the two challenge topics the self-check found thin: **CR-03 Missing Home** and **CM-02 Antenna Off Target** (communication and its delay) and **CR-01 Exercise or Experiment?** and **RS-05 Experiment Results!** (NASA OSDR findings [S40]). No card numbers changed. Because these events hand out stars, the Casual goal is **18 SP** (was 14). Simulated (200 games each): random 4 % · max shield 10 % · science-only 65 % · balanced 84 % · best move 90 %.
+> - **D-061, D-062 (UI only):** every tool shows a red COSTS line, a green GIVES line and a yellow LATER line; after each choice a short scene shows the same three lines big; an animated intro (launch, landing, crew) and three animated endings (stars reach Earth, the crew flies home, Survival), drawn in code, skippable.
+
+> **What changed from v0.11** (lead feedback round 8, 14 Nov 2026)
+> - **D-059 No electricity, no electric work.** When the battery is at 0, every job and card with a power cost is blocked ("No power: charge the battery first").
+> - **D-060 Survival ends at empty.** A Survival run ends the moment FOOD, H2O or oxygen (LS) reaches 0, or the radiation badge turns red (DOSE ≥ 7). Because of that it starts with bigger stores (FOOD 44, H2O 14). Simulated (40 runs each): random about 8 sols, science-only 6, balanced 12 (up to 15). Casual after D-059 (200 games): random 9 % · max shield 11 % · science-only 57 % · balanced 84 % · best move 91 %.
+
+> **What changed from v0.10** (lead feedback round 7, 14 Nov 2026)
+> - **D-050 Survival mode.** The player picks **Casual** (M3, 7 sols, 14 SP) or **Survival** (M9 Cadet: no last day in sight, cap 99 sols, no star goal). Survival uses the same 20 events and jobs; its deck holds the storm events (SW-01, SW-02, SW-03) from day one and is reshuffled when it runs out. The base **ages**: every 6 sols it loses 1 more oxygen (LS) and 1 more food each night (sols 7–12: 1, sols 13–18: 2, …), so every run ends. The alarm and mini-game clock start at the Settings value (8 s) and shrink evenly to **4 s on sol 16**. **Score = 10 per sol survived + 1 per star sent**; all stars sent go to the star bank. A high-score board keeps the top 10 runs per mode on the device. Simulated (40 runs each): random about 14 sols, science-only 8, balanced 16 (14–18).
+> - **D-051 Oxygen, shield, food and water can really run out.** Life support (shown as **Oxygen**) wears **every sol** unless maintained (was every 2). **Every storm that hits wears the shield by 1.** Cadet starter stores: FOOD **20**, H2O **8**. A night without enough food or water also costs **2 crew energy** each.
+> - **D-052 Health check is worth doing.** T-MED now gives **crew energy +2** and makes the **next radiation hit 1 weaker** (once). It no longer adds +1 to the lowest bar.
+> - **D-053…D-058 (UI only):** main-menu button on the end screen; "?" pop-ups open next to the pointer; the Training room shows 26 skills, each exactly once (2 new mechanics: count, reflex), with the tools' real stories in a separate list; separate switches for event sounds, background sound and Nova's voice; Nova reads the tutorial out loud (the device's text-to-speech), her mouth moves and a hand points; a soft tick when the pointer lands on a button; the title reads "Nova Knights Adventure".
+> - Simulated Casual (1,000 games each): random 8 % · max shield 9 % · science-only 56 % · balanced 86 % · best move 93 % (`docs/balance-report.md`).
+
+> **What changed from v0.9** (lead feedback round 6, 14 Nov 2026)
+> - **D-043 Seven sols, simpler resources, water you can win back.** M3 Cadet is **7 sols** (was 10) with a goal of **14 SP**. Real DONKI beats: SW-01 sol 2, SW-03 sol 3 (→ SW-04 sol 5), SW-02 sol 6. Cadet starter stores: FOOD **24**, H2O **10**, BAT 5. The kid screen shows **one Food bar and one Water bar** (the stores; crew hunger and thirst pulse on the same bars). Oxygen tanks, spare parts, med kits and crew air are **out of the kid game**: they start at 20, never run short and are not shown. The mission starts with the ice already found (LS-10 unlocked), so the Engineer has a 4th job, **Dig up ice** (T-ICE: energy −3, power −2, a trip outside → water +6). Every bar on screen can now go down and be won back: food (eating ↔ garden), water (oxygen maker, hose ↔ ice), power (jobs ↔ Sun, clean panels), life support (wear ↔ maintenance), energy (jobs ↔ sleep, rest), shield and radiation (storms and trips outside ↔ soil wall, shelter).
+> - **D-045 Faster alarms.** The alarm and the mini-game clock are **8 s** (5 / 8 / 15 / off in Settings).
+> - **D-044, D-046…D-049 (UI only):** battery icon for power costs; the whole screen takes a mood (ice, flames, radiation, dust, bad air) from the alarm and from what the last choice left behind, and broken things stay visibly broken; Training room with "why this tool" cards and real NASA pictures; wind-and-Sun background sound (no music); 4 more mini-game mechanics (24); a quieter title screen; the end-of-mission true story is a pop-up.
+> - Simulated (1,000 games each): random 8 % · max shield 14 % · science-only 67 % · balanced 89 % · best move 97 % (`docs/balance-report.md`).
+
+> **What changed from v0.8** (lead feedback round 5, 14 Nov 2026)
+> - **D-035 Resources matter more.** Cadet starter stores: FOOD **28** (was 40), H2O **12** (was 18), BAT **5** (was 6); life support wears **every 2 sols** (was 3); M3 goal **16 SP** (was 14). Food now runs short around sol 7 unless the garden is looked after. Bars in the danger zone show as red warnings with a sound. Simulated (1,000 games each): superseded by v0.10 before the 1,000-game run finished (200-game check: random 24 % · balanced 88 % · best move 90 %).
+> - **D-036…D-042 (UI only):** spotlight and a bouncing "!" on the trouble spot; four more mini-game types and a second mini-game for most tools; faster mini-games; badges pop up during play and pay stars; a guided first day; one true story at the end tied to a choice the player made; more sounds; a simpler title screen.
+
+> **What changed from v0.7** (lead feedback round 4: "boring, nothing rewarding for a child", 14 Nov 2026)
+> - **D-031 Live-action base, 20 events.** The screen is a cut-away view of the base (surface + 7 rooms) instead of a dashboard; trouble shows inside the room it happens in and the camera zooms there. The kid game now draws from **20** events: the D-026 set plus **FD-06, CR-02, CR-04, CR-05, RS-03, MG-03**, so all 14 problems of the lead's mini-game design exist in play. No card, cost or number in §7 changed (§8.4).
+> - **D-032 Tools and mini-games.** Each card is shown as a **tool**; dragging (or tapping) it is the choice, and the card takes effect when the player wins the tool's short skill mini-game. Losing the mini-game to the clock counts as a timeout (D-027 rule: the crew does the worst affordable card). A mini-game never changes what a card costs or does, so the no-free-lunch rule and every number stay as written here. "Do nothing" cards (wait, leave it, rest) need no mini-game. Mini-games can be switched off (one tap = the card) for access; a Training room lets kids practise with no timer.
+> - **D-033 Show, don't tell.** Crew faces show the lowest shared bar (hungry, thirsty, sleepy, dizzy, too much Sun), dust shows on the panels, low battery flickers the lights, plants grow in the greenhouse, results fly as numbers, and there is sound (made in code). UI only.
+> - **D-034 Rewards that last.** Stars sent to Earth go into a star bank kept on the device: all of them after Mission Success, **half (rounded up)** otherwise. They buy decorations (suit colours, base lights, a robot dog, a flag) that never change the rules, and 9 space badges reward different ways of playing. No account, no personal data.
+> - Simulated with the 20-event scope (1,000 games each): random 31 % · max shield 51 % · greed 13 % · balanced 82 % · best move 89 % — skilful play now wins a little more often than the §1.4 target of 80 %, P-014 (`docs/balance-report.md`).
 
 > **What changed from v0.6** (lead feedback round 3, 13 Nov 2026)
 > - **D-026 14 challenges, one every day.** The kid game draws from 14 easy events: SW-01…SW-05, PW-01, PW-02, PW-03, PW-07, LS-01, LS-03, LS-05, RS-01, RS-04. No planting choice (the greenhouse starts with lettuce and replants itself). No quiet sols (Quiet Sun Day becomes a deck card). Real DONKI beats: SW-01 sol 2, SW-03 sol 4 (→ SW-04 sol 6), SW-02 sol 8.
@@ -114,15 +152,15 @@ This is the logic sketch for a card game where kids (7–12) run a **Mars outpos
 
 | Thing | Cadet | Commander | Notes |
 |---|---|---|---|
-| 🫁 LS Life Support | 8 | 7 | 0–10 |
+| 🫁 LS Life Support | 6 (D-064) | 7 | 0–10 |
 | 🛡️ SH Shield | 4 | 3 | 0–10 |
 | 🔬 LAB Lab readiness | 8 | 7 | 0–10 |
-| 🔋 BAT Battery | 6 | 5 | max 10 |
-| 🥫 FOOD | 40 | 70 | 1 = one astronaut's food for one sol |
-| 💧 H2O | 18 | 25 | 1 = one astronaut's drinking water for one sol |
-| 🫧 O2T Oxygen tanks | 3 | 2 | emergency air |
-| 🔩 PARTS Spare parts | 4 | 3 | |
-| 🩹 MEDKIT | 3 | 2 | |
+| 🔋 BAT Battery | 5 (D-035) | 5 | max 10 |
+| 🥫 FOOD | 20 (D-051) | 70 | 1 = one astronaut's food for one sol |
+| 💧 H2O | 8 (D-051) | 25 | 1 = one astronaut's drinking water for one sol |
+| 🫧 O2T Oxygen tanks | 20, hidden (D-043) | 2 | emergency air |
+| 🔩 PARTS Spare parts | 20, hidden (D-043) | 3 | |
+| 🩹 MEDKIT | 20, hidden (D-043) | 2 | |
 | Crew stats (shared, D-017) | FUL 16, HYD 16, AIR 20, EN 16 (max 20), DOSE 0 | same, but DOSE from MG-04 (2–3) | pools 0–20 (4 astronauts × 5), DOSE 0–10 |
 
 ### 1.4 Balance targets (for the simulator)
@@ -141,7 +179,7 @@ Run 1,000 seeded games per **mission** and strategy: *max-shield*, *max-science*
 
 | System | Icon | What it means | Needs each sol | Goes down when… |
 |---|---|---|---|---|
-| **Life Support (LS)** | 🫁 | Air (O₂ in, CO₂ out), water recycling, temperature | ⚡2 to run (includes the oxygen maker). The oxygen maker also uses 💧1 per sol (it makes air from water) | Unpowered: LS −2. Wear: −1 every 3 sols unless maintained. Breakdown events |
+| **Life Support (LS)** | 🫁 | Air (O₂ in, CO₂ out), water recycling, temperature | ⚡2 to run (includes the oxygen maker). The oxygen maker also uses 💧1 per sol (it makes air from water) | Unpowered: LS −2. Wear: −1 every sol unless maintained (D-051; was 3, then 2 in D-035). Breakdown events |
 | **Radiation Shield (SH)** | 🛡️ | Soil walls, water walls, storm shelter | nothing | Rarely. Drops if a water wall is used up (see T-WATERWALL) |
 | **Power** | ⚡ | Today's power tokens (PWR) + battery (BAT) | — | Dust, cold, broken cables, worn-out panels |
 | **Research (LAB + SP)** | 🔬 | LAB = how ready the lab is; SP = science points (the mission goal) | nothing fixed: lab power is paid by the task cost (T-LAB `PWR-1`) | LAB −1 every 4 sols (wear). Breakdown events |
@@ -220,7 +258,7 @@ A Mars day ("sol") is 24 hours 39 minutes long [S7].
 ### 2.5 How a mission ends
 - 🏆 **Mission Success**: reach the last sol and meet the mission goal (§8.2). Only **banked** SP (sent to Earth) counts toward the goal (D-005).
 - 🟡 **Safe Return**: reach the last sol, or choose MG-02, without meeting the goal. Still a celebration, plus a debrief.
-- 🔴 **Brought Home Early**: LS = 0 for 2 sols in a row, OR 3 astronauts in Sick Bay at once, OR the battery is empty and LS has had no power for 2 sols.
+- 🔴 **Brought Home Early**: LS = 0 at night (D-064; was 2 sols in a row), OR 3 astronauts in Sick Bay at once, OR the battery is empty and LS has had no power for 2 sols.
 - Every ending shows the **debrief**: your 3 biggest choices → what they caused → what real NASA does.
 
 ### 2.6 Real → game scale (the honesty table)
@@ -238,7 +276,7 @@ A Mars day ("sol") is 24 hours 39 minutes long [S7].
 | ~0.8 kg O₂ per person per day, made by splitting water | Oxygen maker uses 💧1 per sol (game-simplified; the real amount is higher) | [S21][S28] |
 | ≈3,035 kcal/day per astronaut; ≥2.5 L drinking water/day | 1 FOOD and 1 H2O per astronaut per sol | [S20] |
 | Lettuce seed→salad 33 days; peppers 137 days | Lettuce ⏳2 sols, peppers ⏳9 sols (TIME_SCALE) | [S33][S34] |
-| Earth–Mars signal delay ≈ 3–22 min each way | "Ask Earth" answers arrive *after* the current event (too late for emergencies) | [S54][S44] |
+| Earth–Mars signal delay ≈ 4–20 min each way | "Ask Earth" answers arrive *after* the current event (too late for emergencies) | [S54][S44] |
 | Mars gravity ≈ 38% of Earth's | Flavor + CR-06 | [S13] |
 
 **Storm honesty label (D-008)**, shown on the "How this game uses real data" screen and next to storm doses:
@@ -299,7 +337,7 @@ Each astronaut plans one task per sol in step 3; tasks are resolved at the start
 | T-PANELS | Clean solar panels | ANY | `ME.EN-2; ME.AIR-1`; EVA dose | Dust stack = 0 | Dust steals power |
 | T-ICE | Mine ice (after LS-10) | ENG + ANY | `EN-3 each; PWR-2`; EVA dose | `H2O+6` | Live off the land |
 | T-MOXIE | Run the oxygen machine (Air Makers / after LS-11) | ANY | `PWR-2` | `O2T+1` | Energy can become air |
-| T-MED | Check-up | MED | `MED.EN-1` | One stat +1 for one astronaut; shows exact doses | Measure, then decide |
+| T-MED | Check-up | MED | `MED.EN-1` | Crew energy +2; the next radiation hit is 1 weaker (D-052; was: one stat +1) | Measure, then decide |
 | T-TREAT | Treat in Sick Bay | MED | `MED.EN-1; MEDKIT-1` | Astronaut returns next sol | Medicine saves time |
 | T-PLAN | Plan tomorrow | MGR | `MGR.EN-1` | Peek at the next event; re-plan power | Leaders look ahead |
 | T-PEP | Pep talk | MGR | `MGR.EN-1` | `PICK.EN+2` | Teams lift each other |
@@ -877,7 +915,7 @@ Deck tags: 🟢 Core (any mission, random draw) · 🎯 Mission (only in the mis
 #### CR-02 · Can't Sleep 😴
 `deck: 🟢 (more likely after storms) · tier: Cadet`
 - **Kid text:** "[Name] can't sleep. Tomorrow they'll be very tired."
-- **Real science:** NASA schedules 8.5 hours of sleep for astronauts, but they average only about 6 hours [S42].
+- **Real science:** Astronauts sleep an average of about 6 hours a night in space, less than they need [S42].
 
 | Card | Who | Cost now | Effect | Later ⏳ / risk | Lesson |
 |---|---|---|---|---|---|
@@ -888,7 +926,7 @@ Deck tags: 🟢 Core (any mission, random draw) · 🎯 Mission (only in the mis
 #### CR-03 · Missing Home 🏠💬
 `deck: 🟢 (×2 in M8 and during long storms) · tier: Cadet`
 - **Kid text:** "[Name] misses their family. A message home would help."
-- **Real science:** NASA's CHAPEA crew lived 378 days in a pretend Mars habitat [S43], with message delays of up to 22 minutes each way [S44].
+- **Real science:** NASA's CHAPEA crew lived 378 days in a pretend Mars habitat [S43], and a message and its reply could take up to 44 minutes [S44].
 
 | Card | Who | Cost now | Effect | Later ⏳ / risk | Lesson |
 |---|---|---|---|---|---|
@@ -982,7 +1020,7 @@ Deck tags: 🟢 Core (any mission, random draw) · 🎯 Mission (only in the mis
 #### RS-03 · Lab Machine Broken 🔬❌
 `deck: 🟢 / ⚠️ LAB ≤3 · tier: Cadet`
 - **Kid text:** "The lab's main machine stopped. No experiments until it's fixed!"
-- **Real science:** In 2016, the ISS lost its main CO₂-removal machines for a while and the crew had to work on repairs [S55]. Breakdowns happen even on the best stations.
+- **Real science:** In January 2016 a CO₂-removal machine on the ISS failed, and two astronauts replaced its broken parts [S55]. Breakdowns happen even on the best stations.
 
 | Card | Who | Cost now | Effect | Later ⏳ / risk | Lesson |
 |---|---|---|---|---|---|
@@ -993,7 +1031,7 @@ Deck tags: 🟢 Core (any mission, random draw) · 🎯 Mission (only in the mis
 #### RS-04 · Send Your Data Home 📡
 `deck: 📅 every 4 sols (comms window) **and on the last sol** (D-005) · Morning Briefing card (D-004) · tier: Cadet`
 - **Kid text:** "The antenna is ready. Send your science to Earth now?"
-- **Real science:** Signals between Earth and Mars take about 3–22 minutes each way [S54][S44].
+- **Real science:** A signal between Earth and Mars takes about 4 to 20 minutes each way [S54].
 - **Rule (D-005):** **all** SP (from tasks and events) starts *pending*. Only **banked** SP (sent to Earth) counts toward the goal. Pending SP is lost if LAB reaches 0. Cadet UI: "⭐ collected" vs "⭐ sent to Earth".
 
 | Card | Who | Cost now | Effect | Later ⏳ / risk | Lesson |
@@ -1040,7 +1078,7 @@ Deck tags: 🟢 Core (any mission, random draw) · 🎯 Mission (only in the mis
 
 ### 7.7 📡 Communication (CM)
 
-**Rule card "Ask Mission Control" (used inside many events):** On Mars the answer arrives **after** the current event (signals take 3–22 min each way, so emergencies can't wait) [S54][S44]. This is the main comm-delay lesson. Show a little animation of the signal travelling, and a countdown.
+**Rule card "Ask Mission Control" (used inside many events):** On Mars the answer arrives **after** the current event (signals take 4–20 min each way, so emergencies can't wait) [S54]. This is the main comm-delay lesson. Show a little animation of the signal travelling, and a countdown.
 
 #### CM-01 · The Sun Is Between Us 🌞🚫
 `deck: 🎯 M8 (scripted mid-mission) · warning: 3 sols · tier: Commander`
@@ -1057,7 +1095,7 @@ Deck tags: 🟢 Core (any mission, random draw) · 🎯 Mission (only in the mis
 #### CM-02 · Antenna Off Target 📡↗️
 `deck: 🔗 after a storm or quake · tier: Cadet`
 - **Kid text:** "The antenna isn't pointing at Earth anymore!"
-- **Real science:** Messages between Earth and Mars take about 3–22 minutes each way, and only if the antenna points the right way [S54][S44].
+- **Real science:** Messages between Earth and Mars take about 4 to 20 minutes each way [S54], and only if the antenna points the right way.
 
 | Card | Who | Cost now | Effect | Later ⏳ / risk | Lesson |
 |---|---|---|---|---|---|
@@ -1105,7 +1143,7 @@ Deck tags: 🟢 Core (any mission, random draw) · 🎯 Mission (only in the mis
 #### MG-03 · Crew Disagreement 🗣️
 `deck: 🟢 · tier: Cadet`
 - **Kid text:** "The Engineer wants to fix the panels. The Researcher wants to explore. There's only power for one!"
-- **Real science:** NASA's CHAPEA crew had to handle limited resources, isolation and communication delays [S44].
+- **Real science:** NASA's CHAPEA crew had to handle limited resources, isolation and slow messages to Earth [S44].
 
 | Card | Who | Cost now | Effect | Later ⏳ / risk | Lesson |
 |---|---|---|---|---|---|
@@ -1148,7 +1186,7 @@ Not all 60 events can happen in one game. Each event belongs to a **deck type** 
 |---|---|---|---|---|---|---|---|
 | **M1** | 👣 **First Steps** (tutorial) | Gale Crater | 8 / — (Cadet only) | 6 SP | PW-03 Lucky Wind; DONKI forced quiet (calm Sun) | No Commander events; tips shown on every card | The basics: power, air, food, science |
 | **M2** | 🌫️ **Dust Season** | Meridiani Planum (Opportunity's plains [S59]) | 10 / 20 | 8 / 16 SP **and** never lose LS power | PW-04 sol 3 → PW-05 sol 6 (Commander); PW-06; PW-03 | Dust timer every 3 sols | Solar power vs dust; batteries; reactors |
-| **M3** | ☀️ **Storm from the Sun** | Gale Crater | 10 / 20 | 14 (D-030) / 16 SP **and** every astronaut DOSE ≤ 6 (no red badges, D-010) | DONKI window 2024-05-01 → 2024-05-31 (ENLIL Mars hits + flares). Scripted SW-01 sol 2, SW-03 sol 4 → SW-04 sol 6, SW-02 sol 7; SW-08, SW-09, SW-10, CM-03 | **Compressed storm replay** (D-009): each scripted beat is tied to one real DONKI record and shows its real date + "replay, sped up" | Radiation, warnings, shelters, real space weather |
+| **M3** | ☀️ **Storm from the Sun** | Gale Crater | 7 (D-043) / 20 | 20 (D-064) / 16 SP **and** every astronaut DOSE ≤ 6 (no red badges, D-010) | DONKI window 2024-05-01 → 2024-05-31 (ENLIL Mars hits + flares). Scripted (Cadet, D-043) SW-01 sol 2, SW-03 sol 3 → SW-04 sol 5, SW-02 sol 6; SW-08, SW-09, SW-10, CM-03 | **Compressed storm replay** (D-009): each scripted beat is tied to one real DONKI record and shows its real date + "replay, sped up" | Radiation, warnings, shelters, real space weather |
 | **M4** | 🧊 **Ice Hunters** | Northern Plains (Phoenix region [S30]) | 10 / 20 | 6 / 14 SP **and** end with H2O ≥ start | LS-10 sol 2; FD-07; LS-06 | H2O starts low (12 / 15); PW-07 ×2 weight | Living off the land; water vs air; toxic soil |
 | **M5** | 🌋 **Quake Watch** | Elysium Planitia (InSight's site [S52]) | 10 / 20 | 8 / 18 SP | RS-02 (up to 2×), RS-07, PW-09, PW-06 | Seismometer: every quake gives +1 SP automatically | Marsquakes, impacts, keeping a base safe |
 | **M6** | 🫧 **Air Makers** | Jezero Crater (Perseverance/MOXIE [S60][S31]) | 10 / 20 | 6 / 14 SP **and** make 4 O2T | LS-11 sol 1 (unlocks T-MOXIE); LS-03 ×2 weight | O2T starts at 1 | Air from CO₂ and from water; backups and risks |
@@ -1188,15 +1226,17 @@ EACH SOL
   🟢/🎯 events are removed after playing (unless marked "repeatable").
 ```
 
-### 8.4 Kid scope (D-018, D-019, D-020)
+### 8.4 Kid scope (D-018, D-019, D-020, D-031)
 The playable game (both missions, Cadet) uses a small set so young players are never overwhelmed:
 
 | Mission | Sols | Goal | Events it can show |
 |---|---|---|---|
 | M1 First Steps *(design reference; not offered to players since D-021)* | 8 | 6 SP sent | FD-01 (setup + re-plant), PW-02, PW-03, PW-08, LS-03, LS-05, RS-01, RS-04 |
-| **M3 Storm from the Sun (the one game, D-021)** | 10 | **14 SP sent** (D-030), badge never red | **D-026:** SW-01 (sol 2, real X3.9 flare 2024-05-10), SW-03 (sol 4, real NASA model run, Mars arrival 2024-05-13) → SW-04 (sol 6), SW-02 (sol 8, real particle event 2024-05-13), SW-05, PW-01, PW-02, PW-03, PW-07, LS-01, LS-03, LS-05, RS-01, RS-04 — one challenge every sol |
+| **M3 Storm from the Sun (the one game, D-021)** | 7 (D-043) | **20 SP sent** (D-064), badge never red | **D-026, re-timed in D-043:** SW-01 (sol 2, real X3.9 flare 2024-05-10), SW-03 (sol 3, real NASA model run, Mars arrival 2024-05-13) → SW-04 (sol 5), SW-02 (sol 6, real particle event 2024-05-13), SW-05, PW-01, PW-02, PW-03, PW-07, LS-01, LS-03, LS-05, RS-01, RS-04 — one challenge every sol. **D-031 adds:** FD-06 (when food is low), CR-02, CR-04 (after a trip outside), CR-05 (after RS-01.a), RS-03, MG-03 |
 
 **Jobs (4 per astronaut, all their own):** Manager: Rest · Pep talk · Care for plants · Send data. Engineer: Rest · Maintain life support · Clean solar panels · Pile soil bags. Doctor: Rest · Treat (when someone is in Sick Bay, otherwise Check-up) · Care for plants · Lab experiment. Researcher: Rest · Lab experiment · Rock-study walk · Care for plants.
+
+**How a card is played (D-032):** each offered card appears as a tool next to the problem. The player drags or taps a tool, then wins its mini-game; the card's cost and effect are exactly the ones in §7. Mini-games by card are listed in `src/ui/game/tools.ts` (presentation only).
 
 **Rules:** an event outside the scope never appears, and a card never shows a follow-up that cannot happen. The sol on screen is: Morning news card (if any) → jobs → one surprise → night report.
 
@@ -1289,11 +1329,11 @@ interface Mission {
 *(Every `[S#]` above points here. Show these on the in-game "Where our data comes from" screen.)*
 
 - [S1] CCMC Announcements: DONKI moves to ccmc.gsfc.nasa.gov/DONKI-API (Sep 2026) – https://ccmc.gsfc.nasa.gov/news/major-updates/
-- [S2] NASA DONKI, WSA-ENLIL simulation with a Mars arrival and "no or little impact to Earth" (example) – https://kauai.ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/46407/1
+- [S2] NASA DONKI, WSA-ENLIL simulation 30726/1 with a predicted Mars arrival (the record replayed in the game) – https://ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/30726/1
 - [S3] NASA SVS, "X-Class: A Guide to Solar Flares" – https://svs.gsfc.nasa.gov/10109
 - [S4] NASA SVS, travel times of flares, particles and CMEs (transcript) – https://svs.gsfc.nasa.gov/vis/a010000/a010900/a010941/10941_Travel_Time_HTML_Transcript.html
 - [S5] NASA, "How NASA Tracked the Most Intense Solar Storm in Decades" – https://science.nasa.gov/science-research/heliophysics/how-nasa-tracked-the-most-intense-solar-storm-in-decades/
-- [S6] NASA (via EurekAlert), "What NASA is learning from the biggest geomagnetic storm in 20 years" (Curiosity RAD 8,100 µGy) – https://www.eurekalert.org/news-releases/1083377
+- [S6] NASA, "NASA Watches Mars Light Up During Epic Solar Storm" (2024; Curiosity RAD 8,100 µGy, like 30 chest X-rays) – https://www.nasa.gov/solar-system/planets/mars/nasa-watches-mars-light-up-during-epic-solar-storm/
 - [S7] Hassler et al. 2014, Science (Curiosity RAD on the Mars surface; 1 sol = 24 h 39 min) – https://www.scienceintheclassroom.org/research-papers/curiosity-tells-all-about-mars-radiation-environment
 - [S8] CS Monitor summary of the RAD results (0.64 mSv/day on the surface; 1.8 in cruise; 0.66 Sv round trip) – https://www.csmonitor.com/Science/2013/1209/Curiosity-measures-radiation-at-Martian-surface
 - [S9] NASA OCHMO Radiation Protection Technical Brief (600 mSv career; 250 mSv per event; nuclear-system limit) – https://www.nasa.gov/sites/default/files/atoms/files/radiation_protection_technical_brief_ochmo.pdf
@@ -1330,9 +1370,9 @@ interface Mission {
 - [S39] Discover, long-term spaceflight and the body (bone loss, exercise, SANS) – https://www.discovermagazine.com/the-sciences/how-long-term-space-travel-wears-down-an-astronauts-mind-and-body
 - [S40] NASA OSDR dataset: myostatin/activin A study (mice lost muscle and bone in 33 days) – https://catalog.data.gov/dataset/targeting-myostatin-activin-a-protects-against-skeletal-muscle-and-bone-loss-during-spacef
 - [S41] Phys.org, NASA Twins Study results – https://phys.org/news/2019-04-nasa-twins-landmark-eventual-mars.html
-- [S42] Lancet Neurology 2014 via EurekAlert, astronaut sleep study – https://www.eurekalert.org/news-releases/541449
+- [S42] NASA OCHMO Technical Brief TB-041, Sleep Accommodations (astronauts average about 6 hours of sleep in space) – https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-041-sleep-accommodations.pdf
 - [S43] SpacePolicyOnline, CHAPEA 378-day mission and crew roles – https://spacepolicyonline.com/news/four-analog-astronauts-complete-378-day-practice-mars-mission/
-- [S44] CBS News, CHAPEA (delays up to 22 min; limited resources, isolation) – https://www.cbsnews.com/news/nasa-simulated-mars-mission-ends-more-than-a-year
+- [S44] NASA, "First Mars Crew Completes Yearlong Simulated Red Planet NASA Mission" (CHAPEA: 378 days; delays up to 44 minutes round trip; resource limits, isolation) – https://www.nasa.gov/missions/analog-field-testing/chapea/first-mars-crew-completes-yearlong-simulated-red-planet-nasa-mission/
 - [S45] ABC/GMA, CHAPEA daily activities – https://www.goodmorningamerica.com/news/story/nasas-mars-simulator-crew-emerged-after-378-days-111755446
 - [S46] NASA History, "EVA 23: A High Visibility Close Call" – https://www.nasa.gov/history/10-years-ago-eva-23-how-a-high-visibility-close-call-cut-short-a-spacewalk/
 - [S47] Space.com, spacesuit water leak (1–1.5 L; planned 6.5 h) – https://www.space.com/21988-spacewalk-dangers-spacesuit-water-leak.html
@@ -1342,8 +1382,8 @@ interface Mission {
 - [S51] Universe Today, InSight impact quakes (craters ≈150 m) – https://www.universetoday.com/articles/the-big-one-the-most-powerful-marsquake-ever-detected
 - [S52] EarthSky, Cerberus Fossae in Elysium Planitia is Mars' most active known quake region – https://earthsky.org/?p=423546
 - [S53] NASA, Mars solar conjunction communications pause – https://www.nasa.gov/?p=565122
-- [S54] Space Academy, communication delay table (Mars 3–21 min one way) – https://spaceacademy.net.au/spacelink/commdly.htm
-- [S55] Spaceflight101, 2016 ISS CO₂-removal failures – https://spaceflight101.com/?p=9970
+- [S54] NASA, "How an Atomic Clock Will Get Humans to Mars on Time" (a one-way signal takes 4 to 20 minutes) – https://www.nasa.gov/missions/tech-demonstration/deep-space-atomic-clock/how-an-atomic-clock-will-get-humans-to-mars-on-time/
+- [S55] NASA, ISS Daily Summary Report 4 Feb 2016 (Node 3 CDRA failed on 19 Jan; crew replaced its fan motor controller) – https://www.nasa.gov/blogs/stationreport/2016/02/04/iss-daily-summary-report-02-4-16/
 - [S56] NewSpace Economy, Mars distance and 26-month launch windows – https://newspaceeconomy.ca/2026/04/18/how-far-away-is-mars-distance-delay-and-what-it-means-for-getting-there/
 - [S57] api.nasa.gov notice: the Mars Rover API is archived – https://api.nasa.gov/assets/html/header.html
 - [S58] NASA OSDR Visualization Portal (RadLab radiation data, Environmental Data App, Biological Data API) – https://visualization.osdr.nasa.gov/

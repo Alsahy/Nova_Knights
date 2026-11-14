@@ -2,7 +2,7 @@
  * Source audit (Phase 3, 13 Nov 2026): every source used by the 37 Must events + the honesty table.
  * Method: fetched each URL and checked that the page contains the exact figures the game quotes.
  * ok = verified · problem = needs a fix (logged as proposal P-008) · unverified = the site blocks automated checks.
- * Swaps are NOT applied here: they wait for the lead's approval (CLAUDE.md §8).
+ * 14 Nov 2026: S2, S6, S42, S44, S54, S55 were swapped for NASA originals after the lead asked for the weak sources to be fixed (D-065).
  */
 export type AuditStatus = 'ok' | 'problem' | 'unverified';
 export interface Audit {
@@ -16,17 +16,15 @@ export const AUDIT_DATE = '2026-11-13';
 
 export const SOURCE_AUDIT: Record<string, Audit> = {
   S1: OK(),
-  S2: {
-    status: 'problem',
-    note: 'kauai.ccmc host unreachable. Proposed: cite the DONKI record used in M3 (WSA-ENLIL/30726/1, Mars arrival 2024-05-13) (P-008).',
-  },
+  S2: OK(
+    'swapped 14 Nov: the DONKI record replayed in the game (WSA-ENLIL/30726/1); the page loads its data with a script',
+  ),
   S3: OK('X-class, each letter 10×'),
   S4: OK('minutes / days travel times'),
   S5: OK('seven CMEs; strongest storm to reach Earth in two decades'),
-  S6: {
-    status: 'problem',
-    note: 'EurekAlert re-post blocks checks. NASA JPL original has the same figures ("8,100 micrograys — equivalent to 30 chest X-rays"): jpl.nasa.gov/news/nasa-watches-mars-light-up-during-epic-solar-storm (P-008).',
-  },
+  S6: OK(
+    'swapped 14 Nov to the NASA original: "8,100 micrograys — equivalent to 30 chest X-rays"; biggest surge since landing',
+  ),
   S7: OK('1 sol = 24 h 39 min'),
   S8: OK('.64 mSv/day surface; 1.8 cruise; 0.66 Sv round trip'),
   S9: OK('600 mSv career; 250 mSv per event (NASA PDF)'),
@@ -63,17 +61,20 @@ export const SOURCE_AUDIT: Record<string, Audit> = {
   S39: OK('1–1.5 % bone per month; ~2 h exercise a day; ~70 % eye changes'),
   S40: OK('OSDR dataset: mice, 33 days, myostatin'),
   S41: OK('most changes returned to normal within months'),
-  S42: {
-    status: 'unverified',
-    note: 'EurekAlert blocks automated checks; check in a browser or cite the Lancet Neurology paper directly.',
-  },
+  S42: OK(
+    'swapped 14 Nov to NASA OCHMO TB-041: "astronauts sleep an average of about six hours while in space"',
+  ),
   S43: OK('378 days'),
-  S44: OK('delays up to 22 minutes; limited resources'),
+  S44: OK(
+    'swapped 14 Nov to NASA: 378-day mission; "up to 44-minutes roundtrip"; resource limitations, isolation',
+  ),
   S45: OK('simulated spacewalks, robots, maintenance, exercise, crops'),
   S46: OK('Parmitano, EVA 23'),
   S47: OK('1–1.5 L; 6.5 h'),
   S48: OK('lunar hay fever'),
-  S54: OK('3–21 min one way (text says 3–22 from S44: N-05)'),
-  S55: { status: 'unverified', note: 'Site blocks automated checks; check in a browser.' },
+  S54: OK('swapped 14 Nov to NASA: "anywhere from 4 to 20 minutes for a one-way signal"'),
+  S55: OK(
+    'swapped 14 Nov to the NASA ISS Daily Summary Report: Node 3 CDRA failed on January 19th; crew replaced the fan motor controller',
+  ),
   S56: OK('launch window every 26 months (news site, not NASA primary)'),
 };

@@ -1,5 +1,5 @@
 {
-  "specVersion": "0.7",
+  "specVersion": "0.14",
   "events": [
     {
       "id": "SW-01",
@@ -2871,7 +2871,7 @@
       "deckLine": "🟢 (more likely after storms) · tier: Cadet",
       "kidText": "[Name] can't sleep. Tomorrow they'll be very tired.",
       "realScience": {
-        "text": "NASA schedules 8.5 hours of sleep for astronauts, but they average only about 6 hours [S42].",
+        "text": "Astronauts sleep an average of about 6 hours a night in space, less than they need [S42].",
         "sources": [
           "S42"
         ]
@@ -2921,7 +2921,7 @@
       "deckLine": "🟢 (×2 in M8 and during long storms) · tier: Cadet",
       "kidText": "[Name] misses their family. A message home would help.",
       "realScience": {
-        "text": "NASA's CHAPEA crew lived 378 days in a pretend Mars habitat [S43], with message delays of up to 22 minutes each way [S44].",
+        "text": "NASA's CHAPEA crew lived 378 days in a pretend Mars habitat [S43], and a message and its reply could take up to 44 minutes [S44].",
         "sources": [
           "S43",
           "S44"
@@ -3336,7 +3336,7 @@
       "deckLine": "🟢 / ⚠️ LAB ≤3 · tier: Cadet",
       "kidText": "The lab's main machine stopped. No experiments until it's fixed!",
       "realScience": {
-        "text": "In 2016, the ISS lost its main CO₂-removal machines for a while and the crew had to work on repairs [S55]. Breakdowns happen even on the best stations.",
+        "text": "In January 2016 a CO₂-removal machine on the ISS failed, and two astronauts replaced its broken parts [S55]. Breakdowns happen even on the best stations.",
         "sources": [
           "S55"
         ]
@@ -3386,10 +3386,9 @@
       "deckLine": "📅 every 4 sols (comms window) **and on the last sol** (D-005) · Morning Briefing card (D-004) · tier: Cadet",
       "kidText": "The antenna is ready. Send your science to Earth now?",
       "realScience": {
-        "text": "Signals between Earth and Mars take about 3–22 minutes each way [S54][S44].",
+        "text": "A signal between Earth and Mars takes about 4 to 20 minutes each way [S54].",
         "sources": [
-          "S54",
-          "S44"
+          "S54"
         ]
       },
       "notes": [
@@ -3555,7 +3554,7 @@
         }
       ],
       "extra": [
-        "**Rule card \"Ask Mission Control\" (used inside many events):** On Mars the answer arrives **after** the current event (signals take 3–22 min each way, so emergencies can't wait) [S54][S44]. This is the main comm-delay lesson. Show a little animation of the signal travelling, and a countdown."
+        "**Rule card \"Ask Mission Control\" (used inside many events):** On Mars the answer arrives **after** the current event (signals take 4–20 min each way, so emergencies can't wait) [S54]. This is the main comm-delay lesson. Show a little animation of the signal travelling, and a countdown."
       ],
       "cards": [
         {
@@ -3655,10 +3654,9 @@
       "deckLine": "🔗 after a storm or quake · tier: Cadet",
       "kidText": "The antenna isn't pointing at Earth anymore!",
       "realScience": {
-        "text": "Messages between Earth and Mars take about 3–22 minutes each way, and only if the antenna points the right way [S54][S44].",
+        "text": "Messages between Earth and Mars take about 4 to 20 minutes each way [S54], and only if the antenna points the right way.",
         "sources": [
-          "S54",
-          "S44"
+          "S54"
         ]
       },
       "notes": [],
@@ -3860,7 +3858,7 @@
       "deckLine": "🟢 · tier: Cadet",
       "kidText": "The Engineer wants to fix the panels. The Researcher wants to explore. There's only power for one!",
       "realScience": {
-        "text": "NASA's CHAPEA crew had to handle limited resources, isolation and communication delays [S44].",
+        "text": "NASA's CHAPEA crew had to handle limited resources, isolation and slow messages to Earth [S44].",
         "sources": [
           "S44"
         ]
@@ -4062,7 +4060,7 @@
       "title": "Check-up",
       "who": "MED",
       "cost": "`MED.EN-1`",
-      "effect": "One stat +1 for one astronaut; shows exact doses",
+      "effect": "Crew energy +2; the next radiation hit is 1 weaker (D-052; was: one stat +1)",
       "lesson": "Measure, then decide"
     },
     {
@@ -4117,10 +4115,10 @@
     },
     {
       "id": "S2",
-      "title": "NASA DONKI, WSA-ENLIL simulation with a Mars arrival and \"no or little impact to Earth\" (example)",
-      "url": "https://kauai.ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/46407/1",
+      "title": "NASA DONKI, WSA-ENLIL simulation 30726/1 with a predicted Mars arrival (the record replayed in the game)",
+      "url": "https://ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/30726/1",
       "urls": [
-        "https://kauai.ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/46407/1"
+        "https://ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/30726/1"
       ]
     },
     {
@@ -4149,10 +4147,10 @@
     },
     {
       "id": "S6",
-      "title": "NASA (via EurekAlert), \"What NASA is learning from the biggest geomagnetic storm in 20 years\" (Curiosity RAD 8,100 µGy)",
-      "url": "https://www.eurekalert.org/news-releases/1083377",
+      "title": "NASA, \"NASA Watches Mars Light Up During Epic Solar Storm\" (2024; Curiosity RAD 8,100 µGy, like 30 chest X-rays)",
+      "url": "https://www.nasa.gov/solar-system/planets/mars/nasa-watches-mars-light-up-during-epic-solar-storm/",
       "urls": [
-        "https://www.eurekalert.org/news-releases/1083377"
+        "https://www.nasa.gov/solar-system/planets/mars/nasa-watches-mars-light-up-during-epic-solar-storm/"
       ]
     },
     {
@@ -4446,10 +4444,10 @@
     },
     {
       "id": "S42",
-      "title": "Lancet Neurology 2014 via EurekAlert, astronaut sleep study",
-      "url": "https://www.eurekalert.org/news-releases/541449",
+      "title": "NASA OCHMO Technical Brief TB-041, Sleep Accommodations (astronauts average about 6 hours of sleep in space)",
+      "url": "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-041-sleep-accommodations.pdf",
       "urls": [
-        "https://www.eurekalert.org/news-releases/541449"
+        "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-041-sleep-accommodations.pdf"
       ]
     },
     {
@@ -4462,10 +4460,10 @@
     },
     {
       "id": "S44",
-      "title": "CBS News, CHAPEA (delays up to 22 min; limited resources, isolation)",
-      "url": "https://www.cbsnews.com/news/nasa-simulated-mars-mission-ends-more-than-a-year",
+      "title": "NASA, \"First Mars Crew Completes Yearlong Simulated Red Planet NASA Mission\" (CHAPEA: 378 days; delays up to 44 minutes round trip; resource limits, isolation)",
+      "url": "https://www.nasa.gov/missions/analog-field-testing/chapea/first-mars-crew-completes-yearlong-simulated-red-planet-nasa-mission/",
       "urls": [
-        "https://www.cbsnews.com/news/nasa-simulated-mars-mission-ends-more-than-a-year"
+        "https://www.nasa.gov/missions/analog-field-testing/chapea/first-mars-crew-completes-yearlong-simulated-red-planet-nasa-mission/"
       ]
     },
     {
@@ -4542,18 +4540,18 @@
     },
     {
       "id": "S54",
-      "title": "Space Academy, communication delay table (Mars 3–21 min one way)",
-      "url": "https://spaceacademy.net.au/spacelink/commdly.htm",
+      "title": "NASA, \"How an Atomic Clock Will Get Humans to Mars on Time\" (a one-way signal takes 4 to 20 minutes)",
+      "url": "https://www.nasa.gov/missions/tech-demonstration/deep-space-atomic-clock/how-an-atomic-clock-will-get-humans-to-mars-on-time/",
       "urls": [
-        "https://spaceacademy.net.au/spacelink/commdly.htm"
+        "https://www.nasa.gov/missions/tech-demonstration/deep-space-atomic-clock/how-an-atomic-clock-will-get-humans-to-mars-on-time/"
       ]
     },
     {
       "id": "S55",
-      "title": "Spaceflight101, 2016 ISS CO₂-removal failures",
-      "url": "https://spaceflight101.com/?p=9970",
+      "title": "NASA, ISS Daily Summary Report 4 Feb 2016 (Node 3 CDRA failed on 19 Jan; crew replaced its fan motor controller)",
+      "url": "https://www.nasa.gov/blogs/stationreport/2016/02/04/iss-daily-summary-report-02-4-16/",
       "urls": [
-        "https://spaceflight101.com/?p=9970"
+        "https://www.nasa.gov/blogs/stationreport/2016/02/04/iss-daily-summary-report-02-4-16/"
       ]
     },
     {
@@ -4837,13 +4835,13 @@
         "id": "CR-02",
         "title": "Can't Sleep",
         "happens": "An astronaut can't fall asleep.",
-        "trueStory": "Astronauts are given 8.5 hours to sleep, but usually sleep only about 6."
+        "trueStory": "Astronauts sleep only about 6 hours a night in space. That is less than they need!"
       },
       {
         "id": "CR-03",
         "title": "Missing Home",
         "happens": "An astronaut misses their family.",
-        "trueStory": "NASA's practice Mars crew had to wait up to 22 minutes for their messages to reach Earth."
+        "trueStory": "NASA's practice Mars crew waited up to 44 minutes for an answer from Earth."
       },
       {
         "id": "CR-04",
@@ -4897,7 +4895,7 @@
         "id": "RS-04",
         "title": "Send Your Data Home",
         "happens": "The antenna is ready! Your science stars only count once they reach Earth.",
-        "trueStory": "A message from Mars takes 3 to 22 minutes to reach Earth."
+        "trueStory": "A message from Mars takes 4 to 20 minutes to reach Earth."
       },
       {
         "id": "RS-05",

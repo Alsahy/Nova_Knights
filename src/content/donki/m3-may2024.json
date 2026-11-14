@@ -1,7 +1,7 @@
 {
   "mission": "M3",
   "modelRun": {
-    "sol": 4,
+    "sol": 3,
     "eventId": "SW-03",
     "S": 3,
     "warningSols": 2,
@@ -26,7 +26,7 @@
       "sourceUrl": "https://ccmc.gsfc.nasa.gov/DONKI/view/FLR/30666/-1"
     },
     {
-      "sol": 4,
+      "sol": 3,
       "eventId": "SW-03",
       "S": 3,
       "warningSols": 2,
@@ -37,7 +37,7 @@
       "sourceUrl": "https://ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/30726/-1"
     },
     {
-      "sol": 8,
+      "sol": 6,
       "eventId": "SW-02",
       "S": 2,
       "realDate": "2024-05-13",
