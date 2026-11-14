@@ -109,6 +109,26 @@ describe('Training room skills and scores (D-050, D-056)', () => {
   });
 });
 
+describe("Nova's recorded tutorial voice (D-067)", () => {
+  it('every tutorial step has its clip', () => {
+    for (const key of [
+      'welcome',
+      'welcomeSurvival',
+      'base',
+      'badge',
+      'crew',
+      'tools',
+      'mini',
+      'jobs',
+      'start',
+      'night',
+    ]) {
+      expect(copy.coach.steps[key], key).toBeTruthy();
+      expect(existsSync(resolve(__dirname, `../../public/audio/nova/${key}.mp3`)), key).toBe(true);
+    }
+  });
+});
+
 describe('shop continuity (D-066)', () => {
   it('ranks rise with lifetime stars and unlock the rank items', () => {
     const fresh = loadProfile();

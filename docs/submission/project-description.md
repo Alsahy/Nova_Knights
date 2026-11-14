@@ -39,7 +39,7 @@ Game numbers are game values: slow processes run 15 times faster and storm doses
 
 ## Use of AI (disclosure)
 - The code, the game text and this draft were written with the help of an AI coding assistant (Claude Code), directed and reviewed by the team.
-- All art is drawn in code. No AI-generated images, video or music are in the game. Sound effects are synthesised in the browser; Nova's voice is the player's own device reading the text aloud.
+- All art is drawn in code. No AI-generated images, video or music are in the game. Sound effects are synthesised in the browser. Nova's voice in the tutorial is computer speech from Piper, an open-source neural text-to-speech engine, using a voice trained on public-domain recordings; it is not a recorded person.
 - TODO: check this wording against the official 2026 submission guide.
 
 ## Links

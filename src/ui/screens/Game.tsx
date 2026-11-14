@@ -1077,6 +1077,7 @@ export function Game(props: {
             { goal: s.sp.goal, sols: s.lastSol },
           )}
           voice={props.voice}
+          clip={survival && step.key === 'welcome' ? 'welcomeSurvival' : step.key}
           target={step.sel}
           place={step.place ?? null}
           onNext={

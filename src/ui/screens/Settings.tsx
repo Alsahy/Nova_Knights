@@ -1,6 +1,5 @@
 import { useState } from 'preact/hooks';
 import { copy } from '../../content/copy';
-import { hasVoice, speak } from '../game/sfx';
 import type { Settings } from '../settings';
 
 export function SettingsScreen(props: {
@@ -58,20 +57,9 @@ export function SettingsScreen(props: {
           <span>
             {copy.settingsScreen[k]}
             <small>{copy.settingsScreen[`${k}Hint`]}</small>
-            {k === 'voice' && settings.voice && !hasVoice() && (
-              <small class="warn-text">{copy.settingsScreen.voiceMissing}</small>
-            )}
           </span>
         </label>
       ))}
-      {settings.voice && (
-        <button
-          class="btn btn-small"
-          onClick={() => speak(copy.settingsScreen.voiceSample, () => {})}
-        >
-          {copy.settingsScreen.voiceTest}
-        </button>
-      )}
       <fieldset class="toggle timer-set">
         <legend>{copy.settingsScreen.timer}</legend>
         <small>{copy.settingsScreen.timerHint}</small>

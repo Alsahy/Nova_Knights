@@ -43,5 +43,6 @@ Game design source of truth: [`events-and-actions.md`](events-and-actions.md) (r
 - Headings font: [Orbitron](https://github.com/theleagueof/orbitron), [SIL Open Font License 1.1](public/fonts/OFL-Orbitron.txt).
 - Art: the base, crew, tools and scenes are drawn in code (SVG) by the team. No AI-generated pictures are used.
 - Sound effects and the wind-and-Sun background: synthesised in code with the Web Audio API (no audio files, no music).
+- Nova's voice: computer speech made with [Piper](https://github.com/OHF-Voice/piper1-gpl) (open source) and its LJ Speech voice (public-domain recordings); see `scripts/make-voice.py`.
 - Training-room pictures: NASA image library ([images.nasa.gov](https://images.nasa.gov)), credits in [`docs/data-sources.md`](docs/data-sources.md) and under each picture in the game.
 - AI use: built with help from Claude (Anthropic) coding agents; the team reviewed and decided everything. Details are in the submission's AI-use disclosure.

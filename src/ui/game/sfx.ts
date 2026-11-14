@@ -325,9 +325,42 @@ export function hasVoice(): boolean {
   return voices.length > 0;
 }
 
-export function speak(text: string, onEnd: () => void): void {
+let clipAudio: HTMLAudioElement | null = null;
+
+/**
+ * Say one line. With `clip`, a recorded file from public/audio/nova/<clip>.mp3 is played: it sounds the same
+ * on every device (D-067: the browser's own voice was silent on some PCs). Only if that file cannot be played
+ * does the browser's text-to-speech read the text. `onEnd` is called when the line is over either way.
+ */
+export function speak(text: string, onEnd: () => void, clip?: string): void {
   hush();
-  endTimer = window.setTimeout(onEnd, Math.min(12000, 1200 + text.length * 55));
+  endTimer = window.setTimeout(onEnd, Math.min(14000, 1500 + text.length * 70));
+  if (clip) {
+    try {
+      const a = new Audio(`${import.meta.env.BASE_URL}audio/nova/${clip}.mp3`);
+      clipAudio = a;
+      a.onended = () => {
+        if (clipAudio !== a) return;
+        window.clearTimeout(endTimer);
+        clipAudio = null;
+        onEnd();
+      };
+      const fallBack = () => {
+        if (clipAudio !== a) return; // already stopped or replaced
+        clipAudio = null;
+        browserVoice(text, onEnd);
+      };
+      a.onerror = fallBack;
+      a.play().catch(fallBack);
+      return;
+    } catch {
+      clipAudio = null;
+    }
+  }
+  browserVoice(text, onEnd);
+}
+
+function browserVoice(text: string, onEnd: () => void): void {
   const synth = typeof window !== 'undefined' ? window.speechSynthesis : undefined;
   if (!synth) return;
   // Stopping the old line and starting a new one in the same instant makes desktop Chrome drop the new one,
@@ -362,6 +395,11 @@ export function speak(text: string, onEnd: () => void): void {
   }, 140);
 }
 export function hush(): void {
+  if (clipAudio) {
+    const a = clipAudio;
+    clipAudio = null;
+    a.pause();
+  }
   window.clearTimeout(speakTimer);
   window.clearTimeout(endTimer);
   line = null;

@@ -16,6 +16,7 @@ export function Coach(props: {
   n: number;
   total: number;
   voice?: boolean; // read the line out loud (D-055)
+  clip?: string; // the recorded line to play (D-067)
 }) {
   const [r, setR] = useState<DOMRect | null>(null);
   useLayoutEffect(() => {
@@ -40,7 +41,7 @@ export function Coach(props: {
     let live = true;
     const done = () => live && setTalking(false);
     let t = 0;
-    if (props.voice) speak(props.text, done);
+    if (props.voice) speak(props.text, done, props.clip);
     else t = window.setTimeout(done, Math.min(8000, 900 + props.text.length * 45));
     return () => {
       live = false;
