@@ -55,6 +55,10 @@ export const copy = {
     ambientHint: 'Soft Mars wind and a low hum from the Sun. No music.',
     voice: "Nova's voice",
     voiceHint: "Nova reads the tutorial out loud (uses your device's voice).",
+    voiceMissing:
+      'No voice was found in this browser, so Nova stays silent here. Try Chrome or Edge, or add a speech voice to the device.',
+    voiceTest: 'Test the voice',
+    voiceSample: 'Hi, Mission Leader! I am Nova.',
     skill: 'Mini-games',
     skillHint: 'Off = a tool works with one tap. For players who find the mini-games too hard.',
     reset: 'Start over (forget the saved mission)',

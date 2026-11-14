@@ -43,6 +43,6 @@ Game numbers are game values: slow processes run 15 times faster and storm doses
 - TODO: check this wording against the official 2026 submission guide.
 
 ## Links
-- Play: TODO · Code: TODO · Video: TODO
+- Play: https://nova-knights-hazel.vercel.app/ · Code: TODO · Video: TODO
 
 *Fan-made educational game. Not affiliated with or endorsed by NASA. Uses public NASA data.*

@@ -11,7 +11,7 @@
 - **Big change:** D-017 shared crew stats (lead, 13 Nov): one crew card (FUL/HYD/AIR/EN pools 0–20, one DOSE badge). Spec v0.4.
 - **Next gate:** G0, Fri 13 Nov 23:30 (blocking A-items decided ✅, repo exists ⬜ (local only), toolchains work 🟡)
 - **Pre-event coding:** **allowed** (Q4), so Phase 1 can run tonight after `GO PHASE 1`
-- **Repo:** local git only (no remote yet; name assumed `mars-base-adventure`) · **Live URL (preview):** https://claude.ai/artifact/GCexFXof8QhJLbVhK9tfio (claude.ai page, shared by link) · GitHub Pages: — · **Latest tag:** —
+- **Repo:** local git only (no remote yet) · **Live URL:** https://nova-knights-hazel.vercel.app/ (Vercel production, public, deployed by the lead 14 Nov from the working tree; redeploy with `npx vercel --prod`) · old preview (card game): https://claude.ai/artifact/GCexFXof8QhJLbVhK9tfio · **Latest tag:** —
 - **Last updated:** 2026-11-14 05:00 by Claude (lead feedback round 7)
 
 ## Clock
@@ -314,6 +314,7 @@ Write **Approve / Modify (how) / Reject** in the Decision column. Full text: `PL
 ## Demo status
 | What | Where | Works? | Last checked |
 |---|---|---|---|
+| **Live game (public)** | https://nova-knights-hazel.vercel.app/ | ✅ headless Chromium, 14 Nov: no login, title → first day → jobs on phone and desktop, NASA picture loads, 0 failed requests, 0 console errors | 14 Nov 08:10 |
 | **Live-action game** (D-031…D-034): title → alarm → mini-game → jobs → night → debrief → shop | local: `BASE=./ npm run build && npx vite preview --base ./` | ✅ headless Chromium: full 10-sol missions at 390×760, 360×640, 1180×700, 1280×720 with 0 console errors; a bot won all 50 mini-games in the Training room | 14 Nov 01:35 |
 | OLD card game (before the rebuild) | https://claude.ai/artifact/GCexFXof8QhJLbVhK9tfio | ✅ (headless 1280/360/1024 projector/throttled) | 13 Nov 19:30 |
 | Title screen + data sources + settings (projector mode) | local `npm run dev` / `npm run preview` → http://localhost:4173/mars-base-adventure/ | ✅ | 13 Nov 17:55 |
@@ -335,7 +336,7 @@ Write **Approve / Modify (how) / Reject** in the Decision column. Full text: `PL
 ## Handoff (latest only; older ones move into the Session log)
 ```
 HANDOFF 2026-11-14 05:00 Cairo · from Claude (lead session) · Phase 6 🟡 live-action game, feedback rounds 4–7 · NOT committed · deploy ⛔
-Repo: — (local git, main, last commit 33e61cd; all of this is in the working tree) · Live: — (the claude.ai link is the old game)
+Repo: — (local git, main, last commit 33e61cd; all of this is in the working tree) · Live: https://nova-knights-hazel.vercel.app/ (Vercel, public)
 State: Title "Nova Knights Adventure" → START → Casual (7 sols, 14 stars) or Survival (no last day, clock 8 s → 4 s by sol 16,
        ageing base, score = 10 × sols + stars, high-score board). Guided first day read aloud by Nova. Each sol: alarm with
        spotlight, sound and screen mood → tap a tool → mini-game (26 mechanics) → jobs → night. Oxygen drops every sol,
@@ -540,6 +541,7 @@ Read first: CLAUDE.md → PROGRESS.md → PLAN.md §6 Phase 1
 ## Session log (newest on top)
 | When (Cairo) | Lane / agent | What changed | Files |
 |---|---|---|---|
+| 2026-11-14 08:00–08:10 | Claude (lead session, U + L) | `vercel.json` (build at the site root); the lead deployed to Vercel; live link checked and recorded | `vercel.json`, `PROGRESS.md`, `README.md`, `docs/submission/project-description.md` |
 | 2026-11-14 07:25–07:50 | Claude (lead session, U) | Lead feedback round 11 → D-066 (shop 32 items, ranks, 2 badges); second judging self-check given to the lead in chat | `src/ui/**`, copy, `tests/ui/live.test.ts` |
 | 2026-11-14 06:30–07:10 | Claude (lead session, S + E + U + P) | "Fix the weaknesses" → D-064, D-065: balance inside targets, six NASA-original sources (verified by fetching the pages), real DONKI records in Survival, honesty labels, AI picture removed, earlier radiation warning, shorter tutorial, core bars bigger; spec v0.14; draft project description | `src/**`, `tests/**`, `events-and-actions.md`, guides, `docs/submission/project-description.md`, `docs/balance-report.*` |
 | 2026-11-14 05:50–06:20 | Claude (lead session, U + S + E) | Lead feedback round 9 → D-061…D-063: cost/gives/later lines + decision scene, animated intro and 3 endings, 4 events for OSDR and comms delay, goal 18; spec v0.13 | `src/ui/**`, `src/content/**`, `src/engine/config.ts`, tests, `events-and-actions.md`, guides |

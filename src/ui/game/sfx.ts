@@ -302,31 +302,72 @@ export function sfx(name: Sfx): void {
  * Nova's voice (D-055): the browser's own text-to-speech reads a line out loud. No audio files, nothing recorded.
  * Not every browser has a voice; `onEnd` is still called (after a pause that fits the text) so the mouth stops moving.
  */
-export function speak(text: string, onEnd: () => void): void {
-  hush();
-  const fallback = window.setTimeout(onEnd, Math.min(12000, 1200 + text.length * 55));
+let speakTimer = 0;
+let endTimer = 0;
+/** Kept in a variable on purpose: desktop Chrome can drop a line that nothing else points to. */
+let line: SpeechSynthesisUtterance | null = null;
+let voices: SpeechSynthesisVoice[] = [];
+function loadVoices(): void {
   try {
-    const synth = window.speechSynthesis;
-    if (!synth) return;
-    const u = new SpeechSynthesisUtterance(text);
-    const voices = synth.getVoices().filter((v) => v.lang.startsWith('en'));
-    const pick = voices.find((v) => /female|zira|samantha|google us/i.test(v.name)) ?? voices[0];
-    if (pick) u.voice = pick;
-    u.lang = 'en-US';
-    u.rate = 1;
-    u.pitch = 1.25;
-    u.onend = () => {
-      window.clearTimeout(fallback);
-      onEnd();
-    };
-    synth.speak(u);
+    voices = window.speechSynthesis?.getVoices() ?? [];
   } catch {
-    /* no voice on this device: the text is on screen anyway */
+    voices = [];
   }
 }
+// Desktop browsers load their voices a moment after the page: ask now, and again when they say the list is ready.
+if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+  loadVoices();
+  window.speechSynthesis.addEventListener?.('voiceschanged', loadVoices);
+}
+/** Does this device have any voice to read with? (False until the browser has loaded its list.) */
+export function hasVoice(): boolean {
+  if (!voices.length) loadVoices();
+  return voices.length > 0;
+}
+
+export function speak(text: string, onEnd: () => void): void {
+  hush();
+  endTimer = window.setTimeout(onEnd, Math.min(12000, 1200 + text.length * 55));
+  const synth = typeof window !== 'undefined' ? window.speechSynthesis : undefined;
+  if (!synth) return;
+  // Stopping the old line and starting a new one in the same instant makes desktop Chrome drop the new one,
+  // so the new line starts a moment later.
+  speakTimer = window.setTimeout(() => {
+    try {
+      if (!voices.length) loadVoices();
+      const u = new SpeechSynthesisUtterance(text);
+      const en = voices.filter((v) => v.lang.toLowerCase().startsWith('en'));
+      const pick =
+        en.find((v) => /female|zira|samantha|aria|jenny|google us/i.test(v.name)) ??
+        en.find((v) => v.default) ??
+        en[0];
+      if (pick) {
+        u.voice = pick;
+        u.lang = pick.lang;
+      } else u.lang = 'en-US';
+      u.rate = 1;
+      u.pitch = 1.2;
+      u.volume = 1;
+      u.onend = () => {
+        window.clearTimeout(endTimer);
+        line = null;
+        onEnd();
+      };
+      line = u;
+      synth.resume(); // a browser left paused by an earlier page stays silent otherwise
+      synth.speak(u);
+    } catch {
+      /* no voice on this device: the text is on screen anyway */
+    }
+  }, 140);
+}
 export function hush(): void {
+  window.clearTimeout(speakTimer);
+  window.clearTimeout(endTimer);
+  line = null;
   try {
-    window.speechSynthesis?.cancel();
+    const synth = window.speechSynthesis;
+    if (synth && (synth.speaking || synth.pending)) synth.cancel();
   } catch {
     /* nothing to stop */
   }

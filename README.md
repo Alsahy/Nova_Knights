@@ -8,7 +8,7 @@ Made by **Team Nova Knights** for the **NASA Space Apps Challenge 2026** (Cairo)
 
 > Fan-made educational game. Not affiliated with or endorsed by NASA. Uses public NASA data.
 
-- **Play:** `https://<user>.github.io/mars-base-adventure/` *(the live URL is added once the repo is on GitHub)*
+- **Play:** https://nova-knights-hazel.vercel.app/
 - No download, no login, no tracking. Works on phones and classroom projectors.
 - **Two modes:** *Casual* (7 Mars days, send 20 stars) and *Survival* (no last day, alarms get faster every day down to 4 seconds, high-score board).
 - **Casual, about 10 minutes:** *Storm from the Sun*. You see the base cut open like a dollhouse. Each day an alarm goes off in one room (8-second timer): tap one of two tools and win its mini-game, then send each astronaut to a job. The crew's faces, the lights and the dust on the panels show how the base is doing.
