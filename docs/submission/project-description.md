@@ -33,13 +33,13 @@ Two modes: **Casual** (7 days, send 20 science stars to Earth and keep the radia
 Game numbers are game values: slow processes run 15 times faster and storm doses are made bigger so shields matter. The game says so on its data screen, and names the three rules that are game rules rather than NASA facts.
 
 ## Evidence that it works
-- 142 automated tests on the rules, the content and the rewards; the same seed always gives the same game.
+- 145 automated tests on the rules, the content and the rewards; the same seed always gives the same game.
 - A simulator plays thousands of games with five strategies; the report is in `docs/balance-report.md`.
 - TODO: notes from playtests with children (none run yet).
 
 ## Use of AI (disclosure)
 - The code, the game text and this draft were written with the help of an AI coding assistant (Claude Code), directed and reviewed by the team.
-- All art is drawn in code. No AI-generated images, video or music are in the game. Sound effects are synthesised in the browser. Nova's voice in the tutorial is computer speech from Piper, an open-source neural text-to-speech engine, using a voice trained on public-domain recordings; it is not a recorded person.
+- All art is drawn in code. No AI-generated images, video or music are in the game. Sound effects are synthesised in the browser. Nova's voice in the tutorial and the voice-over of the highlights video are computer speech from Piper, an open-source neural text-to-speech engine, using a voice trained on public-domain recordings; it is not a recorded person.
 - TODO: check this wording against the official 2026 submission guide.
 
 ## Links
